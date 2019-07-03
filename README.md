@@ -7,4 +7,4 @@ Plan:
     check args
     load arena
     operations
-    cicle of the game
+    cycle of the game
