@@ -86,3 +86,84 @@ int					ft_strcmp(const char *s1, const char *s2)
 			return ((unsigned char)*(s1 - 1) - (unsigned char)*(s2 - 1));
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
+
+
+char				*ft_strnew(size_t size)
+{
+	char			*str;
+
+	str = (char *)malloc(size + 1);
+	if (str == NULL)
+		return (NULL);
+	ft_memset(str, 0, size + 1);
+	return (str);
+}
+
+void				*ft_memcpy(void *dest, const void *source, size_t n)
+{
+	size_t			i;
+
+	i = -1;
+	if (source == dest || n == 0)
+		return (dest);
+	while (++i < n)
+		*((unsigned char *)dest + i) = *((unsigned char *)source + i);
+	return (dest);
+}
+
+void				*ft_memmove(void *dest, const void *source, size_t len)
+{
+	size_t			i;
+
+	if (source == dest)
+		return (dest);
+	if (source < dest)
+	{
+		i = len;
+		while (i-- > 0)
+			*(unsigned char *)(dest + i) = *(unsigned char *)(source + i);
+	}
+	else
+	{
+		i = 0;
+		while (i < len)
+		{
+			*(unsigned char *)(dest + i) = *(unsigned char *)(source + i);
+			i++;
+		}
+	}
+	return (dest);
+}
+
+char				*ft_strsub(char const *s, unsigned int start, size_t len)
+{
+	char			*str;
+	size_t			i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (!(str = ft_strnew(len)))
+		return (NULL);
+	while (s[start] != '\0' && len)
+	{
+		str[i] = s[start];
+		start++;
+		i++;
+		len--;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+void				*ft_memset(void *b, int c, size_t len)
+{
+	size_t			i;
+
+	i = 0;
+	if (len == 0)
+		return (b);
+	while (i < len)
+		*((unsigned char *)b + i++) = c;
+	return (b);
+}

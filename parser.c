@@ -2,7 +2,7 @@
 // Created by hstiv on 03.07.19.
 //
 
-#include "corvm"
+#include "corvm.h"
 
 int					ischamp(char *s)
 {
@@ -27,7 +27,7 @@ int					is_dump_flag(char **s, t_vm *vm)
 		if (!ft_isdigit(s[2]))
 			return (-1);
 		else
-			vm->nbr_cycles = ft_atoi(s);
+			vm->nbr_cycles = ft_atoi(s[2]);
 	}
 	return ((vm->nbr_cycles < 0) ? -1 : 3);
 }
@@ -35,10 +35,32 @@ int					is_dump_flag(char **s, t_vm *vm)
 int					champ_rec(char *s, t_vm *vm)
 {
 	int				fd;
+	char 			*line;
+	t_champ			*champ;
+	int 			l;
 
-	if (!(fd = open(s, "O_RDONLY")) || fd < 0)
+	if (!(fd = open(s, O_RDONLY)) || fd < 0)
 		return (0);
-
+	champ = new_champ();
+	champ->name = s;
+	champ->champ_nb = (vm->n_place) ? vm->n_place - 1 : vm_number(vm);
+	while ((get_next_line(fd, &line) > 0))
+	{
+		unsign_joiner(champ, line);
+		free(line);
+	}
+	close(fd);
+	l = 0;
+	if (vm->n_place && vm->champs[champ->champ_nb] != NULL)
+	{
+		while (vm->champs[l] != NULL)
+			l++;
+		if (l > CHAMP_MAX_SIZE - 1)
+			return (0);
+		vm->champs[l] = vm->champs[champ->champ_nb];
+	}
+	vm->champs[champ->champ_nb] = champ;
+	return (1);
 }
 
 int					is_nflag(char **s, int *i, t_vm *vm)
@@ -47,16 +69,16 @@ int					is_nflag(char **s, int *i, t_vm *vm)
 		return (0);
 	else
 	{
-		*(i)++;
+		(*i)++;
 		if (!ft_isdigit(s[2]))
 			return (0);
 		else
 		{
 			vm->n_place = ft_atoi(s[*i]);
-			*(i)++;
+			(*i)++;
 		}
 	}
-	if (vm->n_place < 0)
+	if (vm->n_place < 0 || vm->n_place > CHAMP_MAX_SIZE)
 		return (0);
 	return (1);
 }
