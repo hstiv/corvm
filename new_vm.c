@@ -12,8 +12,8 @@ t_vm			*new_vm(void)
 		exit(0);
 	if (vm)
 	{
-		vm->nbr_cycle = 0;
-		vm->n_place = 0;
+		vm->nbr_cycles = 0;
+		vm->champ_nb = 0;
 	}
-	return (vm)
+	return (vm);
 }

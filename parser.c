@@ -2,7 +2,7 @@
 // Created by hstiv on 03.07.19.
 //
 
-#include "corvm"
+#include "corvm.h"
 
 int					ischamp(char *s)
 {
@@ -52,11 +52,11 @@ int					is_nflag(char **s, int *i, t_vm *vm)
 			return (0);
 		else
 		{
-			vm->n_place = ft_atoi(s[*i]);
+			vm->champ_nb = ft_atoi(s[*i]);
 			*(i)++;
 		}
 	}
-	if (vm->n_place < 0)
+	if (vm->champ_nb < 0)
 		return (0);
 	return (1);
 }
