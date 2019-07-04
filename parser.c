@@ -4,7 +4,7 @@
 
 #include "corvm.h"
 
-int					ischamp(char *s)
+int					ischamp(char *s, int *t)
 {
 	int i;
 
@@ -13,94 +13,92 @@ int					ischamp(char *s)
 		i++;
 	if (s[i] == '\0')
 		return (0);
-	else if (ft_strequ(s + i + 1, "cor"))
+	else if (ft_strequ(s + i + 1, "cor") && i != 0)
+	{
+		(*t)++;
 		return (1);
+	}
 	return (0);
 }
 
-int					is_dump_flag(char **s, t_vm *vm)
+int					is_dump_flag(char **s, int *i, t_vm *vm, int *t)
 {
-	if (!ft_strequ(s[1], "-dump"))
-		return (1);
-	else
+	if (ft_strequ(s[*i], "-dump"))
 	{
-		if (!ft_isdigit(s[2]))
-			return (-1);
+		if (!s[++(*i)] || !ft_isdigit(s[*i]))
+			return (0);
 		else
-			vm->nbr_cycles = ft_atoi(s[2]);
+			vm->dump_cycles = ft_atoi(s[*i]);
+		if (vm->dump_cycles < 0)
+			return (0);
+		(*t)++;
+		(*i)++;
 	}
-	return ((vm->nbr_cycles < 0) ? -1 : 3);
+	return (1);
 }
 
 int					champ_rec(char *s, t_vm *vm)
 {
-	int				fd;
-	char 			*line;
-	t_champ			*champ;
-	int 			l;
+	int 			i;
 
-	if (!(fd = open(s, O_RDONLY)) || fd < 0)
-		return (0);
-	champ = new_champ();
-	champ->name = s;
-	champ->champ_nb = (vm->n_place) ? vm->n_place - 1 : vm_number(vm);
-	while ((get_next_line(fd, &line) > 0))
+	i = 0;
+	while (i < MAX_PLAYERS)
 	{
-		unsign_joiner(champ, line);
-		free(line);
+		if (vm->ints[i] == vm->next_champ_nb && vm->ints[i] != 0)
+			threw("Error: Wrong args of flag [-n]\n");
+		i++;
 	}
-	close(fd);
-	l = 0;
-	if (vm->n_place && vm->champs[champ->champ_nb] != NULL)
-	{
-		while (vm->champs[l] != NULL)
-			l++;
-		if (l > CHAMP_MAX_SIZE - 1)
-			return (0);
-		vm->champs[l] = vm->champs[champ->champ_nb];
-	}
-	vm->champs[champ->champ_nb] = champ;
+	parse_champs(vm, s, vm->nextInMassiv, vm->next_champ_nb);
+	vm->champ_nb++;
+	vm->flag--;
 	return (1);
 }
 
-int					is_nflag(char **s, int *i, t_vm *vm)
+int					is_nflag(char **s, int *i, int *t, t_vm *vm)
 {
-	if (!ft_strequ(s[*i], "-n"))
-		return (0);
-	else
+	int 			n;
+
+	n = 0;
+	if (ft_strequ(s[*i], "-n"))
 	{
 		(*i)++;
-		if (!ft_isdigit(s[2]))
+		if (!ft_isdigit(s[*i]))
 			return (0);
 		else
-		{
-			vm->n_place = ft_atoi(s[*i]);
-			(*i)++;
-		}
+			n = ft_atoi(s[(*i)++]);
+		if (n < 0 || n > CHAMP_MAX_SIZE)
+			return (0);
+		(*t)++;
+		vm->flag++;
 	}
-	if (vm->n_place < 0 || vm->n_place > CHAMP_MAX_SIZE)
-		return (0);
+	vm->next_champ_nb = n;
 	return (1);
 }
 
 int					parser(int c, char **s, t_vm *vm)
 {
 	int				i;
+	int 			t;
 
-	if ((i = is_dump_flag(s, vm)) == -1)
-		threw(USAGE);
-	while (i <= c)
+	i = 1;
+	while (i < c)
 	{
-		if (ischamp(s[i]))
+		t = 0;
+		if (!is_dump_flag(s, &i, vm, &t))
+			threw("Usage: [-dump [number > 0]] champion.cor\n");
+		else if (t == 0 && ischamp(s[i], &t))
 		{
-			if (!champ_rec(s[i], vm))
-				threw(USAGE);
+			if (!champ_rec(s[i++], vm))
+				threw("Non valid champion\n");
 		}
-		else
-		{
-			if (!is_nflag(s, &i, vm))
+		else if (t == 0 && !is_nflag(s, &i, &t, vm))
+				threw("Usage: [-n [number > 0]] champion.cor\n");
+		else if (t == 0)
 				threw(USAGE);
-		}
-		i++;
 	}
+	if (vm->champ_nb == 0 || vm->flag > 0)
+		threw(USAGE);
+	if (!defaultNumbering(vm))
+		threw("Error: Wrong args of flag [-n]\n");
+	return (1);
 }

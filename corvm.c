@@ -12,11 +12,11 @@ void		threw(char *s)
 
 int			main(int c, char **s)
 {
-	t_vm	*vm;
+	t_vm	vm;
 
-	vm = new_vm();
+	new_vm(&vm);
 	if (c == 1)
 		threw(USAGE);
-	if (!parser(c, s, vm))
+	if (!parser(c, s, &vm))
 		threw(USAGE);
 }

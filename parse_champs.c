@@ -14,7 +14,10 @@
 
 void	champ_error(void)
 {
-	ft_putstr("Error: can't open champion file\n");
+	char 		*s;
+
+	s = "Error: can't open champion file\n";
+	write(1, s, ft_strlen(s));
 	exit(0);
 }
 
