@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/04 14:28:02 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/04 14:49:39 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@
 # define UL			unsigned long int
 # define USAGE "Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 
-typedef struct		s_champ /* champion's struct */
+typedef struct		s_champ 
 {
-	unsigned char	name[PROG_NAME_LENGTH + 1]; /* champions name */
-	unsigned char	champ_bin[CHAMP_MAX_SIZE]; /* binary's byte code */
+	unsigned char	name[PROG_NAME_LENGTH + 1]; 
+	unsigned char	champ_bin[CHAMP_MAX_SIZE];
 	unsigned char	comment[COMMENT_LENGTH + 1];
-	int				n_place; /* champions nb */
+	int				magic;
+	int				n_place;
+	int				exec_code; 
 }					t_champ;
 
 typedef struct		s_vm /* main vm's struct */
