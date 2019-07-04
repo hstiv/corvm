@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/04 14:49:39 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/04 16:11:01 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct		s_champ
 	unsigned char	champ_bin[CHAMP_MAX_SIZE];
 	unsigned char	comment[COMMENT_LENGTH + 1];
 	int				magic;
+	int				n_flag;
 	int				n_place;
 	int				exec_code; 
 }					t_champ;
