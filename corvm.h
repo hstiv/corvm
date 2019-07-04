@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/04 16:11:01 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/04 16:37:41 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,14 @@
 # define UL			unsigned long int
 # define USAGE "Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 
+typedef struct		s_proc
+{
+	int	carry;
+	int	reg[REG_NUMBER];
+	int	pos;
+}					t_proc;
+
+
 typedef struct		s_champ 
 {
 	unsigned char	name[PROG_NAME_LENGTH + 1]; 
@@ -42,7 +50,8 @@ typedef struct		s_vm /* main vm's struct */
 {
 	int				dump_cycles; /* [-dump] arg */
 	int				champ_nb; /* -n arg */ /* todo */
-	t_champ			champs[CHAMP_MAX_SIZE]; /* massive of champions */
+	t_champ			champs[MAX_PLAYERS]; /* massive of champions */
+	t_proc			*list_process;
 }					t_vm;
 
 int 				get_next_line(int fd, char **line);
