@@ -75,7 +75,7 @@ int					is_nflag(char **s, int *i, int *t, t_vm *vm)
 	return (1);
 }
 
-int					parser(int c, char **s, t_vm *vm)
+void				parser(int c, char **s, t_vm *vm)
 {
 	int				i;
 	int 			t;
@@ -100,5 +100,4 @@ int					parser(int c, char **s, t_vm *vm)
 		threw(USAGE);
 	if (!defaultNumbering(vm))
 		threw("Error: Wrong args of flag [-n]\n");
-	return (1);
 }

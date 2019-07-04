@@ -69,7 +69,7 @@ int					ft_strlen(char *s);
 int					ft_atoi(const char *s);
 int					ft_isdigit(char *s);
 int					is_nflag(char **s, int *i, int *t, t_vm *vm);
-int					parser(int c, char **s, t_vm *vm);
+void				parser(int c, char **s, t_vm *vm);
 int					is_dump_flag(char **s, int *i, t_vm *vm, int *t);
 int					ischamp(char *s, int *t);
 void				threw(char *s);
