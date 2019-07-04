@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:56:39 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/04 15:24:11 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/04 15:24:54 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	champ_error(void)
 	exit(0);
 }
 
-void	parse_champs(t_vm *vm, char name, int n)
+void	parse_champs(t_vm *vm, char *name, int n)
 {
 	int	fd;
 
