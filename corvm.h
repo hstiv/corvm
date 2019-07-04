@@ -1,6 +1,14 @@
-//
-// Created by hstiv on 03.07.19.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   corvm.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
+/*   Updated: 2019/07/04 14:28:02 by sdiedra          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CORVM_H
 # define CORVM_H
@@ -12,25 +20,26 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include "op.h"
 
 # define BUFF_SIZE	32
 # define MAX_FD		10240
 # define UL			unsigned long int
-# define USAGE "> ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ..."
-# define CHAMP_MAX_SIZE 4
+# define USAGE "Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 
 typedef struct		s_champ /* champion's struct */
 {
-	char			*name; /* champions name */
-	unsigned char	*champ_bin; /* binary's byte code */
-	int				champ_nb; /* champions nb */
+	unsigned char	name[PROG_NAME_LENGTH + 1]; /* champions name */
+	unsigned char	champ_bin[CHAMP_MAX_SIZE]; /* binary's byte code */
+	unsigned char	comment[COMMENT_LENGTH + 1];
+	int				n_place; /* champions nb */
 }					t_champ;
 
 typedef struct		s_vm /* main vm's struct */
 {
-	int				nbr_cycles; /* [-dump] arg */
-	int				n_place; /* -n arg */ /* todo */
-	t_champ			*champs[CHAMP_MAX_SIZE]; /* massive of champions */
+	int				dump_cycles; /* [-dump] arg */
+	int				champ_nb; /* -n arg */ /* todo */
+	t_champ			champs[CHAMP_MAX_SIZE]; /* massive of champions */
 }					t_vm;
 
 int 				get_next_line(int fd, char **line);
@@ -50,7 +59,7 @@ int					ischamp(char *s);
 void				threw(char *s);
 int 				vm_number(t_vm *vm);
 void				unsign_joiner(t_champ *champ, char *line);
-t_vm				*new_vm(void);
+void				new_vm(t_vm *vm);
 t_champ				*new_champ(void);
 
 #endif
