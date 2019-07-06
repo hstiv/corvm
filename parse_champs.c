@@ -24,16 +24,24 @@ void	champ_error(void)
 void	parse_champs(t_vm *vm, char *name, int n, int number)
 {
 	int	fd;
+	int	i;
 
-	if ((fd = open(name, O_RDONLY)) == -1)
+	if ((fd = open(name, O_RDONLY)) < 0)
 		champ_error();
-	read(fd, &(vm->champs[n].magic), sizeof(int));
-	read(fd, &(vm->champs[n].name), PROG_NAME_LENGTH);
+	if ((i = read(fd, &(vm->champs[n].magic), sizeof(int))) < 0)
+		champ_error();
+	if ((i = read(fd, &(vm->champs[n].name), PROG_NAME_LENGTH)) < 0)
+		champ_error();
 	lseek(fd, 4, SEEK_CUR);
-	read(fd, &(vm->champs[n].exec_code), sizeof(int));
-	read(fd, &(vm->champs[n].comment), COMMENT_LENGTH);
+	if ((i = read(fd, &(vm->champs[n].exec_code), sizeof(int))) < 0)
+		champ_error();
+	if ((i = read(fd, &(vm->champs[n].comment), COMMENT_LENGTH)) < 0)
+		champ_error();
 	lseek(fd, 4, SEEK_CUR);
-	read(fd, &(vm->champs[n].champ_bin), CHAMP_MAX_SIZE);
+	if ((i = read(fd, &(vm->champs[n].champ_bin), CHAMP_MAX_SIZE)) < 0)
+		champ_error();
+	if (i != vm->champs[n].exec_code)
+		champ_error();
 	vm->champs[n].n_place = number;
 	close(fd);
 }

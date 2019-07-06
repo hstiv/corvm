@@ -44,6 +44,7 @@ typedef struct		s_champ
 	int				n_flag;
 	int				n_place;
 	int				exec_code;
+	int				pos;
 }					t_champ;
 
 typedef struct		s_vm /* main vm's struct */
@@ -56,8 +57,27 @@ typedef struct		s_vm /* main vm's struct */
 	int 			flag;
 	int 			nextInMassiv;
 	int 			next_champ_nb;
+	unsigned char	arena[MEM_SIZE];
+	int				cycles;
+	int				winner;
+	unsigned char	winner_name[PROG_NAME_LENGTH + 1]; 
 }					t_vm;
 
+typedef struct			s_op
+{
+	char				*name;
+	int					number;
+	unsigned char		types_arg[3];
+	int					opcode;
+	int					cycles_wait;
+	char				*description;
+	int					coding_byte;
+	int					is_short_dir;
+}						t_op;
+
+void				show_dump(t_vm *vm);
+void				play_game(t_vm *vm, t_op op_tab[17]);
+void				arena(t_vm *vm);
 void				*ft_memset(void *b, int c, size_t len);
 char				*ft_strsub(char const *s, unsigned int start, size_t len);
 void				*ft_memmove(void *dest, const void *source, size_t len);

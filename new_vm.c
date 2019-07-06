@@ -16,4 +16,5 @@ void			new_vm(t_vm *vm)
 	vm->flag = 0;
 	vm->next_champ_nb = 0;
 	vm->nextInMassiv = 0;
+	vm->winner = 0;
 }
