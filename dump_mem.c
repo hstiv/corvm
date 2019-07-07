@@ -12,6 +12,5 @@ void	show_dump(t_vm *vm)
 			ft_printf("\n");
 		i++;
 	}
-	ft_printf("\n");
 	exit(0);
 }

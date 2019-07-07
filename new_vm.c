@@ -11,6 +11,7 @@ void			new_vm(t_vm *vm)
 	i = 0;
 	while (i < MAX_PLAYERS)
 		vm->ints[i++] = 0;
+	ft_memset(vm->arena, 0, MEM_SIZE);
 	vm->dump_cycles = 0;
 	vm->champ_nb = 0;
 	vm->flag = 0;

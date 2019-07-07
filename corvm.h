@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/04 16:11:01 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/07 15:15:33 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "op.h"
+# include "libft/libft.h"
 
 # define BUFF_SIZE	32
 # define MAX_FD		10240
@@ -47,11 +48,11 @@ typedef struct		s_champ
 	int				pos;
 }					t_champ;
 
-typedef struct		s_vm /* main vm's struct */
+typedef struct		s_vm
 {
-	int				dump_cycles; /* [-dump] arg */
-	int				champ_nb; /* -n arg */ /* todo */
-	t_champ			champs[MAX_PLAYERS]; /* massive of champions */
+	int				dump_cycles;
+	int				champ_nb;
+	t_champ			champs[MAX_PLAYERS];
 	int 			ints[MAX_PLAYERS];
 	t_proc			*list_process;
 	int 			flag;
@@ -75,25 +76,15 @@ typedef struct			s_op
 	int					is_short_dir;
 }						t_op;
 
+void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
 void				play_game(t_vm *vm, t_op op_tab[17]);
 void				arena(t_vm *vm);
-void				*ft_memset(void *b, int c, size_t len);
-char				*ft_strsub(char const *s, unsigned int start, size_t len);
-void				*ft_memmove(void *dest, const void *source, size_t len);
-void				*ft_memcpy(void *dest, const void *source, size_t n);
-char				*ft_strnew(size_t size);
-int					ft_strequ(char const *s1, char const *s2);
-int					ft_strcmp(const char *s1, const char *s2);
-int					ft_strlen(char *s);
-int					ft_atoi(const char *s);
-int					ft_isdigit(char *s);
-int					is_nflag(char **s, int *i, int *t, t_vm *vm);
+int					ft_isdigit_s(char *s);
 void				parser(int c, char **s, t_vm *vm);
-int					is_dump_flag(char **s, int *i, t_vm *vm, int *t);
-int					ischamp(char *s, int *t);
 void				threw(char *s);
 void				parse_champs(t_vm *vm, char *name, int n, int number);
 void				new_vm(t_vm *vm);
+int 				default_number(t_vm *vm);
 
 #endif
