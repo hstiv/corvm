@@ -17,17 +17,3 @@ int					ft_isdigit_s(char *s)
 	}
 	return (1);
 }
-
-int 				default_number(t_vm *vm)
-{
-	int 			*n;
-	int 			i;
-
-	n = vm->ints;
-	i = 0;
-	while (i < vm->champ_nb)
-	{
-		i++;
-	}
-	return (1);
-}

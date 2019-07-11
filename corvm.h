@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/07 15:15:33 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/11 16:38:46 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,9 @@ typedef struct		s_vm
 	int				dump_cycles;
 	int				champ_nb;
 	t_champ			champs[MAX_PLAYERS];
-	int 			ints[MAX_PLAYERS];
 	t_proc			*list_process;
-	int 			flag;
-	int 			nextInMassiv;
-	int 			next_champ_nb;
 	unsigned char	arena[MEM_SIZE];
+	int				next_champ_numb;
 	int				cycles;
 	int				winner;
 	unsigned char	winner_name[PROG_NAME_LENGTH + 1]; 
