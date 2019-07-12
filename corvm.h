@@ -73,6 +73,7 @@ typedef struct			s_op
 	int					is_short_dir;
 }						t_op;
 
+int 				cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
 void				play_game(t_vm *vm, t_op op_tab[17]);

@@ -107,4 +107,5 @@ void				parser(int c, char **s, t_vm *vm)
 			threw(USAGE);
 		i++;
 	}
+	(!cor_sort(vm)) ? threw("Error: Wrong [[-n] value]") : 0;
 }
