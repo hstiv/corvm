@@ -39,11 +39,11 @@ void    init_proc(t_vm *vm)
 {
     int i;
 
-    i = vm->champ_nb;
-    while (i > 0)
+    i = 0;
+    while (i < vm->champ_nb)
     {
         proccess_add(&vm->list_process, new_proc(i, vm->champs[i].pos));
-        i--;
+        i++;
     }
 }
 
