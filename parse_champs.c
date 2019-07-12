@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:56:39 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/11 15:09:13 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/12 15:50:55 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	parse_champs(t_vm *vm, char *name, int n, int number)
 		champ_error();
 	lseek(fd, 4, SEEK_CUR);
 	if ((i = read(fd, &(vm->champs[n].champ_bin), CHAMP_MAX_SIZE)) < 0)
+		champ_error();
+	if (i > CHAMP_MAX_SIZE)
 		champ_error();
 	vm->champs[n].exec_code = i;
 	vm->champs[n].n_place = number;
