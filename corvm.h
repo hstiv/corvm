@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/11 16:38:46 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/12 18:36:53 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@
 typedef struct		s_proc
 {
 	int				carry;
-	int				reg[REG_NUMBER];
+	unsigned int	reg[REG_NUMBER];
 	int				pos;
+	struct s_proc	*next;
 }					t_proc;
 
 
@@ -55,6 +56,7 @@ typedef struct		s_vm
 	t_champ			champs[MAX_PLAYERS];
 	t_proc			*list_process;
 	unsigned char	arena[MEM_SIZE];
+	unsigned char	owner[MEM_SIZE];
 	int				next_champ_numb;
 	int				cycles;
 	int				winner;

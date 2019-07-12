@@ -1,6 +1,6 @@
 NAME	=	corewar
 SRCS	=	arena.c corvm.c dump_mem.c game.c new_vm.c op.c \
-			parse_champs.c parser.c rec_utils.c
+			parse_champs.c parser.c rec_utils.c cor_sort.c
 OBJ		=	$(SRCS:.c=.o)
 CC		=	-Wall -Wextra -Werror
 
