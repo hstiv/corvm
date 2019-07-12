@@ -60,6 +60,13 @@ void				parser(int c, char **s, t_vm *vm)
 			is_dump_flag(vm, s, c, &i);
 		else if (ischamp(s[i]))
 		{
+			cc = 0;
+			while (cc < vm->champ_nb)
+			{
+				if (vm->champs[cc].n_place == vm->next_champ_numb)
+					vm->next_champ_numb += 1;
+				cc++;
+			}
 			parse_champs(vm, s[i], vm->champ_nb, vm->next_champ_numb);
 			vm->champs[vm->champ_nb].n_flag = 0;
 			vm->champ_nb += 1;

@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 14:25:29 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/11 15:58:56 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/12 15:04:26 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int		main(int c, char **s)
 	if (c == 1)
 		threw(USAGE);
 	parser(c, s, &vm);
-	introduce_players(&vm);
 	arena(&vm);
+	introduce_players(&vm);
 	while (!vm.winner)
 	{
 		play_game(&vm, op);
