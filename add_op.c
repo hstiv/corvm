@@ -6,13 +6,13 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/14 17:03:12 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/14 18:01:46 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corvm.c"
+#include "corvm.h"
 
-void	add(t_proc *proc, t_vm *vm)
+void	add(t_vm *vm, t_proc *proc)
 {
 	int	first;
 	int second;

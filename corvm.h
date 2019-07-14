@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/14 16:53:23 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/14 17:57:31 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void				parse_champs(t_vm *vm, char *name, int n, int number);
 void				new_vm(t_vm *vm);
 int 				default_number(t_vm *vm);
 
-void				add(t_proc *proc, t_vm *vm);
+void				add(t_vm *vm, t_proc *proc);
 
 #endif

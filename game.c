@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/14 17:45:31 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/14 17:58:27 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	new_op(t_vm *vm, t_proc *proc, t_op op_tab[17])
 		proc->cycles_to_wait = 0;
 }
 
-void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_proc *, t_vm *), t_op op_tab[17])
+void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_tab[17])
 {
 	unsigned int	type;
 
@@ -42,7 +42,7 @@ void	init_func(void (*f[17])(t_vm *, t_proc *))
 void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
 {
 	t_proc	*proccess;
-	void	(*f[17])(t_proc *, t_vm *);
+	void	(*f[17])(t_vm *, t_proc *);
 
 	proccess = head;
 	init_func(f);
