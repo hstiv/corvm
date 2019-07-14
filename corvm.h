@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/12 18:36:53 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/14 16:53:23 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ typedef struct		s_proc
 	int				carry;
 	unsigned int	reg[REG_NUMBER];
 	int				pos;
+	int				player_id;
+	int				cycles_to_wait;
+	int				live;
+	int				command_type;
 	struct s_proc	*next;
 }					t_proc;
 
@@ -86,5 +90,7 @@ void				threw(char *s);
 void				parse_champs(t_vm *vm, char *name, int n, int number);
 void				new_vm(t_vm *vm);
 int 				default_number(t_vm *vm);
+
+void				add(t_proc *proc, t_vm *vm);
 
 #endif
