@@ -21,6 +21,12 @@ void	new_op(t_vm *vm, t_proc *proc, t_op op_tab[17])
 		proc->cycles_to_wait = 0;
 }
 
+int		byte_check(unsigned char octet, const t_op op)
+{
+
+}
+
+
 void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_tab[17])
 {
 	unsigned int	type;
@@ -28,7 +34,11 @@ void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_ta
 	if (op_tab[proc->command_type].coding_byte)
 	{
 		type = vm->arena[(proc->pos + 1) % MEM_SIZE];
-		
+		if (byte_check(type, op_tab[proc->command_type]))
+		{
+
+		}
+
 	}
 	else
 		f[proc->command_type](vm, proc);
@@ -61,7 +71,71 @@ void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
 	}
 }
 
+void		proccess_kill(t_proc **head, t_proc *ps)
+{
+	t_proc	*prev;
+	t_proc	*curr;
+
+	if (!head || !ps)
+		return ;
+	curr = *head;
+	if (curr == ps)
+	{
+		(*head) = (*head)->next;
+		free(curr);
+		return ;
+	}
+	while (curr && curr != ps)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	if (!curr)
+		return ;
+	prev->next = curr->next;
+	free(curr);
+}
+
+void	check_live(t_vm *vm, t_proc **head)
+{
+	t_proc	*curr;
+
+	if (!head)
+		return ;
+	curr = *head;
+	while (curr)
+	{
+		if (vm->cycles - curr->live >= vm->cycles_to_die)
+		{
+			proccess_kill(head, curr);
+		}
+		curr = curr->next;
+	}
+	if (*head == NULL)
+		vm->winner = 1;
+}
+
 void    play_game(t_vm *vm, t_op op_tab[17])
 {
 	performe_proc(vm, vm->list_process, op_tab);
+	if (!vm->cycles_to_die)
+	{
+		check_live(vm, &vm->list_process);
+		if (vm->l_exec >= NBR_LIVE || vm->checks >= MAX_CHECKS)
+		{
+			vm->cycles_to_die -= CYCLE_DELTA;
+			vm->checks = 1;
+			if (vm->cycles_to_die <= 0)
+			{
+				vm->winner = 1;
+				vm->cycles++;
+			}
+		}
+		else
+			vm->checks += 1;
+		vm->l_exec = 0;
+	}
+	if (!vm->winner)
+		vm->cycles;
+	vm->cycles_to_die--;
 }

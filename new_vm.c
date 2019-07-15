@@ -12,4 +12,5 @@ void			new_vm(t_vm *vm)
 	vm->champ_nb = 0;
 	vm->winner = 0;
 	vm->cycles = 0;
+	vm->cycles_to_die = CYCLE_TO_DIE;
 }

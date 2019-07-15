@@ -1,17 +1,5 @@
 #include "corvm.h"
 
-void		proccess_init_reg(unsigned int *reg)
-{
-	int	i;
-
-	i = 0;
-	while (i < REG_NUMBER)
-	{
-		reg[i] = 0;
-		i++;
-	}
-}
-
 t_proc	*new_proc(int player_id, int pos)
 {
 	t_proc	*new_pr;
@@ -19,10 +7,14 @@ t_proc	*new_proc(int player_id, int pos)
 	new_pr = (t_proc *)malloc(sizeof(t_proc));
 	if (!new_pr)
 		return (NULL);
-	proccess_init_reg(new_pr->reg);
+    ft_bzero(new_pr->reg, REG_NUMBER);
 	new_pr->reg[0] = -player_id;
     new_pr->carry = 0;
     new_pr->pos = pos;
+    new_pr->cycles_to_wait = 0;
+    new_pr->player_id = player_id;
+    new_pr->live = 0;
+    new_pr->next = NULL;
 	return (new_pr);
 }
 

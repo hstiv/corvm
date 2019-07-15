@@ -63,7 +63,10 @@ typedef struct		s_vm
 	unsigned char	owner[MEM_SIZE];
 	int				next_champ_numb;
 	int				cycles;
+	int				cycles_to_die;
 	int				winner;
+	int				checks;
+	int				l_exec;
 	unsigned char	winner_name[PROG_NAME_LENGTH + 1]; 
 }					t_vm;
 
