@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/14 17:58:27 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/16 16:53:16 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,102 @@ void	new_op(t_vm *vm, t_proc *proc, t_op op_tab[17])
 		proc->cycles_to_wait = 0;
 }
 
-int		byte_check(unsigned char octet, const t_op op)
+int		get_arg(int octet, int k, int p)
 {
+	return (((1 << k) - 1) & (octet >> (p - 1)));
+}
 
+int		arg_check(unsigned char octet, const t_op op)
+{
+	int	i;
+	unsigned char arg;
+
+	i = 0;
+	while (i < op.number)
+	{
+		arg = get_arg(octet, 2, 7 - i * 2);
+		if (arg == 3)
+			arg++;
+		if (!(arg & op.types_arg[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int		get_arg_size(int arg_type, t_op op)
+{
+	if (arg_type == T_REG)
+		return (1);
+	else if (arg_type == 3)
+		return (2);
+	else if (arg_type == T_DIR)
+		return (op.is_short_dir ? 2 : 4);
+	else
+		return (0);
+}
+
+int		get_pos(int pos, t_op op, unsigned int octet)
+{
+	int	new_pos;
+	int	i;
+	int	arg;
+
+	new_pos = pos + 1;
+	if (op.coding_byte)
+	{
+		new_pos += 1;
+		i = 0;
+		while (i < op.number)
+		{
+			arg = get_arg(octet, 2, 7 - i * 2);
+			new_pos += get_arg_size(arg, op);
+			i++;
+		}
+		return (new_pos % MEM_SIZE);
+	}
+	i = 0;
+	while (i < op.number)
+	{
+		new_pos += get_arg_size(op.types_arg[i], op);
+		i++;
+	}
+	return (new_pos % MEM_SIZE);
+}
+
+int		check_reg1(unsigned int octet)
+{
+	if (get_arg(octet, 2, 7) == T_REG)
+		return (1);
+	if (get_arg(octet, 2, 5) == T_REG)
+		return (1);
+	if (get_arg(octet, 2, 3) == T_REG)
+		return (1);
+	return (0);
+}
+
+int		check_reg(unsigned int octet, unsigned char	arena[MEM_SIZE], int pos, t_op op)
+{
+	int	i;
+	int	tmp_pos;
+	int	arg_type;
+
+	i = 0;
+	tmp_pos = (pos + 1) % MEM_SIZE;
+	if (!check_reg1(octet))
+		return (0);
+	while (i < op.number)
+	{
+		arg_type = get_arg(octet, 2, 7 - i * 2);
+		if (arg_type == T_REG)
+		{
+			if (arena[tmp_pos] < 1 || arena[tmp_pos] > 16)
+				return (1);
+		}
+		tmp_pos = (tmp_pos + get_arg_size(arg_type, op)) % MEM_SIZE;
+		i++;
+	}
+	return (0);
 }
 
 
@@ -34,11 +127,18 @@ void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_ta
 	if (op_tab[proc->command_type].coding_byte)
 	{
 		type = vm->arena[(proc->pos + 1) % MEM_SIZE];
-		if (byte_check(type, op_tab[proc->command_type]))
+		if (arg_check(type, op_tab[proc->command_type]))
 		{
-
+			if (check_reg(type, vm->arena, proc->pos, op_tab[proc->command_type]))
+				proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);	
+			else
+			{
+				f[proc->command_type](vm, proc);
+				proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);
+			}
 		}
-
+		else
+			proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);	
 	}
 	else
 		f[proc->command_type](vm, proc);
@@ -46,7 +146,22 @@ void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_ta
 
 void	init_func(void (*f[17])(t_vm *, t_proc *))
 {
+	f[0] = &live;
+	f[1] = &load;
+	f[2] = &st;
+	f[3] = &load;
 	f[4] = &add;
+	f[5] = &add;
+	f[6] = &add;
+	f[7] = &add;
+	f[8] = &add;
+	f[9] = &add;
+	f[10] = &add;
+	f[11] = &add;
+	f[12] = &add;
+	f[13] = &add;
+	f[14] = &add;
+	f[15] = &add;
 }
 
 void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
@@ -108,6 +223,7 @@ void	check_live(t_vm *vm, t_proc **head)
 		if (vm->cycles - curr->live >= vm->cycles_to_die)
 		{
 			proccess_kill(head, curr);
+			//asdasd
 		}
 		curr = curr->next;
 	}
@@ -136,6 +252,6 @@ void    play_game(t_vm *vm, t_op op_tab[17])
 		vm->l_exec = 0;
 	}
 	if (!vm->winner)
-		vm->cycles;
+		vm->cycles = 0;
 	vm->cycles_to_die--;
 }

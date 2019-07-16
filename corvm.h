@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/14 17:57:31 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/16 16:36:37 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ void				new_vm(t_vm *vm);
 int 				default_number(t_vm *vm);
 
 void				add(t_vm *vm, t_proc *proc);
-
+int		get_arg(int octet, int k, int p);
 #endif
