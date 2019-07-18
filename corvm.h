@@ -115,6 +115,8 @@ void				op_lfork(t_vm *vm, t_proc *proc);
 void				op_aff(t_vm *vm, t_proc *proc);
 
 int					get_arg(int octet, int k, int p);
+void				proccess_add(t_proc **head, t_proc *new_p);
+t_proc				*new_proc(int player_id, int pos);
 
 
 #endif

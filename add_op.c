@@ -61,7 +61,7 @@ void	op_ld(t_vm *vm, t_proc *proc)
 		n_pos = (proc->pos + 2) % MEM_SIZE;
 	else
 	{
-		n_pos = reverse_bytes(vm, (proc->pos + 2) % MEM_SIZE, 2) % IDX_MOD;
+		n_pos = reverse_bytes(vm, proc->pos + 2, 2) % IDX_MOD;
 		n_pos = (n_pos + proc->pos) % MEM_SIZE;
 	}
 	number = reverse_bytes(vm, n_pos, 4);
@@ -88,7 +88,7 @@ void	op_st(t_vm *vm, t_proc *proc)
 		proc->reg[vm->arena[(proc->pos + 3) % MEM_SIZE] - 1] = number;
 	else
 	{
-		index = reverse_bytes(vm, (proc->pos + 3) % MEM_SIZE, 2);
+		index = reverse_bytes(vm, proc->pos + 3, 2);
 		index = (index + proc->pos) % MEM_SIZE;
 		i = 0;
 		while (i < REG_SIZE)
@@ -146,10 +146,10 @@ void	op_and(t_vm *vm, t_proc *proc)
 		if (type == T_REG)
 			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
 		else if (type == T_DIR)
-			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 4) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 4) % MEM_SIZE;
 		else
 		{
-			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 2) % IDX_MOD;
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 2) % IDX_MOD;
 			args[i] = (args[i] + proc->pos) % MEM_SIZE;
 			args[i] = reverse_bytes(vm, args[i], 4);
 		}
@@ -180,10 +180,10 @@ void	op_or(t_vm *vm, t_proc *proc)
 		if (type == T_REG)
 			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
 		else if (type == T_DIR)
-			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 4) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 4) % MEM_SIZE;
 		else
 		{
-			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 2) % IDX_MOD;
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 2) % IDX_MOD;
 			args[i] = (args[i] + proc->pos + 2 + j) % MEM_SIZE;
 			args[i] = reverse_bytes(vm, args[i], 4);
 		}
@@ -214,10 +214,10 @@ void	op_xor(t_vm *vm, t_proc *proc)
 		if (type == T_REG)
 			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
 		else if (type == T_DIR)
-			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 4) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 4) % MEM_SIZE;
 		else
 		{
-			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 2) % IDX_MOD;
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 2) % IDX_MOD;
 			args[i] = (args[i] + proc->pos + 2 + j) % MEM_SIZE;
 			args[i] = reverse_bytes(vm, args[i], 4);
 		}
@@ -262,7 +262,11 @@ void	op_fork(t_vm *vm, t_proc *proc)
 {
 	int arg;
 
-	arg = reverse_bytes(vm, proc->pos + 1, 2);
+	arg = reverse_bytes(vm, proc->pos + 1, 2) % IDX_MOD;
+	arg = (arg + proc->pos) % MEM_SIZE;
+	proccess_add(&vm->list_process, new_proc(vm->list_process->player_id, arg));
+	vm->list_process->carry = proc->carry;
+	vm->list_process->live = proc->live;
 	proc->pos = (proc->pos + 3) % MEM_SIZE;
 }
 void	op_lld(t_vm *vm, t_proc *proc)
@@ -277,8 +281,14 @@ void	op_lldi(t_vm *vm, t_proc *proc)
 }
 void	op_lfork(t_vm *vm, t_proc *proc)
 {
-	(void)vm;
-	(void)proc;
+	int arg;
+
+	arg = reverse_bytes(vm, proc->pos + 1, 2);
+	arg = (arg + proc->pos) % MEM_SIZE;
+	proccess_add(&vm->list_process, new_proc(vm->list_process->player_id, arg));
+	vm->list_process->carry = proc->carry;
+	vm->list_process->live = proc->live;
+	proc->pos = (proc->pos + 3) % MEM_SIZE;
 }
 
 void	op_aff(t_vm *vm, t_proc *proc)
