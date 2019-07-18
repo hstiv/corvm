@@ -12,31 +12,94 @@
 
 #include "corvm.h"
 
-# define ARENA(x)	v->arena[(unsigned int)(x) % MEM_SIZE]
-
-int		reverse_bytes(t_vm *v, unsigned int pc, int nbytes)
+int		reverse_bytes(t_vm *vm, unsigned int pc, int nbytes)
 {
 	unsigned char two_bytes[2];
 	unsigned char four_bytes[4];
 
 	if (nbytes == 2)
 	{
-		two_bytes[0] = ARENA(pc + 1);
-		two_bytes[1] = ARENA(pc);
+		two_bytes[0] = vm->arena[(pc + 1) % MEM_SIZE];
+		two_bytes[1] = vm->arena[pc % MEM_SIZE];
 		return (*(short *)&two_bytes[0]);
 	}
 	if (nbytes == 4)
 	{
-		four_bytes[0] = ARENA(pc + 3);
-		four_bytes[1] = ARENA(pc + 2);
-		four_bytes[2] = ARENA(pc + 1);
-		four_bytes[3] = ARENA(pc);
+		four_bytes[0] = vm->arena[(pc + 3) % MEM_SIZE];
+		four_bytes[1] = vm->arena[(pc + 2) % MEM_SIZE];
+		four_bytes[2] = vm->arena[(pc + 1) % MEM_SIZE];
+		four_bytes[3] = vm->arena[pc % MEM_SIZE];
 		return (*(int *)&four_bytes[0]);
 	}
 	return (-1);
 }
 
-void	add(t_vm *vm, t_proc *proc)
+void	op_live(t_vm *vm, t_proc *proc)
+{
+	int			number;
+
+	number = reverse_bytes(vm, proc->pos + 1, 4);
+	proc->live = vm->cycles;
+	if (-number > 0 && -number <= vm->champ_nb)
+	{
+		vm->winner_n = vm->champs[-number - 1].n_place;
+		vm->champs[-number - 1].lives_in_period++;
+		vm->champs[-number - 1].live = vm->cycles;
+	}
+	proc->pos += 5;
+	proc->pos %= MEM_SIZE;
+	vm->l_exec += 1;;
+}
+
+void	op_ld(t_vm *vm, t_proc *proc)
+{
+	int	type;
+	int	n_pos;
+	int	number;
+
+	if ((type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7)) == T_DIR)
+		n_pos = (proc->pos + 2) % MEM_SIZE;
+	else
+	{
+		n_pos = reverse_bytes(vm, (proc->pos + 2) % MEM_SIZE, 2) % IDX_MOD;
+		n_pos = (n_pos + proc->pos) % MEM_SIZE;
+	}
+	number = reverse_bytes(vm, n_pos, 4);
+	if (!number)
+		proc->carry = 1;
+	else
+		proc->carry = 0;
+	if (type == T_DIR)
+		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
+	else
+		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
+}
+
+void	op_st(t_vm *vm, t_proc *proc)
+{
+	int		type;
+	int		number;
+	int		index;
+	int		i;
+
+	number = proc->reg[vm->arena[(proc->pos + 2) % MEM_SIZE] - 1];
+	type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 5);
+	if (type == T_REG)
+		proc->reg[vm->arena[(proc->pos + 3) % MEM_SIZE] - 1] = number;
+	else
+	{
+		index = reverse_bytes(vm, (proc->pos + 3) % MEM_SIZE, 2);
+		index = (index + proc->pos) % MEM_SIZE;
+		i = 0;
+		while (i < REG_SIZE)
+		{
+			vm->arena[(index + REG_SIZE - i - 1) % MEM_SIZE] = (number >> (i * 8));
+			i++;
+		}
+	}
+}
+
+void	op_add(t_vm *vm, t_proc *proc)
 {
 	int	first;
 	int second;
@@ -52,7 +115,7 @@ void	add(t_vm *vm, t_proc *proc)
 		proc->carry = 0;
 }
 
-void	sub(t_vm *vm, t_proc *proc)
+void	op_sub(t_vm *vm, t_proc *proc)
 {
 	int	first;
 	int second;
@@ -68,36 +131,160 @@ void	sub(t_vm *vm, t_proc *proc)
 		proc->carry = 0;
 }
 
-void	and(t_vm *vm, t_proc *proc)
+void	op_and(t_vm *vm, t_proc *proc)
 {
+	int		type;
+	int		i;
+	int		j;
+	int		args[3];
 
+	i = -1;
+	j = 0;
+	while (++i < 2)
+	{
+		type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7 - 2 * i);
+		if (type == T_REG)
+			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
+		else if (type == T_DIR)
+			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 4) % MEM_SIZE;
+		else
+		{
+			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 2) % IDX_MOD;
+			args[i] = (args[i] + proc->pos) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, args[i], 4);
+		}
+		if (type == T_DIR)
+			j += 4;
+		else if (type == T_REG)
+			j += 1;
+		else
+			j += 2;
+	}
+	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
+	proc->reg[args[2]] = args[0] & args[1];
+	proc->carry = (proc->reg[args[2]] != 0) ? 0 : 1;
 }
 
-void	load(t_vm *vm, t_proc *proc)
+void	op_or(t_vm *vm, t_proc *proc)
 {
-	
+	int		type;
+	int		i;
+	int		j;
+	int		args[3];
+
+	i = -1;
+	j = 0;
+	while (++i < 2)
+	{
+		type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7 - 2 * i);
+		if (type == T_REG)
+			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
+		else if (type == T_DIR)
+			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 4) % MEM_SIZE;
+		else
+		{
+			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 2) % IDX_MOD;
+			args[i] = (args[i] + proc->pos + 2 + j) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, args[i], 4);
+		}
+		if (type == T_DIR)
+			j += 4;
+		else if (type == T_REG)
+			j += 1;
+		else
+			j += 2;
+	}
+	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
+	proc->reg[args[2]] = args[0] | args[1];
+	proc->carry = (proc->reg[args[2]] != 0) ? 0 : 1;
 }
 
-void	live(t_vm *vm, t_proc *proc)
+void	op_xor(t_vm *vm, t_proc *proc)
+{
+	int		type;
+	int		i;
+	int		j;
+	int		args[3];
+
+	i = -1;
+	j = 0;
+	while (++i < 2)
+	{
+		type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7 - 2 * i);
+		if (type == T_REG)
+			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
+		else if (type == T_DIR)
+			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 4) % MEM_SIZE;
+		else
+		{
+			args[i] = reverse_bytes(vm, (proc->pos + 2 + j) % MEM_SIZE, 2) % IDX_MOD;
+			args[i] = (args[i] + proc->pos + 2 + j) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, args[i], 4);
+		}
+		if (type == T_DIR)
+			j += 4;
+		else if (type == T_REG)
+			j += 1;
+		else
+			j += 2;
+	}
+	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
+	proc->reg[args[2]] = args[0] ^ args[1];
+	proc->carry = (proc->reg[args[2]] != 0) ? 0 : 1;
+}
+
+
+void	op_zjmp(t_vm *vm, t_proc *proc)
 {
 	int	arg;
 
-	arg = reverse_bytes(vm, proc->pos + 1, 4);
-	if (proc->reg[0] == proc->player_id)
-		proc->live = 1;
-	proc->pos += 5;
-	proc->pos %= MEM_SIZE;
-}
-
-
-void	zjmp(t_vm *vm, t_proc *proc)
-{
-	int	arg;
-
-	arg = reverse_bytes(vm, proc->pos, 2);
+	arg = reverse_bytes(vm, proc->pos + 1, 2);
 	arg %= IDX_MOD;
 	if (proc->carry == 1)
-		proc->pos += arg % MEM_SIZE;
+		proc->pos = (proc->pos + arg) % MEM_SIZE;
 	else
-		proc->pos += 3 % MEM_SIZE;
+		proc->pos = (proc->pos + 3) % MEM_SIZE;
+}
+
+void	op_ldi(t_vm *vm, t_proc *proc)
+{
+	(void)vm;
+	(void)proc;
+}
+
+void	op_sti(t_vm *vm, t_proc *proc)
+{
+	(void)vm;
+	(void)proc;
+}
+
+void	op_fork(t_vm *vm, t_proc *proc)
+{
+	int arg;
+
+	arg = reverse_bytes(vm, proc->pos + 1, 2);
+	proc->pos = (proc->pos + 3) % MEM_SIZE;
+}
+void	op_lld(t_vm *vm, t_proc *proc)
+{
+	(void)vm;
+	(void)proc;
+}
+void	op_lldi(t_vm *vm, t_proc *proc)
+{
+	(void)vm;
+	(void)proc;
+}
+void	op_lfork(t_vm *vm, t_proc *proc)
+{
+	(void)vm;
+	(void)proc;
+}
+
+void	op_aff(t_vm *vm, t_proc *proc)
+{
+	int		i;
+
+	i = vm->arena[(proc->pos + 2) % MEM_SIZE] - 1;
+	ft_printf("%c", (char)proc->reg[i]);
 }

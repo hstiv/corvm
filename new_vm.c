@@ -13,4 +13,8 @@ void			new_vm(t_vm *vm)
 	vm->winner = 0;
 	vm->cycles = 0;
 	vm->cycles_to_die = CYCLE_TO_DIE;
+	vm->cycles_die = CYCLE_TO_DIE;
+	vm->l_exec = 0;
+	vm->checks = 1;
+	vm->winner_n = 0;
 }

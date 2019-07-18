@@ -51,6 +51,6 @@ int		main(int c, char **s)
 		if (vm.cycles == vm.dump_cycles)
 			show_dump(&vm);
 	}
-	ft_printf("Player %d (%s) won\n", vm.winner, vm.winner_name);
+	ft_printf("Player %d (%s) won\n", vm.winner_n, vm.champs[vm.winner_n - 1].name);
 	return (0);
 }

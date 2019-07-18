@@ -146,22 +146,22 @@ void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_ta
 
 void	init_func(void (*f[17])(t_vm *, t_proc *))
 {
-	f[0] = &live;
-	f[1] = &load;
-	f[2] = &st;
-	f[3] = &load;
-	f[4] = &add;
-	f[5] = &add;
-	f[6] = &add;
-	f[7] = &add;
-	f[8] = &add;
-	f[9] = &add;
-	f[10] = &add;
-	f[11] = &add;
-	f[12] = &add;
-	f[13] = &add;
-	f[14] = &add;
-	f[15] = &add;
+	f[1] = &op_live;
+	f[2] = &op_ld;
+	f[3] = &op_st;
+	f[4] = &op_add;
+	f[5] = &op_sub;
+	f[6] = &op_and;
+	f[7] = &op_or;
+	f[8] = &op_xor;
+	f[9] = &op_zjmp;
+	f[10] = &op_ldi;
+	f[11] = &op_sti;
+	f[12] = &op_fork;
+	f[13] = &op_lld;
+	f[14] = &op_lldi;
+	f[15] = &op_lfork;
+	f[16] = &op_aff;
 }
 
 void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
@@ -175,13 +175,16 @@ void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
 	{
 		if (!proccess->cycles_to_wait)
 			new_op(vm, proccess, op_tab);
-		if (proccess->cycles_to_wait)
+		if (proccess->cycles_to_wait > 0)
 			proccess->cycles_to_wait -= 1;
 		if (!proccess->cycles_to_wait && proccess->command_type < 17
 			&& proccess->command_type > 0)
 			do_proc(vm, proccess, f, op_tab);			
 		else if (!proccess->cycles_to_wait)
+		{
 			proccess->pos += 1;
+			proccess->pos %= MEM_SIZE;
+		}
 		proccess = proccess->next;
 	}
 }
@@ -220,15 +223,24 @@ void	check_live(t_vm *vm, t_proc **head)
 	curr = *head;
 	while (curr)
 	{
-		if (vm->cycles - curr->live >= vm->cycles_to_die)
-		{
+		if (vm->cycles - curr->live >= CYCLE_TO_DIE)
 			proccess_kill(head, curr);
-			//asdasd
-		}
 		curr = curr->next;
 	}
 	if (*head == NULL)
 		vm->winner = 1;
+}
+
+void	champions_reset_lives(t_champ *champs, int count)
+{
+	int	i;
+
+	i = 0;
+	while (i < count)
+	{
+		champs[i].live = 0;
+		i++;
+	}
 }
 
 void    play_game(t_vm *vm, t_op op_tab[17])
@@ -239,9 +251,9 @@ void    play_game(t_vm *vm, t_op op_tab[17])
 		check_live(vm, &vm->list_process);
 		if (vm->l_exec >= NBR_LIVE || vm->checks >= MAX_CHECKS)
 		{
-			vm->cycles_to_die -= CYCLE_DELTA;
+			vm->cycles_die -= CYCLE_DELTA;
 			vm->checks = 1;
-			if (vm->cycles_to_die <= 0)
+			if (vm->cycles_die <= 0)
 			{
 				vm->winner = 1;
 				vm->cycles++;
@@ -249,9 +261,11 @@ void    play_game(t_vm *vm, t_op op_tab[17])
 		}
 		else
 			vm->checks += 1;
+		vm->cycles_to_die = vm->cycles_die;
 		vm->l_exec = 0;
+		champions_reset_lives(vm->champs, vm->champ_nb);
 	}
-	if (!vm->winner)
-		vm->cycles = 0;
-	vm->cycles_to_die--;
+	if (vm->winner != 1)
+		vm->cycles += 1;
+	vm->cycles_to_die -= 1;
 }

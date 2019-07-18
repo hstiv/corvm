@@ -8,7 +8,7 @@ t_proc	*new_proc(int player_id, int pos)
 	if (!new_pr)
 		return (NULL);
     ft_bzero(new_pr->reg, REG_NUMBER);
-	new_pr->reg[0] = player_id;
+	new_pr->reg[0] = -player_id;
     new_pr->carry = 0;
     new_pr->pos = pos;
     new_pr->cycles_to_wait = 0;

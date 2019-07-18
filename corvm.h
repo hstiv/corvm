@@ -51,6 +51,8 @@ typedef struct		s_champ
 	int				n_place;
 	int				exec_code;
 	int				pos;
+	int				live;
+	int				lives_in_period;
 }					t_champ;
 
 typedef struct		s_vm
@@ -64,10 +66,11 @@ typedef struct		s_vm
 	int				next_champ_numb;
 	int				cycles;
 	int				cycles_to_die;
+	int				cycles_die;
 	int				winner;
+	int				winner_n;
 	int				checks;
 	int				l_exec;
-	unsigned char	winner_name[PROG_NAME_LENGTH + 1]; 
 }					t_vm;
 
 typedef struct			s_op
@@ -94,6 +97,24 @@ void				parse_champs(t_vm *vm, char *name, int n, int number);
 void				new_vm(t_vm *vm);
 int 				default_number(t_vm *vm);
 
-void				add(t_vm *vm, t_proc *proc);
-int		get_arg(int octet, int k, int p);
+void				op_live(t_vm *vm, t_proc *proc);
+void				op_ld(t_vm *vm, t_proc *proc);
+void				op_st(t_vm *vm, t_proc *proc);
+void				op_add(t_vm *vm, t_proc *proc);
+void				op_sub(t_vm *vm, t_proc *proc);
+void				op_and(t_vm *vm, t_proc *proc);
+void				op_or(t_vm *vm, t_proc *proc);
+void				op_xor(t_vm *vm, t_proc *proc);
+void				op_zjmp(t_vm *vm, t_proc *proc);
+void				op_ldi(t_vm *vm, t_proc *proc);
+void				op_sti(t_vm *vm, t_proc *proc);
+void				op_fork(t_vm *vm, t_proc *proc);
+void				op_lld(t_vm *vm, t_proc *proc);
+void				op_lldi(t_vm *vm, t_proc *proc);
+void				op_lfork(t_vm *vm, t_proc *proc);
+void				op_aff(t_vm *vm, t_proc *proc);
+
+int					get_arg(int octet, int k, int p);
+
+
 #endif

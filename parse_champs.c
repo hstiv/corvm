@@ -44,5 +44,7 @@ void	parse_champs(t_vm *vm, char *name, int n, int number)
 		champ_error();
 	vm->champs[n].exec_code = i;
 	vm->champs[n].n_place = number;
+	vm->champs[n].live = 0;
+	vm->champs[n].lives_in_period = 0;
 	close(fd);
 }
