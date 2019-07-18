@@ -261,12 +261,16 @@ void	op_sti(t_vm *vm, t_proc *proc)
 void	op_fork(t_vm *vm, t_proc *proc)
 {
 	int arg;
+	int	i;
 
+	i = -1;
 	arg = reverse_bytes(vm, proc->pos + 1, 2) % IDX_MOD;
 	arg = (arg + proc->pos) % MEM_SIZE;
 	proccess_add(&vm->list_process, new_proc(vm->list_process->player_id, arg));
 	vm->list_process->carry = proc->carry;
 	vm->list_process->live = proc->live;
+	while (++i < REG_NUMBER)
+		vm->list_process->reg[i] = proc->reg[i];
 	proc->pos = (proc->pos + 3) % MEM_SIZE;
 }
 void	op_lld(t_vm *vm, t_proc *proc)
@@ -282,12 +286,16 @@ void	op_lldi(t_vm *vm, t_proc *proc)
 void	op_lfork(t_vm *vm, t_proc *proc)
 {
 	int arg;
+	int	i;
 
+	i = -1;
 	arg = reverse_bytes(vm, proc->pos + 1, 2);
 	arg = (arg + proc->pos) % MEM_SIZE;
 	proccess_add(&vm->list_process, new_proc(vm->list_process->player_id, arg));
 	vm->list_process->carry = proc->carry;
 	vm->list_process->live = proc->live;
+	while (++i < REG_NUMBER)
+		vm->list_process->reg[i] = proc->reg[i];
 	proc->pos = (proc->pos + 3) % MEM_SIZE;
 }
 
