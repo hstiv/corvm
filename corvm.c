@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 14:25:29 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/12 17:01:35 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/19 18:20:25 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ int		main(int c, char **s)
 		if (vm.cycles == vm.dump_cycles)
 			show_dump(&vm);
 	}
-	ft_printf("Player %d (%s) won\n", vm.winner_n, vm.champs[vm.winner_n - 1].name);
+	ft_printf("Contestant %d, \"%s\", has won !\n", vm.winner_n, vm.champs[vm.winner_n - 1].name);
 	return (0);
 }

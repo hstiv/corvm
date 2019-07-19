@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/16 17:19:36 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/19 16:56:31 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,13 +275,60 @@ void	op_fork(t_vm *vm, t_proc *proc)
 }
 void	op_lld(t_vm *vm, t_proc *proc)
 {
-	(void)vm;
-	(void)proc;
+	int	type;
+	int	n_pos;
+	int	number;
+
+	if ((type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7)) == T_DIR)
+		n_pos = (proc->pos + 2) % MEM_SIZE;
+	else
+	{
+		n_pos = reverse_bytes(vm, proc->pos + 2, 2);
+		n_pos = (n_pos + proc->pos) % MEM_SIZE;
+	}
+	number = reverse_bytes(vm, n_pos, 4);
+	if (!number)
+		proc->carry = 1;
+	else
+		proc->carry = 0;
+	if (type == T_DIR)
+		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
+	else
+		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
 }
 void	op_lldi(t_vm *vm, t_proc *proc)
 {
-	(void)vm;
-	(void)proc;
+	int		type;
+	int		i;
+	int		j;
+	int		args[3];
+
+	i = -1;
+	j = 0;
+	while (++i < 2)
+	{
+		type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7 - 2 * i);
+		if (type == T_REG)
+			args[i] = proc->reg[vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1];
+		else if (type == T_DIR)
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 2) % MEM_SIZE;
+		else
+		{
+			args[i] = reverse_bytes(vm, proc->pos + 2 + j, 2) % IDX_MOD;
+			args[i] = (args[i] + proc->pos + 2 + j) % MEM_SIZE;
+			args[i] = reverse_bytes(vm, args[i], 4);
+		}
+		if (type == T_REG)
+			j += 1;
+		else
+			j += 2;
+	}
+	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
+	if ((i = reverse_bytes(vm, (proc->pos + (args[0] + args[1])) % MEM_SIZE, 4) == 0))
+		proc->carry = 1;
+	else
+		proc->carry = 0;
+	proc->reg[args[2]] = i;
 }
 void	op_lfork(t_vm *vm, t_proc *proc)
 {

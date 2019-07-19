@@ -3,11 +3,14 @@
 t_proc	*new_proc(int player_id, int pos)
 {
 	t_proc	*new_pr;
+    int     i;
 
+    i = -1;
 	new_pr = (t_proc *)malloc(sizeof(t_proc));
 	if (!new_pr)
 		return (NULL);
-    ft_bzero(new_pr->reg, REG_NUMBER);
+    while (++i < REG_NUMBER)
+        new_pr->reg[i] = 0;
 	new_pr->reg[0] = -player_id;
     new_pr->carry = 0;
     new_pr->pos = pos;
@@ -34,7 +37,7 @@ void    init_proc(t_vm *vm)
     i = 0;
     while (i < vm->champ_nb)
     {
-        proccess_add(&vm->list_process, new_proc(i, vm->champs[i].pos));
+        proccess_add(&vm->list_process, new_proc(vm->champs[i].n_place, vm->champs[i].pos));
         i++;
     }
 }

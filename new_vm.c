@@ -16,5 +16,6 @@ void			new_vm(t_vm *vm)
 	vm->cycles_die = CYCLE_TO_DIE;
 	vm->l_exec = 0;
 	vm->checks = 1;
-	vm->winner_n = 0;
+	vm->winner_n = 1;
+	vm->list_process = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/16 16:53:16 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/19 18:19:10 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int		check_reg(unsigned int octet, unsigned char	arena[MEM_SIZE], int pos, t_op 
 	}
 	return (0);
 }
-
 
 void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_tab[17])
 {
