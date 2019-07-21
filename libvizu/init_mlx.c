@@ -21,5 +21,6 @@ void		init_mlx(t_mlx *mlx, t_vm *vm)
 	mlx->wind = mlx_new_window(mlx->ptr, WIDTH, HEIGHT, "Corewar: Angel Arena");
 	mlx->img = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
 	mlx->vm = vm;
+	mlx->pause = 0;
 	mlx->mseconds = 10;
 }

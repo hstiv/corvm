@@ -27,6 +27,17 @@
 # include <unistd.h>
 # include <stdio.h>
 
+typedef struct		s_mlx
+{
+	void			*wind;
+	void			*ptr;
+	void			*img;
+	int 			mseconds;
+	int 			memsize;
+	int 			pause;
+	void			*vm;
+}					t_mlx;
+
 void				add_end(char *s1, char *s, int n);
 void				putarenainwindow(t_mlx *mlx);
 void				dynamic_clear(char *s, int n);

@@ -22,8 +22,11 @@
 # include <stdio.h>
 # include "op.h"
 # include "libft/libft.h"
+# include "libvizu/libvizu.h"
+# include <mlx.h>
 
 # define BUFF_SIZE	32
+# define WHITE		16777215
 # define MAX_FD		10240
 # define UL			unsigned long int
 # define USAGE		"Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
@@ -71,6 +74,7 @@ typedef struct		s_vm
 	int				winner_n;
 	int				checks;
 	int				l_exec;
+	t_mlx			*mlx;
 }					t_vm;
 
 typedef struct			s_op
@@ -85,6 +89,7 @@ typedef struct			s_op
 	int					is_short_dir;
 }						t_op;
 
+void				eat_vizu(int *i, t_vm *vm);
 int 				cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);

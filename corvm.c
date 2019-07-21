@@ -12,15 +12,15 @@
 
 #include "corvm.h"
 
-void	threw(char *s)
+void				threw(char *s)
 {
 	write(1, s, ft_strlen(s));
 	exit(0);
 }
 
-void	introduce_players(t_vm *vm)
+void				introduce_players(t_vm *vm)
 {
-	int	i;
+	int				i;
 
 	i = 0;
 	ft_printf("Introducing contestants...\n");
@@ -33,10 +33,10 @@ void	introduce_players(t_vm *vm)
 	}
 }
 
-int		main(int c, char **s)
+int					main(int c, char **s)
 {
-	t_vm	vm;
-	t_op	op[17];
+	t_vm			vm;
+	t_op			op[17];
 
 	new_vm(&vm);
 	init_op(op);
@@ -50,6 +50,7 @@ int		main(int c, char **s)
 		play_game(&vm, op);
 		if (vm.cycles == vm.dump_cycles)
 			show_dump(&vm);
+		(vm.mlx) ? looper(vm.mlx) : 0;
 	}
 	ft_printf("Contestant %d, \"%s\", has won !\n", vm.winner_n, vm.champs[vm.winner_n - 1].name);
 	return (0);

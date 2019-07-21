@@ -1,4 +1,4 @@
-NAME = mlx.a
+NAME = libvizu.a
 
 SRC =   init_mlx.c run_window.c \
 		key_hooks.c utils.c

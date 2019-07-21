@@ -52,7 +52,7 @@ void				putarenainwindow(t_mlx *mlx)
 			add_end(itoa_base(vm->arena[i], "0123456789abcdef", 16), s, 1);
 			i++;
 		}
-		mlx_string_put(mlx->ptr, mlx->wind, 5, y, 65535, s);
+		mlx_string_put(mlx->ptr, mlx->wind, 5, y, WHITE, s);
 		y += 20;
 		i++;
 	}
@@ -79,7 +79,7 @@ void				run_window(t_mlx *mlx)
 {
 	mlx_hook(mlx->wind, 17, (1L << 17), ft_close, mlx);
 	mlx_hook(mlx->wind, 2, 0, key_press, mlx);
-	putarenaanwindow(mlx);
+	putarenainwindow(mlx);
 }
 
 void				looper(t_mlx *mlx)
