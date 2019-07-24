@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 16:27:01 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 18:37:34 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,10 @@ void	new_op(t_vm *vm, t_proc *proc, t_op op_tab[17])
 		proc->cycles_to_wait = 0;
 }
 
-int		get_arg(int octet, int k, int p)
-{
-	return (((1 << k) - 1) & (octet >> (p - 1)));
-}
-
 int		arg_check(unsigned char octet, const t_op op)
 {
-	int	i;
-	unsigned char arg;
+	int				i;
+	unsigned char	arg;
 
 	i = 0;
 	while (i < op.number)
@@ -95,7 +90,8 @@ int		check_reg1(unsigned int octet)
 	return (0);
 }
 
-int		check_reg(unsigned int octet, unsigned char	arena[MEM_SIZE], int pos, t_op op)
+int		check_reg(unsigned int octet,
+					unsigned char arena[MEM_SIZE], int pos, t_op op)
 {
 	int	i;
 	int	tmp_pos;
@@ -119,7 +115,8 @@ int		check_reg(unsigned int octet, unsigned char	arena[MEM_SIZE], int pos, t_op 
 	return (0);
 }
 
-void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_tab[17])
+void	do_proc(t_vm *vm, t_proc *proc,
+				void (*f[17])(t_vm *, t_proc *), t_op op_tab[17])
 {
 	unsigned int	type;
 
@@ -128,16 +125,19 @@ void	do_proc(t_vm *vm, t_proc *proc, void (*f[17])(t_vm *, t_proc *), t_op op_ta
 		type = vm->arena[(proc->pos + 1) % MEM_SIZE];
 		if (arg_check(type, op_tab[proc->command_type]))
 		{
-			if (!check_reg(type, vm->arena, proc->pos, op_tab[proc->command_type]))
-				proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);	
+			if (!check_reg(type, vm->arena, proc->pos,
+							op_tab[proc->command_type]))
+				proc->pos = get_pos(proc->pos,
+								op_tab[proc->command_type], type);
 			else
 			{
 				f[proc->command_type](vm, proc);
-				proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);
+				proc->pos = get_pos(proc->pos, op_tab[proc->command_type],
+									type);
 			}
 		}
 		else
-			proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);	
+			proc->pos = get_pos(proc->pos, op_tab[proc->command_type], type);
 	}
 	else
 		f[proc->command_type](vm, proc);
@@ -178,7 +178,7 @@ void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
 			proccess->cycles_to_wait -= 1;
 		if (!proccess->cycles_to_wait && proccess->command_type < 17
 			&& proccess->command_type > 0)
-			do_proc(vm, proccess, f, op_tab);			
+			do_proc(vm, proccess, f, op_tab);
 		else if (!proccess->cycles_to_wait)
 		{
 			proccess->pos += 1;
@@ -188,7 +188,7 @@ void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
 	}
 }
 
-void		proccess_kill(t_proc **head, t_proc *ps)
+void	proccess_kill(t_proc **head, t_proc *ps)
 {
 	t_proc	*prev;
 	t_proc	*curr;
@@ -242,7 +242,7 @@ void	champions_reset_lives(t_champ *champs, int count)
 	}
 }
 
-void    play_game(t_vm *vm, t_op op_tab[17])
+void	play_game(t_vm *vm, t_op op_tab[17])
 {
 	performe_proc(vm, vm->list_process, op_tab);
 	if (!vm->cycles_to_die)

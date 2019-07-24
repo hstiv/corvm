@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:16:40 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:22:18 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 18:37:50 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,9 @@ int				ft_isdigit_s(char *s)
 		i++;
 	}
 	return (1);
+}
+
+int				get_arg(int octet, int k, int p)
+{
+	return (((1 << k) - 1) & (octet >> (p - 1)));
 }
