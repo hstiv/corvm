@@ -6,7 +6,7 @@ SRC =   init_mlx.c run_window.c \
 OBJ =   init_mlx.o run_window.o \
         key_hooks.o utils.o
 
-INCLUDES =  libft/
+INCLUDES =  ../libft/
 
 INC = ../
 

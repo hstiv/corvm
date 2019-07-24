@@ -26,9 +26,7 @@
 # include <mlx.h>
 
 # define BUFF_SIZE	32
-# define WHITE		16777215
 # define MAX_FD		10240
-# define UL			unsigned long int
 # define USAGE		"Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 
 typedef struct		s_proc

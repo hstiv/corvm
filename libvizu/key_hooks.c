@@ -46,6 +46,6 @@ int				key_press(int keycode, t_mlx *mlx)
 {
 	speed_change(keycode, mlx);
 	if (keycode == 49)
-		pause_game(keycode);
+		pause_game(keycode, mlx);
 	return (0);
 }

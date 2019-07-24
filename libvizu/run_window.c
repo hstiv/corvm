@@ -28,6 +28,7 @@ void				add_end(char *s1, char *s, int n)
 		i++;
 		j++;
 	}
+	s[i] = '\0';
 	(n) ? free(s1) : 0;
 }
 
@@ -35,27 +36,24 @@ void				putarenainwindow(t_mlx *mlx)
 {
 	int				i;
 	int				y;
-	char			s[128];
+	char			s[256];
 	t_vm			*vm;
 
 	i = 0;
 	y = 10;
 	vm = (t_vm *)mlx->vm;
-	while (i < 128)
-		s[i++] = 0;
-	i = 0;
+	dynamic_clear(s, 256);
 	while (i < mlx->memsize)
 	{
-		dynamic_clear(s, 128);
-		while ((i + 1) % 32 != 0 && i)
-		{
-			add_end(itoa_base(vm->arena[i], "0123456789abcdef", 16), s, 1);
-			i++;
-		}
+		while ((i + 1) % 64 != 0 && i)
+			add_end(itoa_base(vm->arena[i++], STEEN, 16), s, 1);
 		mlx_string_put(mlx->ptr, mlx->wind, 5, y, WHITE, s);
 		y += 20;
 		i++;
 	}
+	i = 0;
+	while (i < vm->champ_nb)
+		draw_carriage(mlx, &vm->champs[i++]);
 }
 
 void				ft_sleep(int n)

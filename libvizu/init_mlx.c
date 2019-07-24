@@ -22,5 +22,7 @@ void		init_mlx(t_mlx *mlx, t_vm *vm)
 	mlx->img = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
 	mlx->vm = vm;
 	mlx->pause = 0;
+	mlx->err = 0;
+	mlx->derr = 0;
 	mlx->mseconds = 10;
 }

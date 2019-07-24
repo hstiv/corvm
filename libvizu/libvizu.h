@@ -13,12 +13,6 @@
 #ifndef LIBVIZU_H
 # define LIBVIZU_H
 
-# define HEIGHT 1395
-# define WIDTH 2560
-# define LINE 20
-# define COLOR 50
-# define CON 5
-
 # include <math.h>
 # include "libft.h"
 # include "corvm.h"
@@ -26,6 +20,22 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+
+# define HEIGHT		1395
+# define WIDTH		2560
+# define LINE		20
+# define COLOR		50
+# define CON		5
+# define STEEN 		"0123456789abcdef"
+# define UL			unsigned long int
+# define WHITE		16777215
+# define GREEN		46080
+
+typedef struct		s_dot
+{
+	int 			x;
+	int 			y;
+}					t_dot;
 
 typedef struct		s_mlx
 {
@@ -35,9 +45,15 @@ typedef struct		s_mlx
 	int 			mseconds;
 	int 			memsize;
 	int 			pause;
+	int 			err;
+	int 			derr;
 	void			*vm;
 }					t_mlx;
 
+void				get_x_y(t_dot *n1, t_champ *champ);
+void				ft_bresenham(t_dot *d0, t_dot *d1,
+										t_mlx *mlx, int color);
+void				draw_carriage(t_mlx *mlx, t_champ *champ);
 void				add_end(char *s1, char *s, int n);
 void				putarenainwindow(t_mlx *mlx);
 void				dynamic_clear(char *s, int n);

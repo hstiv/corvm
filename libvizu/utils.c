@@ -53,3 +53,37 @@ char			*itoa_base(unsigned long long num,
 	}
 	return (str);
 }
+
+void			get_x_y(t_dot *n1, t_champ *champ)
+{
+	int 		tmp;
+
+	n1->x = 0;
+	n1->y = 0;
+	tmp = champ->pos;
+	while (tmp >= 64)
+	{
+		tmp -= 64;
+		n1->x++;
+	}
+	n1->y = tmp * 15 + 5;
+}
+
+void			draw_carriage(t_mlx *mlx, t_champ *champ)
+{
+	t_dot		n1;
+	t_dot		n2;
+	int 		i;
+
+	i = 0;
+	get_x_y(&n1,champ);
+	n2.x = n1.x;
+	n2.y = n1.y + 1;
+	while (i < 5)
+	{
+		ft_bresenham(&n1, &n2, mlx, GREEN);
+		n1.x++;
+		n2.x++;
+		i++;
+	}
+}
