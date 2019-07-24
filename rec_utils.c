@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:16:40 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:17:30 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 18:22:18 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,21 @@ int				reverse_bytes(t_vm *vm, unsigned int pc, int nbytes)
 		return (*(int *)&four_bytes[0]);
 	}
 	return (-1);
+}
+
+void			show_dump(t_vm *vm)
+{
+	int	i;
+
+	i = 0;
+	while (i < MEM_SIZE)
+	{
+		ft_printf("%02hhx ", vm->arena[i]);
+		if ((i + 1) % 32 == 0 && i)
+			ft_printf("\n");
+		i++;
+	}
+	exit(0);
 }
 
 int				ft_isdigit_s(char *s)
