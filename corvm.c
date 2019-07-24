@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 14:25:29 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/19 18:20:25 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 17:08:59 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int					main(int c, char **s)
 	introduce_players(&vm);
 	while (!vm.winner)
 	{
-		play_game(&vm, op);
 		if (vm.cycles == vm.dump_cycles)
 			show_dump(&vm);
+		play_game(&vm, op);
 //		(vm.mlx) ? looper(vm.mlx) : 0;
 	}
 	ft_printf("Contestant %d, \"%s\", has won !\n", vm.winner_n, vm.champs[vm.winner_n - 1].name);
