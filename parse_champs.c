@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:56:39 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 17:59:56 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 18:12:16 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	champ_error(int i, char *s)
 		ft_printf("Error: File %s has too large a code\n", s);
 	else if (i == 2)
 		ft_printf("Error: Wrong name format file %s\n", s);
+	else
+		ft_printf("ERROR\n", s);
 	exit(0);
 }
 
@@ -33,10 +35,8 @@ int		read_4bytes(int fd)
 	if (ret >= 0 && ret != 4)
 		return (0);
 	else if (ret < 0)
-		return (-1);
+		champ_error(3, NULL);
 	total = (octs[0] << 24) | (octs[1] << 16) | (octs[2] << 8) | octs[3];
-	if (total > CHAMP_MAX_SIZE)
-		return (-1);
 	return (total);
 }
 
@@ -50,13 +50,14 @@ int		check_null(int fd)
 	if (i >= 0 && i != 4)
 		number = 0;
 	else if (i < 0)
-		return (-1);
+		champ_error(3, NULL);
 	number = (octs[0] << 24) | (octs[1] << 16) | (octs[2] << 8) | octs[3];
 	if (number == 0)
 		return (1);
 	else
 		return (0);
 }
+
 void	parse_champs(t_vm *vm, char *name, int n, int number)
 {
 	int	fd;
@@ -64,22 +65,22 @@ void	parse_champs(t_vm *vm, char *name, int n, int number)
 
 	if ((fd = open(name, O_RDONLY)) < 0)
 		champ_error(0, name);
-	if ((i = read(fd, &(vm->champs[n].magic), sizeof(int))) < 0)
+	if ((i = read_4bytes(fd)) != COREWAR_EXEC_MAGIC)
 		champ_error(0, name);
 	if ((i = read(fd, &(vm->champs[n].name), PROG_NAME_LENGTH)) < 0)
 		champ_error(2, name);
 	if (!check_null(fd))
 		champ_error(2, name);
-	if ((vm->champs[n].exec_code = read_4bytes(fd)) <= 0)
+	if ((vm->champs[n].exec_code = read_4bytes(fd)) > CHAMP_MAX_SIZE)
 		champ_error(1, name);
 	if ((i = read(fd, &(vm->champs[n].comment), COMMENT_LENGTH)) < 0)
-		champ_error(0, name);
+		champ_error(2, name);
 	if (!check_null(fd))
 		champ_error(2, name);
 	if ((i = read(fd, &(vm->champs[n].champ_bin), CHAMP_MAX_SIZE)) < 0)
-		champ_error(0, name);
+		champ_error(2, name);
 	if (i != vm->champs[n].exec_code)
-		champ_error(0, name);
+		champ_error(2, name);
 	vm->champs[n].n_place = number;
 	vm->champs[n].live = 0;
 	vm->champs[n].lives_in_period = 0;
