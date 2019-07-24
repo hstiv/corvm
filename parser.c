@@ -1,6 +1,14 @@
-//
-// Created by hstiv on 03.07.19.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/24 18:15:37 by sdiedra           #+#    #+#             */
+/*   Updated: 2019/07/24 18:16:25 by sdiedra          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "includes/corvm.h"
 
@@ -17,19 +25,20 @@ int					ischamp(char *s)
 
 void				is_dump_flag(t_vm *vm, char **av, int c, int *i)
 {
-	(vm->dump_cycles >= 0) ? threw("Error: [[-dump] arg] must be declared once.\n") : 0;
+	(vm->dump_cycles >= 0) ?
+		threw("Error: [[-dump] arg] must be declared once.\n") : 0;
 	if (!ft_strcmp("-dump", av[*i]))
 	{
 		if (*i + 1 < c && ft_isdigit_s(av[*i + 1]))
-            vm->dump_cycles = ft_atoi(av[++(*i)]);
+			vm->dump_cycles = ft_atoi(av[++(*i)]);
 		else
 			threw(USAGE);
-    }
+	}
 }
 
 int					is_nflag(char **s, int *i)
 {
-	int 			n;
+	int	n;
 
 	n = 0;
 	if (ft_strequ(s[*i], "-n"))

@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/16 16:36:37 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 18:18:23 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,12 @@ void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
 void				play_game(t_vm *vm, t_op op_tab[17]);
 void				arena(t_vm *vm);
+int					reverse_bytes(t_vm *vm, unsigned int pc, int nbytes);
 int					ft_isdigit_s(char *s);
 void				parser(int c, char **s, t_vm *vm);
 void				threw(char *s);
 void				parse_champs(t_vm *vm, char *name, int n, int number);
 void				new_vm(t_vm *vm);
-int 				default_number(t_vm *vm);
 
 void				op_live(t_vm *vm, t_proc *proc);
 void				op_ld(t_vm *vm, t_proc *proc);
