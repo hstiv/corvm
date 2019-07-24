@@ -115,7 +115,7 @@ void				parser(int c, char **s, t_vm *vm)
 			vm->champs[vm->champ_nb].n_flag = 1;
 			vm->champ_nb += 1;
 		}
-		else if (ft_strcmp("-vi", s[i]))
+		else if (!ft_strcmp("-vi", s[i]))
 			eat_vizu(&i, vm);
 		else
 			threw(USAGE);
