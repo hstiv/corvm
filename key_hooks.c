@@ -12,7 +12,7 @@
 
 #include "corvm.h"
 
-int				ft_close(void *param)
+int				expose_hook(void *param)
 {
 	t_mlx		*tmp;
 
@@ -28,24 +28,24 @@ static void		speed_change(int keycode, t_mlx *mlx)
 		mlx->mseconds++;
 }
 
-static void		pause_game(t_mlx *mlx)
-{
-	int 		i;
-
-	i = 0;
-	mlx->pause++;
-	while (mlx->pause % 2 != 0)
-	{
-		i++;
-		mlx_hook(mlx->wind, 2, 0, key_press, mlx);
-		mlx_loop(mlx->ptr);
-	}
-}
+//static void		pause_game(t_mlx *mlx)
+//{
+//	int 		i;
+//
+//	i = 0;
+//	mlx->pause++;
+//	while (mlx->pause % 2 != 0)
+//	{
+//		i++;
+//		mlx_hook(mlx->wind, 2, 0, key_press, mlx);
+//		mlx_loop(mlx->ptr);
+//	}
+//}
 
 int				key_press(int keycode, t_mlx *mlx)
 {
 	speed_change(keycode, mlx);
-	if (keycode == 49)
-		pause_game(mlx);
+//	if (keycode == 49)
+//		pause_game(mlx);
 	return (0);
 }

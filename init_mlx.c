@@ -12,17 +12,16 @@
 
 #include "corvm.h"
 
-void		init_mlx(t_mlx *mlx, t_vm *vm)
+void		init_mlx(t_vm *vm)
 {
 	t_mlx	data;
 
-	mlx = &data;
-	mlx->ptr = mlx_init();
-	mlx->wind = mlx_new_window(mlx->ptr, WIDTH, HEIGHT, "Corewar: Angel Arena");
-	mlx->img = mlx_new_image(mlx->ptr, WIDTH, HEIGHT);
-	mlx->vm = vm;
-	mlx->pause = 0;
-	mlx->err = 0;
-	mlx->derr = 0;
-	mlx->mseconds = 10;
+	vm->mlx = &data;
+	vm->mlx->ptr = mlx_init();
+	vm->mlx->wind = mlx_new_window(vm->mlx->ptr, WIDTH, HEIGHT, WIND);
+	vm->mlx->vm = vm;
+	vm->mlx->pause = 0;
+	vm->mlx->err = 0;
+	vm->mlx->derr = 0;
+	vm->mlx->mseconds = 10;
 }

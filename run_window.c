@@ -32,57 +32,65 @@ void				add_end(char *s1, char *s, int n)
 	(n) ? free(s1) : 0;
 }
 
-void				putarenainwindow(t_mlx *mlx)
+void				putarenainwindow(t_vm *vm)
 {
 	int				i;
 	int				y;
-	char			s[256];
-	t_vm			*vm;
+	int				x;
+	char			*s;
 
 	i = 0;
 	y = 10;
-	vm = (t_vm *)mlx->vm;
-	dynamic_clear(s, 256);
-	while (i < mlx->memsize)
+	while (i < MEM_SIZE)
 	{
-		while ((i + 1) % BIT_LENTH != 0 && i)
-			add_end(itoa_base(vm->arena[i++], STEEN, 16), s, 1);
-		mlx_string_put(mlx->ptr, mlx->wind, 5, y, WHITE, s);
+		x = 5;
+		while ((i + 1) % BIT_LENTH != 0 && i < MEM_SIZE)
+		{
+			s = itoa_base(vm->arena[i + 1], STEEN, 16);
+			ft_printf("\n%s   %p   %p   %d    %d    %d\n", s, vm->mlx->ptr, vm->mlx->wind, x, y, WHITE);
+			ft_putstr("Error");
+			mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, WHITE, s);
+			ft_putstr("Error");
+			x += 15;
+			free(s);
+			i++;
+		}
 		y += 20;
 		i++;
 	}
 	i = 0;
 	while (i < vm->champ_nb)
-		draw_carriage(mlx, &vm->champs[i++]);
+		draw_carriage(vm->mlx, &vm->champs[i++]);
 }
 
-void				ft_sleep(int n)
-{
-	long long int	n1;
-	int				n2;
+//void				ft_sleep(int n)
+//{
+//	long long int	n1;
+//	int				n2;
+//
+//	n2 = n;
+//	while (n2 != 0)
+//	{
+//		n1 = (n > 1 && n <= 5) ? 100000 : 0;
+//		if (n > 5)
+//			n1 = 1000000000;
+//		while (n1 != 0)
+//			n1--;
+//		n2--;
+//	}
+//}
 
-	n2 = n;
-	while (n2 != 0)
-	{
-		n1 = (n > 1 && n <= 5) ? 100000 : 0;
-		if (n > 5)
-			n1 = 1000000000;
-		while (n1 != 0)
-			n1--;
-		n2--;
-	}
-}
+//void				run_window(t_mlx *mlx)
+//{
+//	ft_putstr("corewar qaaaaaaaaaa");
+//	mlx_hook(mlx->wind, 17, (1L << 17), expose_hook, mlx);
+//	mlx_hook(mlx->wind, 2, 0, key_press, mlx);
+//	putarenainwindow(mlx);
+//}
 
-void				run_window(t_mlx *mlx)
-{
-	mlx_hook(mlx->wind, 17, (1L << 17), ft_close, mlx);
-	mlx_hook(mlx->wind, 2, 0, key_press, mlx);
-	putarenainwindow(mlx);
-}
-
-void				looper(t_mlx *mlx)
-{
-	ft_sleep(mlx->mseconds);
-	run_window(mlx);
-	mlx_loop(mlx->ptr);
-}
+//void				looper(t_mlx *mlx)
+//{
+//	usleep(mlx->mseconds);
+//	run_window(mlx);
+//	mlx_loop(mlx->ptr);
+//}

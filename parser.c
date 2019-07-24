@@ -61,8 +61,9 @@ void				eat_vizu(int *i, t_vm *vm)
 		threw("Error: [-vi] must be declared before champs.\n");
 	if (vm->mlx)
 		threw("Error: [-vi] must be declared once.\n");
-	init_mlx(vm->mlx, vm);
-	vm->mlx->memsize = MEM_SIZE;
+	init_mlx(vm);
+	(vm->mlx) ? vm->mlx->memsize = MEM_SIZE :
+			threw("Error: something wrong in [eat_vizu] func");
 	(*i)++;
 }
 

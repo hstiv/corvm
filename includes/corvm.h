@@ -39,6 +39,7 @@
 # define WHITE		16777215
 # define GREEN		46080
 # define BIT_LENTH	32
+# define WIND		"Corewar: Angel Arena"
 
 typedef struct		s_dot
 {
@@ -50,7 +51,6 @@ typedef struct		s_mlx
 {
 	void			*wind;
 	void			*ptr;
-	void			*img;
 	int 			mseconds;
 	int 			memsize;
 	int 			pause;
@@ -156,17 +156,16 @@ void				ft_bresenham(t_dot *d0, t_dot *d1,
 								 t_mlx *mlx, int color);
 void				draw_carriage(t_mlx *mlx, t_champ *champ);
 void				add_end(char *s1, char *s, int n);
-void				putarenainwindow(t_mlx *mlx);
+void				putarenainwindow(t_vm *vm);
 void				dynamic_clear(char *s, int n);
-char				*itoa_base(unsigned long long num,
-							   const char *sym, int base);
+char				*itoa_base(unsigned long long num, const char *sym, int base);
 void				ft_sleep(int n);
 void				looper(t_mlx *mlx);
-void				init_mlx(t_mlx *mlx, t_vm *vm);
+void				init_mlx(t_vm *vm);
 /*
 **void				put_man(t_fdf *mlx);
 */
-int					ft_close(void *param);
+int					expose_hook(void *param);
 int					key_press(int keycode, t_mlx *param);
 /*
 **void				ft_bresenham(t_mlx *d0, t_mlx *d1, t_fdf *mlx);

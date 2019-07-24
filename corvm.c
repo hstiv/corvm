@@ -51,7 +51,18 @@ int					main(int c, char **s)
 		if (vm.cycles == vm.dump_cycles)
 			show_dump(&vm);
 		play_game(&vm, op);
-		(vm.mlx) ? looper(vm.mlx) : 0;
+		if (vm.mlx && !vm.winner)
+		{
+//			usleep(vm.mlx->mseconds);
+//			mlx_hook(vm.mlx->wind, 17, (1L << 17), expose_hook, vm.mlx);
+			ft_putstr("corewar qaaaaaaaaaa");
+//			mlx_hook(vm.mlx->wind, 2, 0, key_press, vm.mlx);
+			putarenainwindow(&vm);
+			ft_putstr("corewar qaaaaaaaaaa");
+			ft_putnbr(vm.champ_nb);
+			ft_putstr("\ncorewar qaaaaaaaaaa\n");
+			mlx_loop(vm.mlx->ptr);
+		}
 	}
 	ft_printf("Contestant %d, \"%s\", has won !\n",
 		vm.winner_n, vm.champs[vm.winner_n - 1].name);
