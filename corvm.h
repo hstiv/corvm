@@ -22,8 +22,8 @@
 # include <stdio.h>
 # include "op.h"
 # include "libft/libft.h"
-# include "libvizu/libvizu.h"
-# include <mlx.h>
+//# include "libvizu/libvizu.h"
+//# include <mlx.h>
 
 # define BUFF_SIZE	32
 # define MAX_FD		10240
@@ -72,7 +72,7 @@ typedef struct		s_vm
 	int				winner_n;
 	int				checks;
 	int				l_exec;
-	t_mlx			*mlx;
+	void			*mlx;
 }					t_vm;
 
 typedef struct			s_op

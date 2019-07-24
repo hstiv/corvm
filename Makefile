@@ -9,19 +9,19 @@ all: $(NAME)
 
 $(NAME):
 	@make -C libft/ re
-	@make -C libvizu/ re
+#	@make -C libvizu/ re
 	@gcc $(CC) -c $(SRCS)
-	@gcc -g -o $(NAME) $(OBJ) -L libft -lft -L libvizu -lvizu
+	@gcc -g -o $(NAME) $(OBJ) -L libft -lft
 
 clean:
 	@make -C libft/ clean
-	@make -C libvizu/ clean
+#	@make -C libvizu/ clean
 	@rm -f $(OBJ)
 
 
 fclean: clean
 	@make -C libft/ fclean
-	@make -C libvizu/ fclean
+#	@make -C libvizu/ fclean
 	@rm -f $(NAME)
 
 re: fclean all

@@ -50,7 +50,7 @@ int					main(int c, char **s)
 		play_game(&vm, op);
 		if (vm.cycles == vm.dump_cycles)
 			show_dump(&vm);
-		(vm.mlx) ? looper(vm.mlx) : 0;
+//		(vm.mlx) ? looper(vm.mlx) : 0;
 	}
 	ft_printf("Contestant %d, \"%s\", has won !\n", vm.winner_n, vm.champs[vm.winner_n - 1].name);
 	return (0);

@@ -46,7 +46,7 @@ int					is_nflag(char **s, int *i)
 	return (n);
 }
 
-void				eat_vizu(int *i, t_vm *vm)
+/*void				eat_vizu(int *i, t_vm *vm)
 {
 	if (vm->champ_nb != 0)
 		threw("Error: [-vi] must be declared before champs.\n");
@@ -55,7 +55,9 @@ void				eat_vizu(int *i, t_vm *vm)
 	init_mlx(vm->mlx, vm);
 	vm->mlx->memsize = MEM_SIZE;
 	(*i)++;
-}
+ else if (ft_strcmp("-vi", s[i]))
+			eat_vizu(&i, vm);
+}*/
 
 void				parser(int c, char **s, t_vm *vm)
 {
@@ -115,8 +117,6 @@ void				parser(int c, char **s, t_vm *vm)
 			vm->champs[vm->champ_nb].n_flag = 1;
 			vm->champ_nb += 1;
 		}
-		else if (ft_strcmp("-vi", s[i]))
-			eat_vizu(&i, vm);
 		else
 			threw(USAGE);
 		i++;
