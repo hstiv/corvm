@@ -30,6 +30,7 @@
 # define UL			unsigned long int
 # define WHITE		16777215
 # define GREEN		46080
+# define BIT_LENTH	32
 
 typedef struct		s_dot
 {

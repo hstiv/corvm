@@ -61,9 +61,9 @@ void			get_x_y(t_dot *n1, t_champ *champ)
 	n1->x = 0;
 	n1->y = 0;
 	tmp = champ->pos;
-	while (tmp >= 64)
+	while (tmp >= BIT_LENTH)
 	{
-		tmp -= 64;
+		tmp -= BIT_LENTH;
 		n1->x++;
 	}
 	n1->y = tmp * 15 + 5;

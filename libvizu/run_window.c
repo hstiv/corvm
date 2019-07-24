@@ -45,7 +45,7 @@ void				putarenainwindow(t_mlx *mlx)
 	dynamic_clear(s, 256);
 	while (i < mlx->memsize)
 	{
-		while ((i + 1) % 64 != 0 && i)
+		while ((i + 1) % BIT_LENTH != 0 && i)
 			add_end(itoa_base(vm->arena[i++], STEEN, 16), s, 1);
 		mlx_string_put(mlx->ptr, mlx->wind, 5, y, WHITE, s);
 		y += 20;
