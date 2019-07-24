@@ -1,27 +1,34 @@
-NAME	=	corewar
-SRCS	=	arena.c corvm.c dump_mem.c game.c new_vm.c op.c \
-			parse_champs.c parser.c rec_utils.c cor_sort.c \
-			add_op.c
-OBJ		=	$(SRCS:.c=.o)
-CC		=	-Wall -Wextra -Werror
+NAME	    =	corewar
+
+SRCS	    =	arena.c corvm.c dump_mem.c game.c new_vm.c op.c \
+			    parse_champs.c parser.c rec_utils.c cor_sort.c  utils.c \
+			    add_op.c bresenham.c init_mlx.c key_hooks.c run_window.c
+
+OBJ		    =	$(SRCS:.c=.o)
+
+CC		    =	-Wall -Wextra -Werror
+
+LMLX        =   .libmlx/
+
+SRC_LMLX    =   -framework OpenGL -framework AppKit -L  $(LMLX) -lmlx
+
 
 all: $(NAME)
 
 $(NAME):
+	@echo "(ﾉ◕ヮ◕)ﾉ*:・ﾟ✧ Compiling $(NAME)... Wait a sec."
 	@make -C libft/ re
-#	@make -C libvizu/ re
-	@gcc $(CC) -c $(SRCS)
-	@gcc -g -o $(NAME) $(OBJ) -L libft -lft
+	@gcc $(CC) -c $(SRCS) -I includes
+	@gcc -g -o $(NAME) $(OBJ) -L libft -lft $(SRC_LMLX)
+	@echo "(•̀ᴗ•́)و $(NAME) generated!".
 
 clean:
 	@make -C libft/ clean
-#	@make -C libvizu/ clean
 	@rm -f $(OBJ)
 
 
 fclean: clean
 	@make -C libft/ fclean
-#	@make -C libvizu/ fclean
 	@rm -f $(NAME)
 
 re: fclean all

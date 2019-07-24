@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corvm.h"
+#include "includes/corvm.h"
 
 int		reverse_bytes(t_vm *vm, unsigned int pc, int nbytes)
 {

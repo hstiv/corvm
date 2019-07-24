@@ -2,7 +2,7 @@
 // Created by hstiv on 03.07.19.
 //
 
-#include "corvm.h"
+#include "includes/corvm.h"
 
 void			new_vm(t_vm *vm)
 {
