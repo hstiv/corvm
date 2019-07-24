@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/19 18:42:45 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/24 16:47:19 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ void	op_sti(t_vm *vm, t_proc *proc)
 
 	i = -1;
 	j = 0;
-	while (++i < 2)
+	while (++i < 3)
 	{
 		type = get_arg(vm->arena[(proc->pos + 1) % MEM_SIZE], 2, 7 - 2 * i);
 		if (type == T_REG)
@@ -308,8 +308,10 @@ void	op_sti(t_vm *vm, t_proc *proc)
 		else
 			j += 2;
 	}
-	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
-	//todo
+	i = -1;
+	j = proc->pos + (args[1] + args[2]) % IDX_MOD;
+	while (++i < REG_SIZE)
+		vm->arena[(j + REG_SIZE - i - 1) % MEM_SIZE] = (args[0] >> (i * 8));
 }
 
 void	op_fork(t_vm *vm, t_proc *proc)
