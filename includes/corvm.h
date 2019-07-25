@@ -103,6 +103,7 @@ typedef struct		s_vm
 	int				winner_n;
 	int				checks;
 	int				l_exec;
+	int 			col;
 	t_mlx			*mlx;
 }					t_vm;
 
@@ -118,7 +119,6 @@ typedef struct			s_op
 	int					is_short_dir;
 }						t_op;
 
-void				eat_vizu(int *i, t_vm *vm);
 int 				cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
@@ -151,10 +151,11 @@ int					get_arg(int octet, int k, int p);
 void				proccess_add(t_proc **head, t_proc *new_p);
 t_proc				*new_proc(int player_id, int pos);
 
+void				eat_vizu(t_vm *vm);
 int					main_cycle_vizu(t_vm *vm);
-void				get_x_y(t_dot *n1, t_champ *champ);
+void				get_x_y(t_dot *n1, t_proc *champ);
 void				ft_bresenham(t_dot *d0, t_dot *d1, t_mlx *mlx, int s);
-void				draw_carriage(t_mlx *mlx, t_champ *champ);
+void				draw_carriage(t_vm *vm);
 void				add_zero_to_string(char **s);
 void				putarenainwindow(t_vm *vm, t_mlx *mlx);
 char				*itoa_base(int num, int base);

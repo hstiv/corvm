@@ -55,7 +55,7 @@ int					is_nflag(char **s, int *i)
 	return (n);
 }
 
-void				eat_vizu(int *i, t_vm *vm)
+void				eat_vizu(t_vm *vm)
 {
 	if (vm->champ_nb != 0)
 		threw("Error: [-vi] must be declared before champs.\n");
@@ -64,7 +64,6 @@ void				eat_vizu(int *i, t_vm *vm)
 	init_mlx_args(vm);
 	(vm->mlx) ? vm->mlx->memsize = MEM_SIZE :
 			threw("Error: something wrong in [eat_vizu] func");
-	(*i)++;
 }
 
 void				parser(int c, char **s, t_vm *vm)
@@ -126,7 +125,7 @@ void				parser(int c, char **s, t_vm *vm)
 			vm->champ_nb += 1;
 		}
 		else if (!ft_strcmp("-vi", s[i]))
-			eat_vizu(&i, vm);
+			eat_vizu(vm);
 		else
 			threw(USAGE);
 		i++;

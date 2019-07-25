@@ -28,20 +28,6 @@ static void		speed_change(int keycode, t_mlx *mlx)
 		mlx->mseconds += 100000;
 }
 
-//static void		pause_game(t_mlx *mlx)
-//{
-//	int 		i;
-//
-//	i = 0;
-//	mlx->pause++;
-//	while (mlx->pause % 2 != 0)
-//	{
-//		i++;
-//		mlx_hook(mlx->wind, 2, 0, key_press, mlx);
-//		mlx_loop(mlx->ptr);
-//	}
-//}
-
 int				key_press(int keycode, t_mlx *mlx)
 {
 	t_vm		*vm;
@@ -58,5 +44,7 @@ int				key_press(int keycode, t_mlx *mlx)
 		}
 		threw("");
 	}
+	if (keycode == 49)
+		mlx->pause++;
 	return (1);
 }

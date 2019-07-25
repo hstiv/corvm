@@ -46,7 +46,7 @@ void			show_dump(t_vm *vm)
 			ft_printf("\n");
 		i++;
 	}
-//	exit(0);
+	exit(0);
 }
 
 int				ft_isdigit_s(char *s)

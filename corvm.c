@@ -14,20 +14,19 @@
 
 int 				main_cycle_vizu(t_vm *vm)
 {
-	putarenainwindow(vm, vm->mlx);
-	ft_printf("1\n");
+	if (vm->mlx->pause % 2 == 0 && !vm->winner)
+	{
+		putarenainwindow(vm, vm->mlx);
+		usleep(vm->mlx->mseconds);
+		play_game(vm, vm->mlx->op);
+	}
 	if (vm->winner)
 	{
 		mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
 		ft_printf("Contestant %d, \"%s\", has won !\n",
-				  vm->winner_n, vm->champs[vm->winner_n - 1].name);
+				vm->winner_n, vm->champs[vm->winner_n - 1].name);
 		threw(NULL);
 	}
-	usleep(vm->mlx->mseconds);
-	ft_printf("0\n");
-	play_game(vm, vm->mlx->op);
-	usleep(vm->mlx->mseconds);
-	putarenainwindow(vm, vm->mlx);
 	return (1);
 }
 
@@ -48,8 +47,6 @@ void				introduce_players(t_vm *vm)
 
 static void                vizu(t_vm *vm, t_op *op)
 {
-	if (vm->cycles == vm->dump_cycles)
-		show_dump(vm);
 	vm->mlx->op = op;
 	mlx_hook(vm->mlx->wind, 17, (1L << 17), expose_hook, vm->mlx);
 	mlx_hook(vm->mlx->wind, 2, 0, key_press, vm->mlx);
@@ -73,6 +70,9 @@ int					main(int c, char **s)
 	{
 		while (!vm.winner)
 		{
+			show_dump(&vm);
+			ft_putchar('\n');
+			usleep(1000000);
 			play_game(&vm, op);
 			(vm.cycles == vm.dump_cycles) ? show_dump(&vm) : 0;
 			play_game(&vm, op);

@@ -35,43 +35,29 @@ char			*itoa_base(int value, int base)
 	n = (value < 0) ? -(long)value : value;
 	while (i-- + sign)
 	{
-		s[i] = (n % base < 10) ? n % base + '0' : n % base + 'A' - 10;
+		s[i] = (n % base < 10) ? n % base + '0' : n % base + 'a' - 10;
 		n /= base;
 	}
 	(i == 0) ? s[i] = '-' : 0;
 	return (s);
 }
 
-void			get_x_y(t_dot *n1, t_champ *champ)
+void				add_zero_to_string(char **s1)
 {
-	int 		tmp;
+	char 			*s;
+	char 			*tmp;
 
-	n1->x = 0;
-	n1->y = 0;
-	tmp = champ->pos;
-	while (tmp >= BIT_LENTH)
+	if (ft_strlen(*s1) < 2)
 	{
-		tmp -= BIT_LENTH;
-		n1->x++;
-	}
-	n1->y = tmp * 15 + 5;
-}
-
-void			draw_carriage(t_mlx *mlx, t_champ *champ)
-{
-	t_dot		n1;
-	t_dot		n2;
-	int 		i;
-
-	i = 0;
-	get_x_y(&n1,champ);
-	n2.x = n1.x;
-	n2.y = n1.y + 1;
-	while (i < 5)
-	{
-		ft_bresenham(&n1, &n2, mlx, GREEN);
-		n1.x++;
-		n2.x++;
-		i++;
+		s = (char *)malloc(sizeof(char) * 3);
+		if (s)
+		{
+			s[0] = '0';
+			s[1] = *s1[0];
+			s[2] = '\0';
+		}
+		tmp = *s1;
+		*s1 = s;
+		free(tmp);
 	}
 }

@@ -19,7 +19,6 @@ void		init_mlx_args(t_vm *vm)
 	{
 		vm->mlx->ptr = mlx_init();
 		vm->mlx->wind = mlx_new_window(vm->mlx->ptr, WIDTH, HEIGHT, WIND);
-		vm->mlx->vm = (t_vm *) vm;
 		vm->mlx->pause = 0;
 		vm->mlx->err = 0;
 		vm->mlx->derr = 0;
