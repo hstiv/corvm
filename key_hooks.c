@@ -44,8 +44,21 @@ static void		speed_change(int keycode, t_mlx *mlx)
 
 int				key_press(int keycode, t_mlx *mlx)
 {
+	t_vm		*vm;
+
+	vm = mlx->vm;
 	speed_change(keycode, mlx);
 //	if (keycode == 49)
 //		pause_game(mlx);
+	if (keycode == 53)
+	{
+		if (vm->winner)
+		{
+			mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
+			ft_printf("Contestant %d, \"%s\", has won !\n",
+					  vm->winner_n, vm->champs[vm->winner_n - 1].name);
+		}
+		threw("");
+	}
 	return (0);
 }

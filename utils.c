@@ -21,37 +21,28 @@ void			dynamic_clear(char *s, int n)
 		s[i++] = '\0';
 }
 
-static int		ft_num_len(unsigned long long n, int base)
+char			*itoa_base(int value, int base)
 {
-	int len;
+	char	*s;
+	long	n;
+	int		sign;
+	int		i;
 
-	len = 0;
-	while (n > 0)
+	n = (value < 0) ? -(long)value : value;
+	sign = (value < 0 && base == 10) ? -1 : 0;
+	i = (sign == -1) ? 2 : 1;
+	while ((n /= base) >= 1)
+		i++;
+	s = (char*)malloc(sizeof(char) * (i + 1));
+	s[i] = '\0';
+	n = (value < 0) ? -(long)value : value;
+	while (i-- + sign)
 	{
+		s[i] = (n % base < 10) ? n % base + '0' : n % base + 'A' - 10;
 		n /= base;
-		len += 1;
 	}
-	return (len);
-}
-
-char			*itoa_base(unsigned long long num,
-								const char *sym, int base)
-{
-	char	*str;
-	int		len;
-
-	len = ft_num_len(num, base);
-	if (num == 0)
-		len = 1;
-	if ((str = ft_strnew((size_t)len)) == NULL)
-		return (NULL);
-	while (len - 1 >= 0)
-	{
-		str[len - 1] = sym[num % base];
-		num /= base;
-		len--;
-	}
-	return (str);
+	(i == 0) ? s[i] = '-' : 0;
+	return (s);
 }
 
 void			get_x_y(t_dot *n1, t_champ *champ)

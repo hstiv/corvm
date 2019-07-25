@@ -32,7 +32,7 @@ void				add_end(char *s1, char *s, int n)
 	(n) ? free(s1) : 0;
 }
 
-void				putarenainwindow(t_vm *vm)
+void				putarenainwindow(t_vm *vm, t_mlx *mlx)
 {
 	int				i;
 	int				y;
@@ -43,14 +43,11 @@ void				putarenainwindow(t_vm *vm)
 	y = 10;
 	while (i < MEM_SIZE)
 	{
-		x = 5;
+		x = 10;
 		while ((i + 1) % BIT_LENTH != 0 && i < MEM_SIZE)
 		{
-			s = itoa_base(vm->arena[i + 1], STEEN, 16);
-			ft_printf("\n%s   %p   %p   %d    %d    %d\n", s, vm->mlx->ptr, vm->mlx->wind, x, y, WHITE);
-			ft_putstr("Error");
-			mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, WHITE, s);
-			ft_putstr("Error");
+			s = itoa_base(vm->arena[i], 16);
+			mlx_string_put(mlx->ptr, mlx->wind, x, y, WHITE, s);
 			x += 15;
 			free(s);
 			i++;
@@ -60,7 +57,7 @@ void				putarenainwindow(t_vm *vm)
 	}
 	i = 0;
 	while (i < vm->champ_nb)
-		draw_carriage(vm->mlx, &vm->champs[i++]);
+		draw_carriage(mlx, &vm->champs[i++]);
 }
 
 //void				ft_sleep(int n)
@@ -78,19 +75,4 @@ void				putarenainwindow(t_vm *vm)
 //			n1--;
 //		n2--;
 //	}
-//}
-
-//void				run_window(t_mlx *mlx)
-//{
-//	ft_putstr("corewar qaaaaaaaaaa");
-//	mlx_hook(mlx->wind, 17, (1L << 17), expose_hook, mlx);
-//	mlx_hook(mlx->wind, 2, 0, key_press, mlx);
-//	putarenainwindow(mlx);
-//}
-
-//void				looper(t_mlx *mlx)
-//{
-//	usleep(mlx->mseconds);
-//	run_window(mlx);
-//	mlx_loop(mlx->ptr);
 //}
