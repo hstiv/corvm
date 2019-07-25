@@ -61,3 +61,13 @@ void				add_zero_to_string(char **s1)
 		free(tmp);
 	}
 }
+
+int 				ch_col(t_vm *vm, int i, int t)
+{
+	int 			err;
+
+	err = i + 1 - (vm->champs[t].pos + vm->champs[t].exec_code);
+	if (err > 0)
+		return (WHITE);
+	return (vm->colors[t]);
+}

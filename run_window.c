@@ -25,7 +25,6 @@ void			get_x_y(t_dot *n1, t_proc *proc)
 	}
 	n1->x = (tmp * 25) + 10;
 	n1->y = (n1->y * 20) + 10;
-	ft_printf("\n  %d    %d    pos = %d  \n", n1->x, n1->y, proc->pos);
 }
 
 void			draw_carriage(t_vm *vm)
@@ -50,31 +49,32 @@ void			draw_carriage(t_vm *vm)
 		}
 		tmp = tmp->next;
 	}
-	ft_printf("\n UUUU \n");
 }
 
-void				draw_arena(t_vm *vm, int *i, int *x, int *y)
+void				draw_arena(t_vm *vm, int *i, int *x, int y)
 {
 	char 			*s;
+	int 			t;
 
-
+	t = vm->champ_nb - 1;
 	while ((*i + 1) % BIT_LENTH != 0 && *i < MEM_SIZE)
 	{
+		(vm->champs[t].pos >= *(i) + 1) ? t-- : 0;
 		s = itoa_base(vm->arena[*i], 16);
 		add_zero_to_string(&s);
-		mlx_string_put(vm->mlx->ptr, vm->mlx->wind, *x, *y, WHITE, s);
+		mlx_string_put(vm->mlx->ptr, vm->mlx->wind,
+							*x, y, ch_col(vm, *i, t), s);
 		(*x) += 25;
 		free(s);
 		(*i)++;
 	}
 }
 
-void				putarenainwindow(t_vm *vm, t_mlx *mlx)
+void				putarenainwindow(t_vm *vm)
 {
 	int				i;
 	int				y;
 	int				x;
-	char			*s;
 
 	i = 0;
 	y = 10;
@@ -82,7 +82,7 @@ void				putarenainwindow(t_vm *vm, t_mlx *mlx)
 	while (i < MEM_SIZE)
 	{
 		x = 10;
-		draw_arena(vm, &i, &x, &y);
+		draw_arena(vm, &i, &x, y);
 		y += 20;
 		i++;
 	}

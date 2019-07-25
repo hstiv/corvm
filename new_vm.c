@@ -26,5 +26,6 @@ void			new_vm(t_vm *vm)
 	vm->checks = 1;
 	vm->winner_n = 1;
 	vm->list_process = NULL;
+	vm->colors = (int[]){RGB};
 	vm->mlx = NULL;
 }

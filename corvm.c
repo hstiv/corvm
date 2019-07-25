@@ -16,7 +16,7 @@ int 				main_cycle_vizu(t_vm *vm)
 {
 	if (vm->mlx->pause % 2 == 0 && !vm->winner)
 	{
-		putarenainwindow(vm, vm->mlx);
+		putarenainwindow(vm);
 		usleep(vm->mlx->mseconds);
 		play_game(vm, vm->mlx->op);
 	}
@@ -70,9 +70,6 @@ int					main(int c, char **s)
 	{
 		while (!vm.winner)
 		{
-			show_dump(&vm);
-			ft_putchar('\n');
-			usleep(1000000);
 			play_game(&vm, op);
 			(vm.cycles == vm.dump_cycles) ? show_dump(&vm) : 0;
 			play_game(&vm, op);

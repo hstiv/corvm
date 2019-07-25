@@ -31,13 +31,14 @@
 # define USAGE		"Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 # define HEIGHT		1395
 # define WIDTH		2560
-# define LINE		20
-# define COLOR		50
-# define CON		5
-# define STEEN 		"0123456789abcdef"
 # define UL			unsigned long int
 # define WHITE		16777215
-# define GREEN		46080
+# define GREEN		65280
+# define RED		255
+# define YELLOW		65525
+# define ORANGE		16682752
+# define PINK		16715426
+# define RGB		RED, YELLOW, ORANGE, PINK
 # define BIT_LENTH	64
 # define WIND		"Corewar: Angel Arena"
 
@@ -103,21 +104,21 @@ typedef struct		s_vm
 	int				winner_n;
 	int				checks;
 	int				l_exec;
-	int 			col;
+	int 			*colors;
 	t_mlx			*mlx;
 }					t_vm;
 
-typedef struct			s_op
+typedef struct		s_op
 {
-	char				*name;
-	int					number;
-	unsigned char		types_arg[3];
-	int					opcode;
-	int					cycles_wait;
-	char				*description;
-	int					coding_byte;
-	int					is_short_dir;
-}						t_op;
+	char			*name;
+	int				number;
+	unsigned char	types_arg[3];
+	int				opcode;
+	int				cycles_wait;
+	char			*description;
+	int				coding_byte;
+	int				is_short_dir;
+}					t_op;
 
 int 				cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
@@ -151,13 +152,15 @@ int					get_arg(int octet, int k, int p);
 void				proccess_add(t_proc **head, t_proc *new_p);
 t_proc				*new_proc(int player_id, int pos);
 
+void				draw_arena(t_vm *vm, int *i, int *x, int y);
+int 				ch_col(t_vm *vm, int i, int t);
 void				eat_vizu(t_vm *vm);
 int					main_cycle_vizu(t_vm *vm);
 void				get_x_y(t_dot *n1, t_proc *champ);
 void				ft_bresenham(t_dot *d0, t_dot *d1, t_mlx *mlx, int s);
 void				draw_carriage(t_vm *vm);
 void				add_zero_to_string(char **s);
-void				putarenainwindow(t_vm *vm, t_mlx *mlx);
+void				putarenainwindow(t_vm *vm);
 char				*itoa_base(int num, int base);
 void				init_mlx_args(t_vm *vm);
 int					expose_hook(void *param);
