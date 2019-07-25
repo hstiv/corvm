@@ -12,10 +12,23 @@
 
 #include "corvm.h"
 
-void				threw(char *s)
+int 				main_cycle_vizu(t_vm *vm)
 {
-	write(1, s, ft_strlen(s));
-	exit(0);
+	putarenainwindow(vm, vm->mlx);
+	ft_printf("1\n");
+	if (vm->winner)
+	{
+		mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
+		ft_printf("Contestant %d, \"%s\", has won !\n",
+				  vm->winner_n, vm->champs[vm->winner_n - 1].name);
+		threw(NULL);
+	}
+	usleep(vm->mlx->mseconds);
+	ft_printf("0\n");
+	play_game(vm, vm->mlx->op);
+	usleep(vm->mlx->mseconds);
+	putarenainwindow(vm, vm->mlx);
+	return (1);
 }
 
 void				introduce_players(t_vm *vm)
@@ -33,22 +46,14 @@ void				introduce_players(t_vm *vm)
 	}
 }
 
-void                main_cycle_vizu(t_vm *vm, t_op *op)
+static void                vizu(t_vm *vm, t_op *op)
 {
-	if (vm->winner)
-	{
-		mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
-		ft_printf("Contestant %d, \"%s\", has won !\n",
-				  vm->winner_n, vm->champs[vm->winner_n - 1].name);
-		threw("");
-	}
-	play_game(vm, op);
 	if (vm->cycles == vm->dump_cycles)
 		show_dump(vm);
-	play_game(vm, op);
+	vm->mlx->op = op;
 	mlx_hook(vm->mlx->wind, 17, (1L << 17), expose_hook, vm->mlx);
 	mlx_hook(vm->mlx->wind, 2, 0, key_press, vm->mlx);
-	putarenainwindow(vm, vm->mlx);
+	mlx_loop_hook(vm->mlx->ptr, main_cycle_vizu ,vm);
 	mlx_loop(vm->mlx->ptr);
 }
 
@@ -69,14 +74,13 @@ int					main(int c, char **s)
 		while (!vm.winner)
 		{
 			play_game(&vm, op);
-			if (vm.cycles == vm.dump_cycles)
-				show_dump(&vm);
+			(vm.cycles == vm.dump_cycles) ? show_dump(&vm) : 0;
 			play_game(&vm, op);
 		}
 		ft_printf("Contestant %d, \"%s\", has won !\n",
 				  vm.winner_n, vm.champs[vm.winner_n - 1].name);
     }
 	else
-		main_cycle_vizu(&vm, op);
+		vizu(&vm, op);
 	return (0);
 }

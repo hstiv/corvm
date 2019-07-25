@@ -42,11 +42,11 @@ void			show_dump(t_vm *vm)
 	while (i < MEM_SIZE)
 	{
 		ft_printf("%02hhx ", vm->arena[i]);
-		if ((i + 1) % 32 == 0 && i)
+		if ((i + 1) % 64 == 0 && i)
 			ft_printf("\n");
 		i++;
 	}
-	exit(0);
+//	exit(0);
 }
 
 int				ft_isdigit_s(char *s)

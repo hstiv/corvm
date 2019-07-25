@@ -12,13 +12,10 @@
 
 #include "corvm.h"
 
-void			dynamic_clear(char *s, int n)
+void				threw(char *s)
 {
-	int			i;
-
-	i = 0;
-	while (i < n)
-		s[i++] = '\0';
+	(s != NULL) ? write(1, s, ft_strlen(s)) : 0;
+	exit(0);
 }
 
 char			*itoa_base(int value, int base)

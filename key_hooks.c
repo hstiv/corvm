@@ -23,9 +23,9 @@ int				expose_hook(void *param)
 static void		speed_change(int keycode, t_mlx *mlx)
 {
 	if (keycode == 124)
-		mlx->mseconds--;
+		mlx->mseconds -= 100000;
 	if (keycode == 123)
-		mlx->mseconds++;
+		mlx->mseconds += 100000;
 }
 
 //static void		pause_game(t_mlx *mlx)
@@ -48,8 +48,6 @@ int				key_press(int keycode, t_mlx *mlx)
 
 	vm = mlx->vm;
 	speed_change(keycode, mlx);
-//	if (keycode == 49)
-//		pause_game(mlx);
 	if (keycode == 53)
 	{
 		if (vm->winner)
@@ -60,5 +58,5 @@ int				key_press(int keycode, t_mlx *mlx)
 		}
 		threw("");
 	}
-	return (0);
+	return (1);
 }

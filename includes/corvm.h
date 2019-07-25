@@ -51,12 +51,13 @@ typedef struct		s_mlx
 {
 	void			*wind;
 	void			*ptr;
-	int 			mseconds;
+	useconds_t 		mseconds;
 	int 			memsize;
 	int 			pause;
 	int 			err;
 	int 			derr;
 	void			*vm;
+	void			*op;
 }					t_mlx;
 
 typedef struct		s_proc
@@ -150,27 +151,18 @@ int					get_arg(int octet, int k, int p);
 void				proccess_add(t_proc **head, t_proc *new_p);
 t_proc				*new_proc(int player_id, int pos);
 
-
+int					main_cycle_vizu(t_vm *vm);
 void				get_x_y(t_dot *n1, t_champ *champ);
-void				ft_bresenham(t_dot *d0, t_dot *d1,
-								 t_mlx *mlx, int color);
+void				ft_bresenham(t_dot *d0, t_dot *d1, t_mlx *mlx, int s);
 void				draw_carriage(t_mlx *mlx, t_champ *champ);
-void				add_end(char *s1, char *s, int n);
+void				add_zero_to_string(char **s);
 void				putarenainwindow(t_vm *vm, t_mlx *mlx);
-void				dynamic_clear(char *s, int n);
 char				*itoa_base(int num, int base);
-void				ft_sleep(int n);
-void				looper(t_mlx *mlx);
 void				init_mlx_args(t_vm *vm);
-/*
-**void				put_man(t_fdf *mlx);
-*/
 int					expose_hook(void *param);
 int					key_press(int keycode, t_mlx *param);
 /*
-**void				ft_bresenham(t_mlx *d0, t_mlx *d1, t_fdf *mlx);
+**void				put_man(t_fdf *mlx);
 */
-void				run_window(t_mlx *mlx);
-
 
 #endif

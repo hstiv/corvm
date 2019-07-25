@@ -12,24 +12,24 @@
 
 #include "corvm.h"
 
-void				add_end(char *s1, char *s, int n)
+void				add_zero_to_string(char **s1)
 {
-	int				i;
-	int				j;
+	char 			*s;
+	char 			*tmp;
 
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-		i++;
-	s[i++] = 32;
-	while (s1[j] != '\0')
+	if (ft_strlen(*s1) < 2)
 	{
-		s[i] = s1[j];
-		i++;
-		j++;
+		s = (char *)malloc(sizeof(char) * 3);
+		if (s)
+		{
+			s[0] = '0';
+			s[1] = *s1[0];
+			s[2] = '\0';
+		}
+		tmp = *s1;
+		*s1 = s;
+		free(tmp);
 	}
-	s[i] = '\0';
-	(n) ? free(s1) : 0;
 }
 
 void				putarenainwindow(t_vm *vm, t_mlx *mlx)
@@ -41,14 +41,16 @@ void				putarenainwindow(t_vm *vm, t_mlx *mlx)
 
 	i = 0;
 	y = 10;
+	mlx_clear_window(vm->mlx->ptr, vm->mlx->wind);
 	while (i < MEM_SIZE)
 	{
 		x = 10;
 		while ((i + 1) % BIT_LENTH != 0 && i < MEM_SIZE)
 		{
 			s = itoa_base(vm->arena[i], 16);
+			add_zero_to_string(&s);
 			mlx_string_put(mlx->ptr, mlx->wind, x, y, WHITE, s);
-			x += 15;
+			x += 25;
 			free(s);
 			i++;
 		}
