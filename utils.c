@@ -18,12 +18,36 @@ void				threw(char *s)
 	exit(0);
 }
 
-char			*itoa_base(int value, int base)
+void				set_corrage_cor(t_dot *n1, t_dot *n2, t_dot *n, int i)
 {
-	char	*s;
-	long	n;
-	int		sign;
-	int		i;
+	n1->x = n->x;
+	n1->y = n->y;
+	n2->x = n->x;
+	n2->y = n->y;
+	if (i == 1)
+		n2->y += 20;
+	else if (i == 2)
+	{
+		n1->x += 20;
+		n2->x += 20;
+		n2->y += 20;
+	}
+	else if (i == 3)
+		n2->x = n->x + 20;
+	else if (i == 4)
+	{
+		n1->y += 20;
+		n2->x += 20;
+		n2->y += 20;
+	}
+}
+
+char				*itoa_base(int value, int base)
+{
+	char			*s;
+	long			n;
+	int				sign;
+	int				i;
 
 	n = (value < 0) ? -(long)value : value;
 	sign = (value < 0 && base == 10) ? -1 : 0;

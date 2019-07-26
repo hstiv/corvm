@@ -23,6 +23,7 @@ void		init_mlx_args(t_vm *vm)
 		vm->mlx->err = 0;
 		vm->mlx->derr = 0;
 		vm->mlx->mseconds = 1000000;
+		vm->mlx->now = 0;
 		vm->mlx->op = NULL;
 	}
 }

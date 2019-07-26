@@ -14,18 +14,28 @@
 
 int				expose_hook(void *param)
 {
-	t_mlx		*tmp;
+	t_mlx		*mlx;
 
-	tmp = (t_mlx *)param;
+	mlx = (t_mlx *)param;
+	mlx_destroy_window(mlx->ptr, mlx->wind);
 	exit(0);
 }
 
 static void		speed_change(int keycode, t_mlx *mlx)
 {
-	if (keycode == 124)
+	if (keycode == 124 && mlx->mseconds > 100000)
 		mlx->mseconds -= 100000;
-	if (keycode == 123)
+	if (keycode == 123 && mlx->mseconds >= 100000)
 		mlx->mseconds += 100000;
+	if (keycode == 124 && mlx->mseconds < 100000
+	        				&& mlx->mseconds > 10000)
+		mlx->mseconds -= 10000;
+	if (keycode == 123 && mlx->mseconds < 100000)
+		mlx->mseconds += 10000;
+	if (mlx->mseconds > 2000000)
+		mlx->mseconds = 2000000;
+	if (mlx->mseconds < 10000)
+		mlx->mseconds = 10000;
 }
 
 int				key_press(int keycode, t_mlx *mlx)
@@ -34,16 +44,10 @@ int				key_press(int keycode, t_mlx *mlx)
 
 	vm = mlx->vm;
 	speed_change(keycode, mlx);
+	if (keycode == 36)
+		mlx->now++;
 	if (keycode == 53)
-	{
-		if (vm->winner)
-		{
-			mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
-			ft_printf("Contestant %d, \"%s\", has won !\n",
-					  vm->winner_n, vm->champs[vm->winner_n - 1].name);
-		}
-		threw("");
-	}
+		expose_hook(mlx);
 	if (keycode == 49)
 		mlx->pause++;
 	return (1);

@@ -12,20 +12,37 @@
 
 #include "corvm.h"
 
+void				init_game_run(t_vm *vm)
+{
+	while (!vm->winner)
+	{
+		(vm->cycles == vm->dump_cycles) ? show_dump(vm) : 0;
+		play_game(vm, vm->mlx->op);
+	}
+	ft_printf("Contestant %d, \"%s\", has won !\n",
+			  vm->winner_n, vm->champs[vm->winner_n - 1].name);
+	mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
+	exit(0);
+}
+
 int 				main_cycle_vizu(t_vm *vm)
 {
 	if (vm->mlx->pause % 2 == 0 && !vm->winner)
 	{
+		(vm->cycles == vm->dump_cycles) ? show_dump(vm) : 0;
 		putarenainwindow(vm);
-		usleep(vm->mlx->mseconds);
 		play_game(vm, vm->mlx->op);
+		(vm->mlx->now == 1 && vm->mlx->now != 2)
+						? 0 : usleep(vm->mlx->mseconds);
+		if (vm->mlx->now > 1)
+			init_game_run(vm);
 	}
 	if (vm->winner)
 	{
-		mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
 		ft_printf("Contestant %d, \"%s\", has won !\n",
 				vm->winner_n, vm->champs[vm->winner_n - 1].name);
-		threw(NULL);
+		mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
+		exit(0);
 	}
 	return (1);
 }

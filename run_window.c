@@ -31,22 +31,21 @@ void			draw_carriage(t_vm *vm)
 {
 	t_dot		n1;
 	t_dot		n2;
-	int 		i;
+	t_dot		n;
 	t_proc		*tmp;
 
-	i = 0;
 	tmp = vm->list_process;
 	while (tmp)
 	{
-		get_x_y(&n1, tmp);
-		n2.x = n1.x;
-		n2.y = n1.y + 20;
-		while (i < 5) {
-			ft_bresenham(&n1, &n2, vm->mlx, GREEN);
-			n1.x++;
-			n2.x++;
-			i++;
-		}
+		get_x_y(&n, tmp);
+		set_corrage_cor(&n1, &n2, &n, 1);
+		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		set_corrage_cor(&n1, &n2, &n, 2);
+		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		set_corrage_cor(&n1, &n2, &n, 3);
+		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		set_corrage_cor(&n1, &n2, &n, 4);
+		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
 		tmp = tmp->next;
 	}
 }
@@ -70,6 +69,13 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 	}
 }
 
+void				put_man(t_vm *vm)
+{
+	void			*pv;
+
+	pv = (void*)vm;
+}
+
 void				putarenainwindow(t_vm *vm)
 {
 	int				i;
@@ -87,4 +93,5 @@ void				putarenainwindow(t_vm *vm)
 		i++;
 	}
 	draw_carriage(vm);
+	put_man(vm);
 }

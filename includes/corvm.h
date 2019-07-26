@@ -59,6 +59,7 @@ typedef struct		s_mlx
 	int 			derr;
 	void			*vm;
 	void			*op;
+	int 			now;
 }					t_mlx;
 
 typedef struct		s_proc
@@ -152,6 +153,7 @@ int					get_arg(int octet, int k, int p);
 void				proccess_add(t_proc **head, t_proc *new_p);
 t_proc				*new_proc(int player_id, int pos);
 
+void				set_corrage_cor(t_dot *n1, t_dot *n2, t_dot *n, int i);
 void				draw_arena(t_vm *vm, int *i, int *x, int y);
 int 				ch_col(t_vm *vm, int i, int t);
 void				eat_vizu(t_vm *vm);
@@ -165,8 +167,6 @@ char				*itoa_base(int num, int base);
 void				init_mlx_args(t_vm *vm);
 int					expose_hook(void *param);
 int					key_press(int keycode, t_mlx *param);
-/*
-**void				put_man(t_fdf *mlx);
-*/
+void				put_man(t_vm *vm);
 
 #endif
