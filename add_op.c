@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/26 14:18:04 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/26 14:31:13 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void	op_zjmp(t_vm *vm, t_proc *proc)
 
 	arg = reverse_bytes(vm, proc->pos + 1, 2);
 	arg %= IDX_MOD;
-	if (proc->carry == 1)
+	if (proc->carry != 0)
 		proc->pos = (proc->pos + arg) % MEM_SIZE;
 	else
 		proc->pos = (proc->pos + 3) % MEM_SIZE;
