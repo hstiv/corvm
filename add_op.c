@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:37:01 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/26 14:18:04 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	op_st(t_vm *vm, t_proc *proc)
 		proc->reg[vm->arena[(proc->pos + 3) % MEM_SIZE] - 1] = number;
 	else
 	{
-		index = reverse_bytes(vm, proc->pos + 3, 2);
+		index = reverse_bytes(vm, proc->pos + 3, 2) % IDX_MOD;
 		index = (index + proc->pos) % MEM_SIZE;
 		i = 0;
 		while (i < REG_SIZE)
@@ -141,7 +141,7 @@ void	op_and(t_vm *vm, t_proc *proc)
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
 	proc->reg[args[2]] = args[0] & args[1];
-	proc->carry = (proc->reg[args[2]] != 0) ? 0 : 1;
+	proc->carry = proc->reg[args[2]] ? 0 : 1;
 }
 
 void	op_or(t_vm *vm, t_proc *proc)
@@ -175,7 +175,7 @@ void	op_or(t_vm *vm, t_proc *proc)
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
 	proc->reg[args[2]] = args[0] | args[1];
-	proc->carry = (proc->reg[args[2]] != 0) ? 0 : 1;
+	proc->carry = proc->reg[args[2]] ? 0 : 1;
 }
 
 void	op_xor(t_vm *vm, t_proc *proc)
@@ -209,7 +209,7 @@ void	op_xor(t_vm *vm, t_proc *proc)
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
 	proc->reg[args[2]] = args[0] ^ args[1];
-	proc->carry = (proc->reg[args[2]] != 0) ? 0 : 1;
+	proc->carry = proc->reg[args[2]] ? 0 : 1;
 }
 
 void	op_zjmp(t_vm *vm, t_proc *proc)
@@ -252,11 +252,7 @@ void	op_ldi(t_vm *vm, t_proc *proc)
 			j += 2;
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
-	if ((i = reverse_bytes(vm, (proc->pos +
-		(args[0] + args[1]) % IDX_MOD) % MEM_SIZE, 4) == 0))
-		proc->carry = 1;
-	else
-		proc->carry = 0;
+	i = reverse_bytes(vm, (proc->pos + (args[0] + args[1]) % IDX_MOD) % MEM_SIZE, 4);
 	proc->reg[args[2]] = i;
 }
 
@@ -362,7 +358,7 @@ void	op_lldi(t_vm *vm, t_proc *proc)
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
 	if ((i = reverse_bytes(vm,
-		(proc->pos + (args[0] + args[1])) % MEM_SIZE, 4) == 0))
+		(proc->pos + (args[0] + args[1])) % MEM_SIZE, 4)) == 0)
 		proc->carry = 1;
 	else
 		proc->carry = 0;

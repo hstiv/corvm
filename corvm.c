@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 14:25:29 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:24:39 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/26 13:49:30 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int					main(int c, char **s)
 	{
 		while (!vm.winner)
 		{
-			play_game(&vm, op);
 			(vm.cycles == vm.dump_cycles) ? show_dump(&vm) : 0;
 			play_game(&vm, op);
 		}
