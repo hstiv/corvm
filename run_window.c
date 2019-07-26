@@ -71,9 +71,12 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 
 void				put_man(t_vm *vm)
 {
-	void			*pv;
+	t_mlx			*mlx;
+	char 			*s;
 
-	pv = (void*)vm;
+	mlx = vm->mlx;
+	s = (mlx->pause == 1) ? PAUSE : PLAY;
+	mlx_string_put(mlx->ptr, mlx->wind, 2000, 30, GREEN, s);
 }
 
 void				putarenainwindow(t_vm *vm)

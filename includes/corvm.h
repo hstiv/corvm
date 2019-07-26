@@ -32,6 +32,8 @@
 # define HEIGHT		1395
 # define WIDTH		2560
 # define UL			unsigned long int
+# define PAUSE		"**Pause**"
+# define PLAY		"***Play***"
 # define WHITE		16777215
 # define GREEN		65280
 # define RED		255

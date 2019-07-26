@@ -27,7 +27,7 @@ void				init_game_run(t_vm *vm)
 
 int 				main_cycle_vizu(t_vm *vm)
 {
-	if (vm->mlx->pause % 2 == 0 && !vm->winner)
+	if (!vm->mlx->pause && !vm->winner)
 	{
 		(vm->cycles == vm->dump_cycles) ? show_dump(vm) : 0;
 		putarenainwindow(vm);

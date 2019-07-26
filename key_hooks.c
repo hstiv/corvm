@@ -38,6 +38,14 @@ static void		speed_change(int keycode, t_mlx *mlx)
 		mlx->mseconds = 10000;
 }
 
+void			pause_game(t_mlx *mlx)
+{
+	if (mlx->pause)
+		mlx->pause = 0;
+	else if (!mlx->pause)
+		mlx->pause = 1;
+}
+
 int				key_press(int keycode, t_mlx *mlx)
 {
 	t_vm		*vm;
@@ -47,8 +55,8 @@ int				key_press(int keycode, t_mlx *mlx)
 	if (keycode == 36)
 		mlx->now++;
 	if (keycode == 53)
-		expose_hook(mlx);
+		exit(0);
 	if (keycode == 49)
-		mlx->pause++;
+		pause_game(mlx);
 	return (1);
 }
