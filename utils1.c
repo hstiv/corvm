@@ -46,6 +46,23 @@ char 				*get_name(t_vm *vm, int i)
 	return (s1);
 }
 
+void 				put_speed(int x, int y, t_vm *vm)
+{
+	int				i;
+	char 			s[100];
+	char 			*s1;
+
+	i = 0;
+	if (vm->mlx->speed > 0)
+	{
+		while (i < vm->mlx->speed)
+			s[i++] = '-';
+	}
+	s[i] = '\0';
+	s1 = ft_strjoin(SPEED, s);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, GREEN, s1);
+}
+
 void				put_players(int x, int y, t_vm *vm)
 {
 	int 			i;
@@ -54,7 +71,7 @@ void				put_players(int x, int y, t_vm *vm)
 	i = 0;
 	while (i < vm->champ_nb)
 	{
-		y += 50;
+		y += 70;
 		s = get_name(vm, i);
 		mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, vm->colors[i], s);
 		free(s);
@@ -67,4 +84,5 @@ void				put_players(int x, int y, t_vm *vm)
 		mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x + 30, y, WHITE, s);
 		i++;
 	}
+	help_man(x, y + 100, vm);
 }
