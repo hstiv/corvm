@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:19:27 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/27 16:50:53 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 18:00:37 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void			new_vm(t_vm *vm)
 	vm->cycles_die = CYCLE_TO_DIE;
 	vm->l_exec = 0;
 	vm->checks = 1;
-	vm->winner_n = 1;
 	vm->list_process = NULL;
 	vm->colors = (int[]){RGB};
 	vm->mlx = NULL;

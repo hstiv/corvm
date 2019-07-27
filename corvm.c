@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 14:25:29 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/27 17:07:19 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 18:01:02 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int					main(int c, char **s)
 	parser(c, s, &vm);
 	arena(&vm);
 	introduce_players(&vm);
+	vm.winner_n = vm.champ_nb;
 	if (!vm.mlx)
 	{
 		while (!vm.winner)

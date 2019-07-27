@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/27 16:06:01 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 17:57:19 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,15 +216,17 @@ void	proccess_kill(t_proc **head, t_proc *ps)
 void	check_live(t_vm *vm, t_proc **head)
 {
 	t_proc	*curr;
+	t_proc	*next;
 
 	if (!head)
 		return ;
 	curr = *head;
 	while (curr)
 	{
-		if (vm->cycles - curr->live >= CYCLE_TO_DIE)
+		next = curr->next;
+		if (vm->cycles - curr->live >= vm->cycles_die)
 			proccess_kill(head, curr);
-		curr = curr->next;
+		curr = next;
 	}
 	if (*head == NULL)
 		vm->winner = 1;
@@ -237,7 +239,7 @@ void	champions_reset_lives(t_champ *champs, int count)
 	i = 0;
 	while (i < count)
 	{
-		champs[i].live = 0;
+		champs[i].lives_in_period = 0;
 		i++;
 	}
 }
