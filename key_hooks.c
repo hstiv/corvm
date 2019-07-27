@@ -21,19 +21,39 @@ int				expose_hook(void *param)
 	exit(0);
 }
 
+static void		speed_helper(int keycode, t_mlx *mlx)
+{
+	if (keycode == 123 && mlx->mseconds < 100000)
+	{
+		mlx->mseconds += 10000;
+		mlx->speed -= 1;
+	}
+	if (mlx->mseconds > 2000000)
+	{
+		mlx->mseconds = 2000000;
+		mlx->speed = 1;
+	}
+}
+
 static void		speed_change(int keycode, t_mlx *mlx)
 {
 	if (keycode == 124 && mlx->mseconds > 100000)
+	{
 		mlx->mseconds -= 100000;
+		mlx->speed += 2;
+	}
 	if (keycode == 123 && mlx->mseconds >= 100000)
+	{
 		mlx->mseconds += 100000;
+		mlx->speed -= 2;
+	}
 	if (keycode == 124 && mlx->mseconds <= 100000
 	        				&& mlx->mseconds >= 10000)
+	{
 		mlx->mseconds -= 10000;
-	if (keycode == 123 && mlx->mseconds < 100000)
-		mlx->mseconds += 10000;
-	if (mlx->mseconds > 2000000)
-		mlx->mseconds = 2000000;
+		mlx->speed += 1;
+	}
+	speed_helper(keycode, mlx);
 }
 
 int				key_press(int keycode, t_mlx *mlx)
@@ -43,7 +63,11 @@ int				key_press(int keycode, t_mlx *mlx)
 	vm = mlx->vm;
 	speed_change(keycode, mlx);
 	if (keycode == 36)
+	{
 		mlx->now++;
+		mlx->speed = 40;
+		mlx->mseconds = 0;
+	}
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 49)

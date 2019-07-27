@@ -29,5 +29,6 @@ void		init_mlx_args(t_vm *vm)
 		vm->mlx->ply_man[1] = PLYR2;
 		vm->mlx->ply_man[2] = PLYR3;
 		vm->mlx->ply_man[3] = PLYR4;
+		vm->mlx->speed = 10;
 	}
 }

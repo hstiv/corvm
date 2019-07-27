@@ -12,6 +12,12 @@
 
 #include "includes/corvm.h"
 
+void				threw(char *s)
+{
+	(s != NULL) ? write(1, s, ft_strlen(s)) : 0;
+	exit(0);
+}
+
 int				reverse_bytes(t_vm *vm, unsigned int pc, int nbytes)
 {
 	unsigned char two_bytes[2];

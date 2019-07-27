@@ -27,7 +27,6 @@
 # include "../libft/libft.h"
 
 # define BUFF_SIZE	32
-# define MAX_FD		10240
 # define USAGE		"Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 # define HEIGHT		1395
 # define WIDTH		2560
@@ -45,6 +44,11 @@
 # define LL			"Last live :               "
 # define LICP		"Live in current period :  "
 # define CTD		"CYCLE_TO_DIE :  "
+# define SPEED		"Speed :  "
+# define MAN1		"Speed manipulations :              [< / >]"
+# define MAN2		"Max speed :                   [Return] X 1"
+# define MAN3		"Max speed cancellation :           [Enter]"
+# define MAN4		"End now :                     [Return] X 2"
 # define WHITE		16777215
 # define GREEN		65280
 # define RED		16711680
@@ -52,7 +56,6 @@
 # define ORANGE		16682752
 # define PINK		16715426
 # define RGB		RED, YELLOW, ORANGE, PINK
-# define PLYR		PLYR1, PLYR2, PLYR3, PLYR4
 # define BIT_LENTH	64
 # define WIND		"Corewar: Angel Arena"
 
@@ -75,6 +78,7 @@ typedef struct		s_mlx
 	void			*op;
 	int 			now;
 	char 			*ply_man[4];
+	int 			speed;
 }					t_mlx;
 
 typedef struct		s_proc
@@ -187,5 +191,7 @@ int 				lstcnt(t_proc *lst);
 char 				*get_str(char *s, char *s1);
 void				put_players(int x, int y, t_vm *vm);
 char 				*get_name(t_vm *vm, int i);
+void 				put_speed(int x, int y, t_vm *vm);
+void				help_man(int x, int y, t_vm *vm);
 
 #endif

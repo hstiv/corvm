@@ -84,7 +84,8 @@ void				put_man(t_vm *vm)
 	s = get_str(CTD, ft_itoa(vm->cycles_to_die));
 	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 160, WHITE, s);
 	free(s);
-	put_players(1800, 160, vm);
+	put_speed(1800, 220, vm);
+	put_players(1800, 240, vm);
 }
 
 void				putarenainwindow(t_vm *vm)

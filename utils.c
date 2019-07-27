@@ -12,12 +12,6 @@
 
 #include "corvm.h"
 
-void				threw(char *s)
-{
-	(s != NULL) ? write(1, s, ft_strlen(s)) : 0;
-	exit(0);
-}
-
 void				set_corrage_cor(t_dot *n1, t_dot *n2, t_dot *n, int i)
 {
 	n1->x = n->x;
@@ -94,4 +88,15 @@ int 				ch_col(t_vm *vm, int i, int t)
 	if (err > 0)
 		return (WHITE);
 	return (vm->colors[t]);
+}
+
+void				help_man(int x, int y, t_vm *vm)
+{
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN1);
+	y += 50;
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN2);
+	y += 50;
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN3);
+	y += 50;
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN4);
 }
