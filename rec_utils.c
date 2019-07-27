@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:16:40 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:37:50 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:26:17 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void			show_dump(t_vm *vm)
 	i = 0;
 	while (i < MEM_SIZE)
 	{
+		if (i % 64 == 0)
+			ft_printf("%#.4x : ", i);
 		ft_printf("%02hhx ", vm->arena[i]);
 		if ((i + 1) % 64 == 0 && i)
 			ft_printf("\n");
