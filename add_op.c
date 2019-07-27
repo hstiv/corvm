@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/26 16:34:20 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:36:11 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,5 +399,5 @@ void	op_aff(t_vm *vm, t_proc *proc)
 	int		i;
 
 	i = vm->arena[(proc->pos + 2) % MEM_SIZE] - 1;
-	ft_printf("%c", (char)proc->reg[i]);
+	ft_printf("");//("%c", (char)proc->reg[i]);
 }
