@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/27 16:36:11 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 17:17:20 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	op_ld(t_vm *vm, t_proc *proc)
 	if (type == T_DIR)
 		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
 	else
-		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
+		proc->reg[vm->arena[(proc->pos + 2 + 2) % MEM_SIZE] - 1] = number;
 }
 
 void	op_st(t_vm *vm, t_proc *proc)
@@ -339,7 +339,7 @@ void	op_lld(t_vm *vm, t_proc *proc)
 	if (type == T_DIR)
 		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
 	else
-		proc->reg[vm->arena[(proc->pos + 2 + 4) % MEM_SIZE] - 1] = number;
+		proc->reg[vm->arena[(proc->pos + 2 + 2) % MEM_SIZE] - 1] = number;
 }
 
 void	op_lldi(t_vm *vm, t_proc *proc)
@@ -399,5 +399,5 @@ void	op_aff(t_vm *vm, t_proc *proc)
 	int		i;
 
 	i = vm->arena[(proc->pos + 2) % MEM_SIZE] - 1;
-	ft_printf("");//("%c", (char)proc->reg[i]);
+	ft_printf("");//%c\n", (char)proc->reg[i]);
 }
