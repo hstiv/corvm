@@ -18,13 +18,13 @@ void			get_x_y(t_dot *n1, t_proc *proc)
 
 	tmp = proc->pos;
 	n1->y = 0;
-	while (tmp >= BIT_LENTH)
+	while (tmp >= BIT_LENTH - 1)
 	{
 		tmp -= BIT_LENTH;
 		n1->y++;
 	}
-	n1->x = (tmp * 25) + 10;
-	n1->y = (n1->y * 20) + 10;
+	n1->x = (tmp * 25) + BEG;
+	n1->y = (n1->y * 20) + 20;
 }
 
 void			draw_carriage(t_vm *vm)
@@ -71,12 +71,20 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 
 void				put_man(t_vm *vm)
 {
-	t_mlx			*mlx;
-	char 			*s;
+	char			*s;
 
-	mlx = vm->mlx;
-	s = (mlx->pause == 1) ? PAUSE : PLAY;
-	mlx_string_put(mlx->ptr, mlx->wind, 2000, 30, GREEN, s);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 2000, 30,
+	(vm->mlx->pause) ? RED : GREEN, (vm->mlx->pause) ? PAUSE : PLAY);
+	s = get_str(STR2, ft_itoa(vm->cycles));
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 80, WHITE, s);
+	free(s);
+	s = get_str(STR3, ft_itoa(lstcnt(vm->list_process)));
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 130, WHITE, s);
+	free(s);
+	s = get_str(CTD, ft_itoa(vm->cycles_to_die));
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 160, WHITE, s);
+	free(s);
+	put_players(1800, 160, vm);
 }
 
 void				putarenainwindow(t_vm *vm)
@@ -86,15 +94,15 @@ void				putarenainwindow(t_vm *vm)
 	int				x;
 
 	i = 0;
-	y = 10;
+	y = 20;
 	mlx_clear_window(vm->mlx->ptr, vm->mlx->wind);
+	put_man(vm);
 	while (i < MEM_SIZE)
 	{
-		x = 10;
+		x = BEG;
 		draw_arena(vm, &i, &x, y);
 		y += 20;
 		i++;
 	}
 	draw_carriage(vm);
-	put_man(vm);
 }

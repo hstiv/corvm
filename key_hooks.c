@@ -27,23 +27,13 @@ static void		speed_change(int keycode, t_mlx *mlx)
 		mlx->mseconds -= 100000;
 	if (keycode == 123 && mlx->mseconds >= 100000)
 		mlx->mseconds += 100000;
-	if (keycode == 124 && mlx->mseconds < 100000
-	        				&& mlx->mseconds > 10000)
+	if (keycode == 124 && mlx->mseconds <= 100000
+	        				&& mlx->mseconds >= 10000)
 		mlx->mseconds -= 10000;
 	if (keycode == 123 && mlx->mseconds < 100000)
 		mlx->mseconds += 10000;
 	if (mlx->mseconds > 2000000)
 		mlx->mseconds = 2000000;
-	if (mlx->mseconds < 10000)
-		mlx->mseconds = 10000;
-}
-
-void			pause_game(t_mlx *mlx)
-{
-	if (mlx->pause)
-		mlx->pause = 0;
-	else if (!mlx->pause)
-		mlx->pause = 1;
 }
 
 int				key_press(int keycode, t_mlx *mlx)
@@ -57,6 +47,8 @@ int				key_press(int keycode, t_mlx *mlx)
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 49)
-		pause_game(mlx);
+		mlx->pause = (mlx->pause) ? 0 : 1;
+	if (keycode == 76)
+		mlx->now = 0;
 	return (1);
 }

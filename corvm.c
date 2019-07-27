@@ -30,12 +30,10 @@ int 				main_cycle_vizu(t_vm *vm)
 	if (!vm->mlx->pause && !vm->winner)
 	{
 		(vm->cycles == vm->dump_cycles) ? show_dump(vm) : 0;
-		putarenainwindow(vm);
 		play_game(vm, vm->mlx->op);
 		(vm->mlx->now == 1 && vm->mlx->now != 2)
 						? 0 : usleep(vm->mlx->mseconds);
-		if (vm->mlx->now > 1)
-			init_game_run(vm);
+		(vm->mlx->now > 1) ? init_game_run(vm) : 0;
 	}
 	if (vm->winner)
 	{
@@ -44,6 +42,7 @@ int 				main_cycle_vizu(t_vm *vm)
 		mlx_destroy_window(vm->mlx->ptr, vm->mlx->wind);
 		exit(0);
 	}
+	putarenainwindow(vm);
 	return (1);
 }
 

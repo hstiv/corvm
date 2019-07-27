@@ -25,5 +25,9 @@ void		init_mlx_args(t_vm *vm)
 		vm->mlx->mseconds = 1000000;
 		vm->mlx->now = 0;
 		vm->mlx->op = NULL;
+		vm->mlx->ply_man[0] = PLYR1;
+		vm->mlx->ply_man[1] = PLYR2;
+		vm->mlx->ply_man[2] = PLYR3;
+		vm->mlx->ply_man[3] = PLYR4;
 	}
 }

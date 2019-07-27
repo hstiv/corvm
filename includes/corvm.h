@@ -31,16 +31,28 @@
 # define USAGE		"Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
 # define HEIGHT		1395
 # define WIDTH		2560
+# define BEG		40
 # define UL			unsigned long int
-# define PAUSE		"**Pause**"
-# define PLAY		"***Play***"
+# define STR1		"Cycles/seconds limit  :  "
+# define STR2		"Cycles :  "
+# define STR3		"Processes :  "
+# define PAUSE		"** PAUSED **"
+# define PLAY		"** RUNNING **"
+# define PLYR1		"PALYER -1 :  "
+# define PLYR2		"PALYER -2 :  "
+# define PLYR3		"PALYER -3 :  "
+# define PLYR4		"PALYER -4 :  "
+# define LL			"Last live :               "
+# define LICP		"Live in current period :  "
+# define CTD		"CYCLE_TO_DIE :  "
 # define WHITE		16777215
 # define GREEN		65280
-# define RED		255
+# define RED		16711680
 # define YELLOW		65525
 # define ORANGE		16682752
 # define PINK		16715426
 # define RGB		RED, YELLOW, ORANGE, PINK
+# define PLYR		PLYR1, PLYR2, PLYR3, PLYR4
 # define BIT_LENTH	64
 # define WIND		"Corewar: Angel Arena"
 
@@ -62,6 +74,7 @@ typedef struct		s_mlx
 	void			*vm;
 	void			*op;
 	int 			now;
+	char 			*ply_man[4];
 }					t_mlx;
 
 typedef struct		s_proc
@@ -170,5 +183,9 @@ void				init_mlx_args(t_vm *vm);
 int					expose_hook(void *param);
 int					key_press(int keycode, t_mlx *param);
 void				put_man(t_vm *vm);
+int 				lstcnt(t_proc *lst);
+char 				*get_str(char *s, char *s1);
+void				put_players(int x, int y, t_vm *vm);
+char 				*get_name(t_vm *vm, int i);
 
 #endif
