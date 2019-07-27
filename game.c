@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/26 16:02:11 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/27 16:06:01 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	do_proc(t_vm *vm, t_proc *proc,
 		type = vm->arena[(proc->pos + 1) % MEM_SIZE];
 		if (arg_check(type, op_tab[proc->command_type]))
 		{
-			if (!check_reg(type, vm->arena, proc->pos,
+			if (check_reg(type, vm->arena, proc->pos + 1,
 							op_tab[proc->command_type]))
 				proc->pos = get_pos(proc->pos,
 								op_tab[proc->command_type], type);
