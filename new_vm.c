@@ -26,6 +26,9 @@ void			new_vm(t_vm *vm)
 	vm->l_exec = 0;
 	vm->checks = 1;
 	vm->list_process = NULL;
-	vm->colors = (int[]){RGB};
+	vm->colors[0] = RED;
+	vm->colors[1] = YELLOW;
+	vm->colors[2] = ORANGE;
+	vm->colors[3] = PINK;
 	vm->mlx = NULL;
 }

@@ -130,7 +130,7 @@ typedef struct		s_vm
 	int				winner_n;
 	int				checks;
 	int				l_exec;
-	int 			*colors;
+	int 			colors[4];
 	t_mlx			*mlx;
 }					t_vm;
 
