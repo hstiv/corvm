@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 15:38:18 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:19:44 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,13 @@ void	op_st(t_vm *vm, t_proc *proc)
 	{
 		index = reverse_bytes(vm, (proc->pos + 3) % MEM_SIZE, 2) % IDX_MOD;
 		index = plus_pos(index, proc->pos);
-		i = 0;
-		while (i < REG_SIZE)
+		i = -1;
+		while (++i < REG_SIZE)
 		{
 			vm->arena[(index + REG_SIZE
 						- i - 1) % MEM_SIZE] = (number >> (i * 8));
-			i++;
+			vm->owner[(index + REG_SIZE
+						- i - 1) % MEM_SIZE] = proc->player_id;
 		}
 	}
 }
@@ -299,7 +300,10 @@ void	op_sti(t_vm *vm, t_proc *proc)
 	i = -1;
 	j = plus_pos(proc->pos, (args[1] + args[2]) % IDX_MOD);
 	while (++i < REG_SIZE)
+	{
 		vm->arena[(j + REG_SIZE - i - 1) % MEM_SIZE] = (args[0] >> (i * 8));
+		vm->owner[(j + REG_SIZE - i - 1) % MEM_SIZE] = proc->player_id;
+	}
 }
 
 void	op_fork(t_vm *vm, t_proc *proc)
