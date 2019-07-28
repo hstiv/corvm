@@ -84,7 +84,7 @@ int 				ch_col(t_vm *vm, int i)
 {
 	int 			err;
 
-	err = vm->colors[vm->owner[i] % 4];
+	err = vm->colors[(vm->owner[i] - 1) % 4];
 	if (vm->owner[i] == 0)
 		err = WHITE;
 	return (err);
