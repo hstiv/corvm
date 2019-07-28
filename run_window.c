@@ -12,42 +12,42 @@
 
 #include "corvm.h"
 
-void			get_x_y(t_dot *n1, t_proc *proc, t_vm *vm)
+void				get_x_y(t_dot *n1, t_proc *proc, t_vm *vm)
 {
-	n1->x = (proc->pos % (BIT_LENTH - 1) * 25) + BEG;
-	n1->y = (proc->pos / BIT_LENTH * 20) + vm->mlx->ar_y;
+	n1->x = (proc->pos % (BIT_LENGTH - 1) * 25) + BEG;
+	n1->y = (proc->pos / BIT_LENGTH * 20) + vm->mlx->ar_y;
 }
 
-void			draw_carriage(t_vm *vm)
+void				draw_carriage(t_vm *vm)
 {
-	t_dot		n1;
-	t_dot		n2;
-	t_dot		n;
-	t_proc		*tmp;
+	t_dot			n1;
+	t_dot			n2;
+	t_dot			n;
+	t_proc			*tmp;
 
 	tmp = vm->list_process;
 	while (tmp)
 	{
 		get_x_y(&n, tmp, vm);
 		set_corrage_cor(&n1, &n2, &n, 1);
-		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		ft_bresenham(&n1, &n2, vm->mlx, CORR);
 		set_corrage_cor(&n1, &n2, &n, 2);
-		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		ft_bresenham(&n1, &n2, vm->mlx, CORR);
 		set_corrage_cor(&n1, &n2, &n, 3);
-		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		ft_bresenham(&n1, &n2, vm->mlx, CORR);
 		set_corrage_cor(&n1, &n2, &n, 4);
-		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
+		ft_bresenham(&n1, &n2, vm->mlx, CORR);
 		tmp = tmp->next;
 	}
 }
 
 void				draw_arena(t_vm *vm, int *i, int *x, int y)
 {
-	char 			*s;
-	int 			t;
+	char			*s;
+	int				t;
 
 	t = vm->champ_nb - 1;
-	while ((*i + 1) % BIT_LENTH != 0 && *i < MEM_SIZE)
+	while ((*i + 1) % BIT_LENGTH != 0 && *i < MEM_SIZE)
 	{
 		(vm->champs[t].pos >= *(i) + 1) ? t-- : 0;
 		s = itoa_base(vm->arena[*i], 16);
@@ -63,7 +63,7 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 void				put_man(t_vm *vm)
 {
 	char			*s;
-	int 			y;
+	int				y;
 
 	y = vm->mlx->man_y;
 	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 2000, y,

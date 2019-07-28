@@ -1,10 +1,18 @@
-//
-// Created by Hallie Stiv on 2019-07-28.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse_press.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hstiv <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/28 19:04:36 by hstiv             #+#    #+#             */
+/*   Updated: 2019/07/28 19:04:41 by hstiv            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "corvm.h"
 
-int 					mouse_press(int keycode, int x, int y, t_mlx *mlx)
+int					mouse_press(int keycode, int x, int y, t_mlx *mlx)
 {
 	x = 0;
 	y = 0;

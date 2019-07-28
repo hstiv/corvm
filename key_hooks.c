@@ -48,7 +48,7 @@ static void		speed_change(int keycode, t_mlx *mlx)
 		mlx->speed -= 2;
 	}
 	if (keycode == 124 && mlx->mseconds <= 100000
-	        				&& mlx->mseconds >= 10000)
+						&& mlx->mseconds >= 10000)
 	{
 		mlx->mseconds -= 10000;
 		mlx->speed += 1;

@@ -1,22 +1,30 @@
-//
-// Created by Hallie Stiv on 2019-07-27.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hstiv <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/28 19:13:51 by hstiv             #+#    #+#             */
+/*   Updated: 2019/07/28 19:13:53 by hstiv            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "corvm.h"
 
-char 			*get_str(char *s, char *s1)
+char				*get_str(char *s, char *s1)
 {
-	char 		*s2;
+	char			*s2;
 
 	s2 = ft_strjoin(s, s1);
 	free(s1);
 	return (s2);
 }
 
-int 			lstcnt(t_proc *lst)
+int					lstcnt(t_proc *lst)
 {
-	int 		i;
-	t_proc		*tmp;
+	int				i;
+	t_proc			*tmp;
 
 	tmp = lst;
 	i = 0;
@@ -28,17 +36,17 @@ int 			lstcnt(t_proc *lst)
 	return (i);
 }
 
-char 				*get_name(t_vm *vm, int i)
+char				*get_name(t_vm *vm, int i)
 {
-	int 			t;
-	char 			*s;
-	char 			*s1;
+	int				t;
+	char			*s;
+	char			*s1;
 
 	t = 0;
 	s = (char *)malloc(sizeof(char) * 129);
 	while (vm->champs[i].name[t] != '\0')
 	{
-		s[t] = (char) vm->champs[i].name[t];
+		s[t] = (char)vm->champs[i].name[t];
 		t++;
 	}
 	s[t] = '\0';
@@ -47,11 +55,11 @@ char 				*get_name(t_vm *vm, int i)
 	return (s1);
 }
 
-void 				put_speed(int x, int y, t_vm *vm)
+void				put_speed(int x, int y, t_vm *vm)
 {
 	int				i;
-	char 			s[100];
-	char 			*s1;
+	char			s[100];
+	char			*s1;
 
 	i = 0;
 	if (vm->mlx->speed > 0)
@@ -67,8 +75,8 @@ void 				put_speed(int x, int y, t_vm *vm)
 
 void				put_players(int x, int y, t_vm *vm)
 {
-	int 			i;
-	char 			*s;
+	int				i;
+	char			*s;
 
 	i = 0;
 	while (i < vm->champ_nb)

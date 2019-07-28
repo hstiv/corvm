@@ -9,7 +9,7 @@ OBJ		    =	$(SRCS:.c=.o)
 
 CC		    =	-Wall -Wextra -Werror
 
-LMLX        =   libmlx/
+LMLX        =   .libmlx/
 
 SRC_LMLX    =   -framework OpenGL -framework AppKit -L  $(LMLX) -lmlx
 

@@ -31,8 +31,6 @@
 # define HEIGHT		1395
 # define WIDTH		2560
 # define BEG		40
-# define UL			unsigned long int
-# define STR1		"Cycles/seconds limit  :  "
 # define STR2		"Cycles :  "
 # define STR3		"Processes :  "
 # define PAUSE		"** PAUSED **"
@@ -58,34 +56,34 @@
 # define YELLOW		65525
 # define ORANGE		16682752
 # define PINK		16715426
-# define RGB		RED, YELLOW, ORANGE, PINK
-# define BIT_LENTH	64
+# define CORR		GREEN
+# define BIT_LENGTH	64
 # define WIND		"Corewar: Angel Arena"
 
 typedef struct		s_dot
 {
-	int 			x;
-	int 			y;
+	int				x;
+	int				y;
 }					t_dot;
 
 typedef struct		s_mlx
 {
 	void			*wind;
 	void			*ptr;
-	useconds_t 		mseconds;
-	int 			memsize;
-	int 			pause;
-	int 			err;
-	int 			derr;
+	useconds_t		mseconds;
+	int				memsize;
+	int				pause;
+	int				err;
+	int				derr;
 	void			*vm;
 	void			*op;
-	int 			now;
-	char 			*ply_man[4];
-	int 			speed;
-	int 			man_y;
-	int 			ar_y;
-	int 			x_button;
-	int 			c_button;
+	int				now;
+	char			*ply_man[4];
+	int				speed;
+	int				man_y;
+	int				ar_y;
+	int				x_button;
+	int				c_button;
 }					t_mlx;
 
 typedef struct		s_proc
@@ -130,7 +128,7 @@ typedef struct		s_vm
 	int				winner_n;
 	int				checks;
 	int				l_exec;
-	int 			colors[4];
+	int				colors[4];
 	t_mlx			*mlx;
 }					t_vm;
 
@@ -152,7 +150,7 @@ int					get_arg_size(int arg_type, t_op op);
 int					arg_check(unsigned char octet, const t_op op);
 int					check_reg(unsigned int octet,
 						unsigned char arena[MEM_SIZE], int pos, t_op op);
-int 				cor_sort(t_vm *vm);
+int					cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
 void				play_game(t_vm *vm, t_op op_tab[17]);
@@ -183,10 +181,9 @@ void				op_aff(t_vm *vm, t_proc *proc);
 int					get_arg(int octet, int k, int p);
 void				proccess_add(t_proc **head, t_proc *new_p);
 t_proc				*new_proc(int player_id, int pos);
-
 void				set_corrage_cor(t_dot *n1, t_dot *n2, t_dot *n, int i);
 void				draw_arena(t_vm *vm, int *i, int *x, int y);
-int 				ch_col(t_vm *vm, int i);
+int					ch_col(t_vm *vm, int i);
 void				eat_vizu(t_vm *vm);
 int					main_cycle_vizu(t_vm *vm);
 void				get_x_y(t_dot *n1, t_proc *champ, t_vm *vm);
@@ -199,12 +196,12 @@ void				init_mlx_args(t_vm *vm);
 int					expose_hook(void *param);
 int					key_press(int keycode, t_mlx *param);
 void				put_man(t_vm *vm);
-int 				lstcnt(t_proc *lst);
-char 				*get_str(char *s, char *s1);
+int					lstcnt(t_proc *lst);
+char				*get_str(char *s, char *s1);
 void				put_players(int x, int y, t_vm *vm);
-char 				*get_name(t_vm *vm, int i);
-void 				put_speed(int x, int y, t_vm *vm);
+char				*get_name(t_vm *vm, int i);
+void				put_speed(int x, int y, t_vm *vm);
 void				help_man(int x, int y, t_vm *vm);
-int 				mouse_press(int keycode, int x, int y, t_mlx *mlx);
+int					mouse_press(int keycode, int x, int y, t_mlx *mlx);
 
 #endif
