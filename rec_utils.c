@@ -18,7 +18,7 @@ void			threw(char *s)
 	exit(0);
 }
 
-int				reverse_bytes(t_vm *vm, unsigned int pc, int nbytes)
+int				rev_byte(t_vm *vm, unsigned int pc, int nbytes)
 {
 	unsigned char two_bytes[2];
 	unsigned char four_bytes[4];

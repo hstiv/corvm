@@ -27,7 +27,7 @@
 # include "../libft/libft.h"
 
 # define BUFF_SIZE	32
-# define USAGE		"Usage: ./corvm [-dump nbr_cycles] [[-n number] champion1.cor] ...\n"
+# define USAGE		"Usage: ./corewar [-dump] [-n] champ.cor ...\n"
 # define HEIGHT		1395
 # define WIDTH		2560
 # define BEG		40
@@ -160,7 +160,7 @@ void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
 void				play_game(t_vm *vm, t_op op_tab[17]);
 void				arena(t_vm *vm);
-int					reverse_bytes(t_vm *vm, unsigned int pc, int nbytes);
+int					rev_byte(t_vm *vm, unsigned int pc, int nbytes);
 int					ft_isdigit_s(char *s);
 void				parser(int c, char **s, t_vm *vm);
 void				threw(char *s);
@@ -186,6 +186,7 @@ void				op_aff(t_vm *vm, t_proc *proc);
 int					get_arg(int octet, int k, int p);
 void				proccess_add(t_proc **head, t_proc *new_p);
 t_proc				*new_proc(int player_id, int pos);
+int					plus_pos(int i, int j);
 void				set_corrage_cor(t_dot *n1, t_dot *n2, t_dot *n, int i);
 void				draw_arena(t_vm *vm, int *i, int *x, int y);
 int					ch_col(t_vm *vm, int i);
