@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   op4.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/28 20:28:00 by sdiedra           #+#    #+#             */
+/*   Updated: 2019/07/28 20:33:01 by sdiedra          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "corvm.h"
 
 void	op_lldi(t_vm *vm, t_proc *proc)
@@ -22,17 +34,11 @@ void	op_lldi(t_vm *vm, t_proc *proc)
 			args[i] = plus_pos(args[i], proc->pos);
 			args[i] = rev_byte(vm, args[i], 4);
 		}
-		if (type == T_REG)
-			j += 1;
-		else
-			j += 2;
+		j += (type == T_REG) ? 1 : 2;
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
-	if ((i = rev_byte(vm,
-					  (proc->pos + (args[0] + args[1])) % MEM_SIZE, 4)) == 0)
-		proc->carry = 1;
-	else
-		proc->carry = 0;
+	i = rev_byte(vm, (proc->pos + (args[0] + args[1])) % MEM_SIZE, 4);
+	proc->carry = (i == 0) ? 1 : 0;
 	proc->reg[args[2]] = i;
 }
 
