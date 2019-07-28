@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:15:37 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 20:15:43 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 20:21:59 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,39 @@ void			cycle1(t_vm *vm, int c, int n)
 	vm->champs[c].n_place += j;
 }
 
-void			parse_n_flag(int n, int *j, t_vm *vm)
+void			parse_n_flag(int n, t_vm *vm)
 {
-	(void)n;
-	(void)j;
-	(void)vm;
+	int	cc;
+
+	if (vm->champ_nb == MAX_PLAYERS)
+		threw(USAGE);
+	cc = -1;
+	while (++cc < vm->champ_nb)
+		if (vm->champs[cc].n_flag == 1 && n == vm->champs[cc].n_place)
+			threw(USAGE);
+	if (n == vm->next_champ_numb)
+		vm->next_champ_numb += 1;
+	else if (n < vm->next_champ_numb)
+	{
+		cc = -1;
+		while (++cc < vm->next_champ_numb + 1)
+			cycle(vm, cc, n);
+		cc = 0;
+		while (cc < vm->champ_nb)
+		{
+			cycle1(vm, cc, vm->champs[cc].n_place);
+			cc++;
+		}
+		vm->next_champ_numb += 1;
+	}
 }
 
 void			parser(int c, char **s, t_vm *vm)
 {
 	int				i;
 	int				n;
-	int				cc;
-	int				j;
 
 	i = 1;
-	j = 0;
 	while (i < c)
 	{
 		if (!ft_strcmp("-dump", s[i]))
@@ -94,33 +111,7 @@ void			parser(int c, char **s, t_vm *vm)
 			parse_champs_arg(vm, s, i);
 		else if ((n = is_nflag(s, &i, c)) != 0)
 		{
-			if (vm->champ_nb == MAX_PLAYERS)
-				threw(USAGE);
-			cc = 0;
-			while (cc < vm->champ_nb)
-			{
-				if (vm->champs[cc].n_flag == 1 && n == vm->champs[cc].n_place)
-					threw(USAGE);
-				cc++;
-			}
-			if (n == vm->next_champ_numb)
-				vm->next_champ_numb += 1;
-			else if (n < vm->next_champ_numb)
-			{
-				cc = 0;
-				while (cc < vm->next_champ_numb + 1)
-				{
-					cycle(vm, cc, n);
-					cc++;
-				}
-				cc = 0;
-				while (cc < vm->champ_nb)
-				{
-					cycle1(vm, cc, vm->champs[cc].n_place);
-					cc++;
-				}
-				vm->next_champ_numb += 1;
-			}
+			parse_n_flag(n, vm);
 			parse_champs(vm, s[i], vm->champ_nb, n);
 			vm->champs[vm->champ_nb].n_flag = 1;
 			vm->champ_nb += 1;
