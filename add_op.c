@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/12 16:35:23 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 16:19:44 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:56:13 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,12 +311,12 @@ void	op_fork(t_vm *vm, t_proc *proc)
 	int arg;
 	int	i;
 
-	i = -1;
 	arg = reverse_bytes(vm, (proc->pos + 1) % MEM_SIZE, 2) % IDX_MOD;
 	arg = plus_pos(arg, proc->pos);
 	proccess_add(&vm->list_process, new_proc(vm->list_process->player_id, arg));
 	vm->list_process->carry = proc->carry;
 	vm->list_process->live = proc->live;
+	i = -1;
 	while (++i < REG_NUMBER)
 		vm->list_process->reg[i] = proc->reg[i];
 	proc->pos = (proc->pos + 3) % MEM_SIZE;
@@ -387,12 +387,12 @@ void	op_lfork(t_vm *vm, t_proc *proc)
 	int arg;
 	int	i;
 
-	i = -1;
 	arg = reverse_bytes(vm, (proc->pos + 1) % MEM_SIZE, 2);
 	arg = plus_pos(arg, proc->pos);
 	proccess_add(&vm->list_process, new_proc(vm->list_process->player_id, arg));
 	vm->list_process->carry = proc->carry;
 	vm->list_process->live = proc->live;
+	i = -1;
 	while (++i < REG_NUMBER)
 		vm->list_process->reg[i] = proc->reg[i];
 	proc->pos = (proc->pos + 3) % MEM_SIZE;

@@ -6,54 +6,11 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:15:37 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:16:25 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 19:52:57 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/corvm.h"
-
-int					ischamp(char *s)
-{
-	char	*c;
-
-	if ((c = ft_strstr(s, ".cor")) == NULL)
-		return (0);
-	if (ft_strlen(c) > 4 || ft_strlen(s) <= 4)
-		return (0);
-	return (1);
-}
-
-void				is_dump_flag(t_vm *vm, char **av, int c, int *i)
-{
-	(vm->dump_cycles >= 0) ?
-		threw("Error: [[-dump] arg] must be declared once.\n") : 0;
-	if (!ft_strcmp("-dump", av[*i]))
-	{
-		if (*i + 1 < c && ft_isdigit_s(av[*i + 1]))
-			vm->dump_cycles = ft_atoi(av[++(*i)]);
-		else
-			threw(USAGE);
-	}
-}
-
-int					is_nflag(char **s, int *i)
-{
-	int	n;
-
-	n = 0;
-	if (ft_strequ(s[*i], "-n"))
-	{
-		if (!s[++(*i)] || !ft_isdigit_s(s[*i]))
-			return (0);
-		else
-			n = ft_atoi(s[(*i)]);
-		if (n <= 0 || n > MAX_PLAYERS)
-			return (0);
-		if (!s[++(*i)])
-			return (0);
-	}
-	return (n);
-}
 
 void				eat_vizu(t_vm *vm)
 {
@@ -66,6 +23,90 @@ void				eat_vizu(t_vm *vm)
 			threw("Error: something wrong in [eat_vizu] func");
 }
 
+void				parse_n_flag(int n, int *j, t_vm *vm)
+{
+	int	cc;
+
+	cc = -1;
+	while (++cc < vm->champ_nb)
+	{
+		if (vm->champs[cc].n_flag == 1 && n == vm->champs[cc].n_place)
+			threw(USAGE);
+	}
+	if (n == vm->next_champ_numb)
+		vm->next_champ_numb += 1;
+	else if (n < vm->next_champ_numb)
+	{
+		cc = -1;
+		while (++cc < vm->next_champ_numb)
+		{
+			if (vm->champs[cc].n_flag == 1)
+				(*j)++;
+			else
+			{
+				vm->champs[cc].n_place += *j;
+				*j = 1;
+			}
+		}
+		vm->next_champ_numb += 1;
+	}
+}
+
+void				parse_champs_arg(t_vm *vm, char **s, int i)
+{
+	int	cc;
+
+	cc = 0;
+	while (cc < vm->champ_nb)
+	{
+		if (vm->champs[cc].n_place == vm->next_champ_numb)
+			vm->next_champ_numb += 1;
+		cc++;
+	}
+	parse_champs(vm, s[i], vm->champ_nb, vm->next_champ_numb);
+	vm->champs[vm->champ_nb].n_flag = 0;
+	vm->champ_nb += 1;
+	vm->next_champ_numb += 1;
+}
+
+void	cycle(t_vm *vm, int c, int n)
+{
+	int	cc;	
+	int	j;
+
+	cc = c;
+	j = 0;
+	if (vm->champs[cc].n_flag == 1)
+		return ;
+	while (cc < vm->champ_nb)
+	{
+		if (vm->champs[cc].n_place == n)
+			vm->champs[cc].n_place++;
+		if (vm->champs[cc].n_place == (vm->champs[c].n_place + j) && vm->champs[cc].n_flag)
+			j++;		
+		cc++;
+	}
+	vm->champs[c].n_place += j;
+}
+
+void	cycle1(t_vm *vm, int c, int n)
+{
+	int	cc;	
+	int	j;
+
+	cc = 0;
+	j = 0;
+	if (vm->champs[c].n_flag == 1)
+		return ;
+	while (cc < c)
+	{
+		if (vm->champs[cc].n_place == n)
+			j++;
+		cc++;
+	}
+	vm->champs[c].n_place += j;
+}
+
 void				parser(int c, char **s, t_vm *vm)
 {
 	int				i;
@@ -74,13 +115,15 @@ void				parser(int c, char **s, t_vm *vm)
 	int				j;
 
 	i = 1;
-	j = 1;
+	j = 0;
 	while (i < c)
 	{
 		if (!ft_strcmp("-dump", s[i]))
 			is_dump_flag(vm, s, c, &i);
 		else if (ischamp(s[i]))
 		{
+			if (vm->next_champ_numb > MAX_PLAYERS)
+				threw(USAGE);
 			cc = 0;
 			while (cc < vm->champ_nb)
 			{
@@ -93,8 +136,10 @@ void				parser(int c, char **s, t_vm *vm)
 			vm->champ_nb += 1;
 			vm->next_champ_numb += 1;
 		}
-		else if ((n = is_nflag(s, &i)) != 0)
+		else if ((n = is_nflag(s, &i, c)) != 0)
 		{
+			if (vm->next_champ_numb > MAX_PLAYERS)
+				threw(USAGE);
 			cc = 0;
 			while (cc < vm->champ_nb)
 			{
@@ -109,13 +154,13 @@ void				parser(int c, char **s, t_vm *vm)
 				cc = 0;
 				while (cc < vm->next_champ_numb)
 				{
-					if (vm->champs[cc].n_flag == 1)
-						j++;
-					else
-					{
-						vm->champs[cc].n_place += j;
-						j = 1;
-					}
+					cycle(vm, cc, n);
+					cc++;
+				}
+				cc = 0;
+				while (cc < vm->champ_nb)
+				{
+					cycle1(vm, cc, vm->champs[cc].n_place);
 					cc++;
 				}
 				vm->next_champ_numb += 1;

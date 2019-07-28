@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 16:13:00 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 19:32:42 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,12 @@ typedef struct		s_op
 	int				is_short_dir;
 }					t_op;
 
+
+void				introduce_players(t_vm *vm);
 void				init_func(void (*f[17])(t_vm *, t_proc *));
+int					ischamp(char *s);
+void				is_dump_flag(t_vm *vm, char **av, int c, int *i);
+int					is_nflag(char **s, int *i, int c);
 void				null_lives(t_champ *champs, int count);
 int					get_arg_size(int arg_type, t_op op);
 int					arg_check(unsigned char octet, const t_op op);
