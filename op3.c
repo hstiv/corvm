@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/28 20:23:57 by hstiv             #+#    #+#             */
-/*   Updated: 2019/07/28 20:30:10 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 20:41:41 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ void	op_ldi(t_vm *vm, t_proc *proc)
 	proc->reg[args[2]] = i;
 }
 
+void	cyc(t_vm *vm, int j, int args[3], t_proc *proc)
+{
+	int	i;
+
+	i = -1;
+	while (++i < REG_SIZE)
+	{
+		vm->arena[(j + REG_SIZE - i - 1) % MEM_SIZE] = (args[0] >> (i * 8));
+		vm->owner[(j + REG_SIZE - i - 1) % MEM_SIZE] = proc->player_id;
+	}
+}
+
 void	op_sti(t_vm *vm, t_proc *proc)
 {
 	int		type;
@@ -65,13 +77,8 @@ void	op_sti(t_vm *vm, t_proc *proc)
 		}
 		j += (type == T_REG) ? 1 : 2;
 	}
-	i = -1;
 	j = plus_pos(proc->pos, (args[1] + args[2]) % IDX_MOD);
-	while (++i < REG_SIZE)
-	{
-		vm->arena[(j + REG_SIZE - i - 1) % MEM_SIZE] = (args[0] >> (i * 8));
-		vm->owner[(j + REG_SIZE - i - 1) % MEM_SIZE] = proc->player_id;
-	}
+	cyc(vm, j, args, proc);
 }
 
 void	op_fork(t_vm *vm, t_proc *proc)
