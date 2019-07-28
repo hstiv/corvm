@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op3.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hstiv <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/28 20:23:57 by hstiv             #+#    #+#             */
-/*   Updated: 2019/07/28 20:24:00 by hstiv            ###   ########.fr       */
+/*   Updated: 2019/07/28 20:30:10 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ void	op_ldi(t_vm *vm, t_proc *proc)
 			args[i] = plus_pos(args[i], proc->pos);
 			args[i] = rev_byte(vm, args[i], 4);
 		}
-		if (type == T_REG)
-			j += 1;
-		else
-			j += 2;
+		j += (type == T_REG) ? 1 : 2;
 	}
 	args[2] = vm->arena[(proc->pos + 2 + j) % MEM_SIZE] - 1;
 	i = rev_byte(vm, (proc->pos + (args[0] + args[1]) % IDX_MOD) % MEM_SIZE, 4);
@@ -66,10 +63,7 @@ void	op_sti(t_vm *vm, t_proc *proc)
 			args[i] = plus_pos(args[i], proc->pos);
 			args[i] = rev_byte(vm, args[i], 4);
 		}
-		if (type == T_REG)
-			j += 1;
-		else
-			j += 2;
+		j += (type == T_REG) ? 1 : 2;
 	}
 	i = -1;
 	j = plus_pos(proc->pos, (args[1] + args[2]) % IDX_MOD);
