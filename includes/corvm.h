@@ -45,10 +45,13 @@
 # define LICP		"Live in current period :  "
 # define CTD		"CYCLE_TO_DIE :  "
 # define SPEED		"Speed :  "
-# define MAN1		"Speed manipulations :              [< / >]"
+# define MAN1		"Speed manipulation :               [< / >]"
 # define MAN2		"Max speed :                   [Return] X 1"
 # define MAN3		"Max speed cancellation :           [Enter]"
-# define MAN4		"End now :                     [Return] X 2"
+# define MAN4		"Exit with result :            [Return] X 2"
+# define MAN5		"Exit without result :                [Esc]"
+# define SAM		"Scroll Arena mode :             [X button]"
+# define SMM		"Scroll Manual mode :            [C button]"
 # define WHITE		16777215
 # define GREEN		65280
 # define RED		16711680
@@ -79,6 +82,10 @@ typedef struct		s_mlx
 	int 			now;
 	char 			*ply_man[4];
 	int 			speed;
+	int 			man_y;
+	int 			ar_y;
+	int 			x_button;
+	int 			c_button;
 }					t_mlx;
 
 typedef struct		s_proc
@@ -179,10 +186,10 @@ t_proc				*new_proc(int player_id, int pos);
 
 void				set_corrage_cor(t_dot *n1, t_dot *n2, t_dot *n, int i);
 void				draw_arena(t_vm *vm, int *i, int *x, int y);
-int 				ch_col(t_vm *vm, int i, int t);
+int 				ch_col(t_vm *vm, int i);
 void				eat_vizu(t_vm *vm);
 int					main_cycle_vizu(t_vm *vm);
-void				get_x_y(t_dot *n1, t_proc *champ);
+void				get_x_y(t_dot *n1, t_proc *champ, t_vm *vm);
 void				ft_bresenham(t_dot *d0, t_dot *d1, t_mlx *mlx, int s);
 void				draw_carriage(t_vm *vm);
 void				add_zero_to_string(char **s);
@@ -198,5 +205,6 @@ void				put_players(int x, int y, t_vm *vm);
 char 				*get_name(t_vm *vm, int i);
 void 				put_speed(int x, int y, t_vm *vm);
 void				help_man(int x, int y, t_vm *vm);
+int 				mouse_press(int keycode, int x, int y, t_mlx *mlx);
 
 #endif

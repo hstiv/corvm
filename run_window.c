@@ -12,19 +12,10 @@
 
 #include "corvm.h"
 
-void			get_x_y(t_dot *n1, t_proc *proc)
+void			get_x_y(t_dot *n1, t_proc *proc, t_vm *vm)
 {
-	int 		tmp;
-
-	tmp = proc->pos;
-	n1->y = 0;
-	while (tmp >= BIT_LENTH - 1)
-	{
-		tmp -= BIT_LENTH;
-		n1->y++;
-	}
-	n1->x = (tmp * 25) + BEG;
-	n1->y = (n1->y * 20) + 20;
+	n1->x = (proc->pos % (BIT_LENTH - 1) * 25) + BEG;
+	n1->y = (proc->pos / BIT_LENTH * 20) + vm->mlx->ar_y;
 }
 
 void			draw_carriage(t_vm *vm)
@@ -37,7 +28,7 @@ void			draw_carriage(t_vm *vm)
 	tmp = vm->list_process;
 	while (tmp)
 	{
-		get_x_y(&n, tmp);
+		get_x_y(&n, tmp, vm);
 		set_corrage_cor(&n1, &n2, &n, 1);
 		ft_bresenham(&n1, &n2, vm->mlx, GREEN);
 		set_corrage_cor(&n1, &n2, &n, 2);
@@ -62,7 +53,7 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 		s = itoa_base(vm->arena[*i], 16);
 		add_zero_to_string(&s);
 		mlx_string_put(vm->mlx->ptr, vm->mlx->wind,
-							*x, y, ch_col(vm, *i, t), s);
+							*x, y, ch_col(vm, *i), s);
 		(*x) += 25;
 		free(s);
 		(*i)++;
@@ -72,20 +63,22 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 void				put_man(t_vm *vm)
 {
 	char			*s;
+	int 			y;
 
-	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 2000, 30,
+	y = vm->mlx->man_y;
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 2000, y,
 	(vm->mlx->pause) ? RED : GREEN, (vm->mlx->pause) ? PAUSE : PLAY);
 	s = get_str(STR2, ft_itoa(vm->cycles));
-	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 80, WHITE, s);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, y + 50, WHITE, s);
 	free(s);
 	s = get_str(STR3, ft_itoa(lstcnt(vm->list_process)));
-	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 130, WHITE, s);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, y + 100, WHITE, s);
 	free(s);
 	s = get_str(CTD, ft_itoa(vm->cycles_to_die));
-	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, 160, WHITE, s);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, 1800, y + 130, WHITE, s);
 	free(s);
-	put_speed(1800, 220, vm);
-	put_players(1800, 240, vm);
+	put_speed(1800, y + 190, vm);
+	put_players(1800, y + 210, vm);
 }
 
 void				putarenainwindow(t_vm *vm)
@@ -95,7 +88,7 @@ void				putarenainwindow(t_vm *vm)
 	int				x;
 
 	i = 0;
-	y = 20;
+	y = vm->mlx->ar_y;
 	mlx_clear_window(vm->mlx->ptr, vm->mlx->wind);
 	put_man(vm);
 	while (i < MEM_SIZE)

@@ -73,7 +73,7 @@ void				put_players(int x, int y, t_vm *vm)
 	{
 		y += 70;
 		s = get_name(vm, i);
-		mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, vm->colors[i], s);
+		mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, s);
 		free(s);
 		s = get_str(LL, ft_itoa(vm->champs[i].live));
 		y += 20;

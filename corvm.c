@@ -66,7 +66,8 @@ static void		vizu(t_vm *vm, t_op *op)
 	vm->mlx->op = op;
 	mlx_hook(vm->mlx->wind, 17, (1L << 17), expose_hook, vm->mlx);
 	mlx_hook(vm->mlx->wind, 2, 0, key_press, vm->mlx);
-	mlx_loop_hook(vm->mlx->ptr, main_cycle_vizu, vm);
+	mlx_hook(vm->mlx->wind, 4, 0, mouse_press, vm->mlx);
+	mlx_loop_hook(vm->mlx->ptr, main_cycle_vizu ,vm);
 	mlx_loop(vm->mlx->ptr);
 }
 

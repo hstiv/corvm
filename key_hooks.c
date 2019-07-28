@@ -68,6 +68,8 @@ int				key_press(int keycode, t_mlx *mlx)
 		mlx->speed = 40;
 		mlx->mseconds = 0;
 	}
+	(keycode == 7) ? mlx->x_button++ : 0;
+	(keycode == 8) ? mlx->c_button++ : 0;
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 49)

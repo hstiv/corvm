@@ -25,10 +25,14 @@ void		init_mlx_args(t_vm *vm)
 		vm->mlx->mseconds = 1000000;
 		vm->mlx->now = 0;
 		vm->mlx->op = NULL;
+		vm->mlx->ar_y = 20;
 		vm->mlx->ply_man[0] = PLYR1;
 		vm->mlx->ply_man[1] = PLYR2;
 		vm->mlx->ply_man[2] = PLYR3;
 		vm->mlx->ply_man[3] = PLYR4;
 		vm->mlx->speed = 10;
+		vm->mlx->man_y = 30;
+		vm->mlx->x_button = 0;
+		vm->mlx->c_button = 0;
 	}
 }

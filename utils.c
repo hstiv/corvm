@@ -80,23 +80,30 @@ void				add_zero_to_string(char **s1)
 	}
 }
 
-int 				ch_col(t_vm *vm, int i, int t)
+int 				ch_col(t_vm *vm, int i)
 {
 	int 			err;
 
-	err = i + 1 - (vm->champs[t].pos + vm->champs[t].exec_code);
-	if (err > 0)
-		return (WHITE);
-	return (vm->colors[t]);
+	err = vm->colors[vm->owner[i] % 4];
+	if (vm->owner[i] == 0)
+		err = WHITE;
+	return (err);
 }
 
 void				help_man(int x, int y, t_vm *vm)
 {
 	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN1);
 	y += 50;
-	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN2);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y,
+			(!vm->mlx->now) ? RED : GREEN, MAN2);
 	y += 50;
 	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN3);
 	y += 50;
 	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN4);
+	y += 50;
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y, RED, MAN5);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y + 50,
+			(vm->mlx->x_button % 2) ? GREEN : RED, SAM);
+	mlx_string_put(vm->mlx->ptr, vm->mlx->wind, x, y + 100,
+			(vm->mlx->c_button % 2) ? GREEN : RED, SMM);
 }
