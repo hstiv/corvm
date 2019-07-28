@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 15:08:22 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 15:52:17 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,62 +188,6 @@ void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])
 	}
 }
 
-void	proccess_kill(t_proc **head, t_proc *ps)
-{
-	t_proc	*prev;
-	t_proc	*curr;
-
-	if (!head || !ps)
-		return ;
-	curr = *head;
-	if (curr == ps)
-	{
-		(*head) = (*head)->next;
-		free(curr);
-		return ;
-	}
-	while (curr && curr != ps)
-	{
-		prev = curr;
-		curr = curr->next;
-	}
-	if (!curr)
-		return ;
-	prev->next = curr->next;
-	free(curr);
-}
-
-void	check_live(t_vm *vm, t_proc **head)
-{
-	t_proc	*curr;
-	t_proc	*next;
-
-	if (!head)
-		return ;
-	curr = *head;
-	while (curr)
-	{
-		next = curr->next;
-		if (vm->cycles - curr->live >= vm->cycles_die)
-			proccess_kill(head, curr);
-		curr = next;
-	}
-	if (*head == NULL)
-		vm->winner = 1;
-}
-
-void	champions_reset_lives(t_champ *champs, int count)
-{
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		champs[i].lives_in_period = 0;
-		i++;
-	}
-}
-
 void	play_game(t_vm *vm, t_op op_tab[17])
 {
 	performe_proc(vm, vm->list_process, op_tab);
@@ -264,7 +208,7 @@ void	play_game(t_vm *vm, t_op op_tab[17])
 			vm->checks += 1;
 		vm->cycles_to_die = vm->cycles_die;
 		vm->l_exec = 0;
-		champions_reset_lives(vm->champs, vm->champ_nb);
+		null_lives(vm->champs, vm->champ_nb);
 	}
 	if (vm->winner != 1)
 		vm->cycles += 1;

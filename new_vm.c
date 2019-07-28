@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:19:27 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/27 18:00:37 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 15:59:13 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void			new_vm(t_vm *vm)
 {
 	ft_memset(vm->arena, 0, MEM_SIZE);
+	ft_memset(vm->owner, 0, MEM_SIZE);
 	vm->next_champ_numb = 1;
 	vm->dump_cycles = -1;
 	vm->champ_nb = 0;

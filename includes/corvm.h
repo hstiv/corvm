@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 15:05:11 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:01:19 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ typedef struct		s_op
 	int				is_short_dir;
 }					t_op;
 
+void				null_lives(t_champ *champs, int count);
 int 				cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
