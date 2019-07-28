@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/28 17:46:28 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 18:41:29 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 20:17:02 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,18 @@ int					is_nflag(char **s, int *i, int c)
 		if (*i + 1 < c && ischamp(s[*i + 1]))
 			(*i)++;
 		else
-			threw("Error: Wrong [[-n] value]\n");
+			threw(USAGE);
 	}
 	return (n);
+}
+
+void				eat_vizu(t_vm *vm)
+{
+	if (vm->champ_nb != 0)
+		threw("Error: [-vi] must be declared before champs.\n");
+	if (vm->mlx)
+		threw("Error: [-vi] must be declared once.\n");
+	init_mlx_args(vm);
+	(vm->mlx) ? vm->mlx->memsize = MEM_SIZE :
+			threw("Error: something wrong in [eat_vizu] func");
 }
