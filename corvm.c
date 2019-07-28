@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 14:25:29 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/27 18:12:15 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 15:14:31 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,14 @@ int					main(int c, char **s)
 	{
 		while (!vm.winner)
 		{
-			(vm.cycles == vm.dump_cycles) ? show_dump(&vm) : 0;
+			if (vm.cycles == vm.dump_cycles)
+			{
+				if (!vm.cycles_to_die)
+					check_live(&vm, &(vm).list_process);
+				if (vm.winner)
+					break;
+				show_dump(&vm);
+			}
 			play_game(&vm, op);
 		}
 		ft_printf("Contestant %d, \"%s\", has won !\n",

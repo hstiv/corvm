@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:18:23 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 15:05:11 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void				parser(int c, char **s, t_vm *vm);
 void				threw(char *s);
 void				parse_champs(t_vm *vm, char *name, int n, int number);
 void				new_vm(t_vm *vm);
-
+void				check_live(t_vm *vm, t_proc **head);
 void				op_live(t_vm *vm, t_proc *proc);
 void				op_ld(t_vm *vm, t_proc *proc);
 void				op_st(t_vm *vm, t_proc *proc);
