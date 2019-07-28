@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:15:37 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 19:52:57 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 20:06:46 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void				parser(int c, char **s, t_vm *vm)
 			is_dump_flag(vm, s, c, &i);
 		else if (ischamp(s[i]))
 		{
-			if (vm->next_champ_numb > MAX_PLAYERS)
+			if (vm->champ_nb == MAX_PLAYERS)
 				threw(USAGE);
 			cc = 0;
 			while (cc < vm->champ_nb)
@@ -138,7 +138,7 @@ void				parser(int c, char **s, t_vm *vm)
 		}
 		else if ((n = is_nflag(s, &i, c)) != 0)
 		{
-			if (vm->next_champ_numb > MAX_PLAYERS)
+			if (vm->champ_nb == MAX_PLAYERS)
 				threw(USAGE);
 			cc = 0;
 			while (cc < vm->champ_nb)
@@ -152,7 +152,7 @@ void				parser(int c, char **s, t_vm *vm)
 			else if (n < vm->next_champ_numb)
 			{
 				cc = 0;
-				while (cc < vm->next_champ_numb)
+				while (cc < vm->next_champ_numb + 1)
 				{
 					cycle(vm, cc, n);
 					cc++;
