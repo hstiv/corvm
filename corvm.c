@@ -24,7 +24,7 @@ void			init_game_run(t_vm *vm)
 				break ;
 			show_dump(vm);
 		}
-		play_game(vm, vm->mlx->op);
+		play_game(vm, vm->op);
 	}
 	(vm->mlx) ? mlx_destroy_window(vm->mlx->ptr,
 					vm->mlx->wind) : 0;
@@ -38,7 +38,7 @@ int				main_cycle_vizu(t_vm *vm)
 	if (!vm->mlx->pause && !vm->winner)
 	{
 		(vm->cycles == vm->dump_cycles) ? show_dump(vm) : 0;
-		play_game(vm, vm->mlx->op);
+		play_game(vm, vm->op);
 		(vm->mlx->now == 1 && vm->mlx->now != 2)
 						? 0 : usleep(vm->mlx->mseconds);
 		(vm->mlx->now > 1) ? init_game_run(vm) : 0;
@@ -92,6 +92,7 @@ int				main(int c, char **s)
 	arena(&vm);
 	introduce_players(&vm);
 	vm.winner_n = vm.champ_nb;
+	vm.op = op;
 	if (!vm.mlx)
 		init_game_run(&vm);
 	else

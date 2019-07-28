@@ -27,7 +27,7 @@
 # include "../libft/libft.h"
 
 # define BUFF_SIZE	32
-# define USAGE		"Usage: ./corewar [-dump] [-n] champ.cor ...\n"
+# define USAGE		"Usage: ./corewar [-dump] [-n] [-vi] champ.cor ...\n"
 # define HEIGHT		1395
 # define WIDTH		2560
 # define BEG		40
@@ -112,6 +112,18 @@ typedef struct		s_champ
 	int				lives_in_period;
 }					t_champ;
 
+typedef struct		s_op
+{
+	char			*name;
+	int				number;
+	unsigned char	types_arg[3];
+	int				opcode;
+	int				cycles_wait;
+	char			*description;
+	int				coding_byte;
+	int				is_short_dir;
+}					t_op;
+
 typedef struct		s_vm
 {
 	int				dump_cycles;
@@ -129,21 +141,9 @@ typedef struct		s_vm
 	int				checks;
 	int				l_exec;
 	int				colors[4];
+	t_op			*op;
 	t_mlx			*mlx;
 }					t_vm;
-
-typedef struct		s_op
-{
-	char			*name;
-	int				number;
-	unsigned char	types_arg[3];
-	int				opcode;
-	int				cycles_wait;
-	char			*description;
-	int				coding_byte;
-	int				is_short_dir;
-}					t_op;
-
 
 void				introduce_players(t_vm *vm);
 void				init_func(void (*f[17])(t_vm *, t_proc *));
