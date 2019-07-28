@@ -6,13 +6,13 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 18:16:40 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 15:38:38 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:13:46 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/corvm.h"
 
-void				threw(char *s)
+void			threw(char *s)
 {
 	(s != NULL) ? write(1, s, ft_strlen(s)) : 0;
 	exit(0);

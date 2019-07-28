@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/14 16:00:08 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 15:52:17 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:11:23 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,6 @@ void	new_op(t_vm *vm, t_proc *proc, t_op op_tab[17])
 		proc->cycles_to_wait = op_tab[proc->command_type].cycles_wait;
 	else
 		proc->cycles_to_wait = 0;
-}
-
-int		arg_check(unsigned char octet, const t_op op)
-{
-	int				i;
-	unsigned char	arg;
-
-	i = 0;
-	while (i < op.number)
-	{
-		arg = get_arg(octet, 2, 7 - i * 2);
-		if (arg == 3)
-			arg++;
-		if (!(arg & op.types_arg[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int		get_arg_size(int arg_type, t_op op)
-{
-	if (arg_type == T_REG)
-		return (1);
-	else if (arg_type == 3)
-		return (2);
-	else if (arg_type == T_DIR)
-		return (op.is_short_dir ? 2 : 4);
-	else
-		return (0);
 }
 
 int		get_pos(int pos, t_op op, unsigned int octet)
@@ -79,42 +49,6 @@ int		get_pos(int pos, t_op op, unsigned int octet)
 	return (new_pos % MEM_SIZE);
 }
 
-int		check_reg1(unsigned int octet)
-{
-	if (get_arg(octet, 2, 7) == T_REG)
-		return (1);
-	if (get_arg(octet, 2, 5) == T_REG)
-		return (1);
-	if (get_arg(octet, 2, 3) == T_REG)
-		return (1);
-	return (0);
-}
-
-int		check_reg(unsigned int octet,
-					unsigned char arena[MEM_SIZE], int pos, t_op op)
-{
-	int	i;
-	int	tmp_pos;
-	int	arg_type;
-
-	i = 0;
-	tmp_pos = (pos + 1) % MEM_SIZE;
-	if (!check_reg1(octet))
-		return (0);
-	while (i < op.number)
-	{
-		arg_type = get_arg(octet, 2, 7 - i * 2);
-		if (arg_type == T_REG)
-		{
-			if (arena[tmp_pos] < 1 || arena[tmp_pos] > 16)
-				return (1);
-		}
-		tmp_pos = (tmp_pos + get_arg_size(arg_type, op)) % MEM_SIZE;
-		i++;
-	}
-	return (0);
-}
-
 void	do_proc(t_vm *vm, t_proc *proc,
 				void (*f[17])(t_vm *, t_proc *), t_op op_tab[17])
 {
@@ -141,26 +75,6 @@ void	do_proc(t_vm *vm, t_proc *proc,
 	}
 	else
 		f[proc->command_type](vm, proc);
-}
-
-void	init_func(void (*f[17])(t_vm *, t_proc *))
-{
-	f[1] = &op_live;
-	f[2] = &op_ld;
-	f[3] = &op_st;
-	f[4] = &op_add;
-	f[5] = &op_sub;
-	f[6] = &op_and;
-	f[7] = &op_or;
-	f[8] = &op_xor;
-	f[9] = &op_zjmp;
-	f[10] = &op_ldi;
-	f[11] = &op_sti;
-	f[12] = &op_fork;
-	f[13] = &op_lld;
-	f[14] = &op_lldi;
-	f[15] = &op_lfork;
-	f[16] = &op_aff;
 }
 
 void	performe_proc(t_vm *vm, t_proc *head, t_op op_tab[17])

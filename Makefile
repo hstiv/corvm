@@ -3,7 +3,7 @@ NAME	    =	corewar
 SRCS	    =	arena.c corvm.c  game.c new_vm.c op.c \
 			    parse_champs.c parser.c rec_utils.c cor_sort.c  utils.c \
 			    add_op.c bresenham.c init_mlx_args.c key_hooks.c run_window.c \
-			    utils1.c check_live.c
+			    utils1.c check_live.c args_check.c
 
 OBJ		    =	$(SRCS:.c=.o)
 

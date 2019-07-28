@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 14:27:47 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/28 16:01:19 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/28 16:13:00 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,9 @@ typedef struct		s_proc
 	struct s_proc	*next;
 }					t_proc;
 
-
 typedef struct		s_champ
 {
-	unsigned char	name[PROG_NAME_LENGTH + 1]; 
+	unsigned char	name[PROG_NAME_LENGTH + 1];
 	unsigned char	champ_bin[CHAMP_MAX_SIZE];
 	unsigned char	comment[COMMENT_LENGTH + 1];
 	int				magic;
@@ -140,7 +139,12 @@ typedef struct		s_op
 	int				is_short_dir;
 }					t_op;
 
+void				init_func(void (*f[17])(t_vm *, t_proc *));
 void				null_lives(t_champ *champs, int count);
+int					get_arg_size(int arg_type, t_op op);
+int					arg_check(unsigned char octet, const t_op op);
+int					check_reg(unsigned int octet,
+						unsigned char arena[MEM_SIZE], int pos, t_op op);
 int 				cor_sort(t_vm *vm);
 void				init_op(t_op op_tab[17]);
 void				show_dump(t_vm *vm);
