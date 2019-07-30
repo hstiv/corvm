@@ -28,7 +28,7 @@ int					lstcnt(t_proc *lst)
 
 	tmp = lst;
 	i = 0;
-	while (tmp)
+	while (tmp )
 	{
 		tmp = tmp->next;
 		i++;

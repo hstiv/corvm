@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corvm.h"
+#include "corvm.h"
 
 void	null_lives(t_champ *champs, int count)
 {

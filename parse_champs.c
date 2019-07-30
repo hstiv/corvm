@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/corvm.h"
+#include "corvm.h"
 
 void	champ_error(int i, char *s)
 {
