@@ -46,18 +46,17 @@ void				draw_carriage(t_vm *vm)
 void				draw_arena(t_vm *vm, int *i, int *x, int y)
 {
 	char			*s;
-	int				t;
 
-	t = vm->champ_nb - 1;
 	while ((*i + 1) % BIT_LENGTH != 0 && *i < MEM_SIZE)
 	{
-		(vm->champs[t].pos >= *(i) + 1) ? t-- : 0;
 		s = itoa_base(vm->arena[*i], 16);
 		add_zero_to_string(&s);
 		mlx_string_put(vm->mlx->ptr, vm->mlx->wind,
 							*x, y, ch_col(vm, *i), s);
 		(*x) += 25;
 		free(s);
+		if ((*i + 1) % BIT_LENGTH == 0)
+			break ;
 		(*i)++;
 	}
 }
