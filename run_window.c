@@ -14,8 +14,8 @@
 
 void				get_x_y(t_dot *n1, t_proc *proc, t_vm *vm)
 {
-	n1->x = (proc->pos % (BIT_LENGTH - 1) * 25) + BEG;
-	n1->y = (proc->pos / BIT_LENGTH * 20) + vm->mlx->ar_y;
+	n1->x = (proc->pos % BIT_LENGTH) * 25 + BEG;
+	n1->y = (proc->pos / BIT_LENGTH) * 20 + vm->mlx->ar_y;
 }
 
 void				draw_carriage(t_vm *vm)
