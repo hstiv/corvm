@@ -47,7 +47,7 @@ void				draw_arena(t_vm *vm, int *i, int *x, int y)
 {
 	char			*s;
 
-	while ((*i + 1) % BIT_LENGTH != 0 && *i < MEM_SIZE)
+	while (*i < MEM_SIZE)
 	{
 		s = itoa_base(vm->arena[*i], 16);
 		add_zero_to_string(&s);
