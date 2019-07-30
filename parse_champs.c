@@ -6,7 +6,7 @@
 /*   By: sdiedra <sdiedra@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 13:56:39 by sdiedra           #+#    #+#             */
-/*   Updated: 2019/07/24 18:12:16 by sdiedra          ###   ########.fr       */
+/*   Updated: 2019/07/30 16:08:44 by sdiedra          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ void	parse_champs(t_vm *vm, char *name, int n, int number)
 		champ_error(0, name);
 	if ((i = read_4bytes(fd)) != COREWAR_EXEC_MAGIC)
 		champ_error(0, name);
-	if ((i = read(fd, &(vm->champs[n].name), PROG_NAME_LENGTH)) < 0)
+	if ((i = read(fd, &(vm->champs[n].name), PROG_NAME_LENGTH)) <= 0)
 		champ_error(2, name);
 	if (!check_null(fd))
 		champ_error(2, name);
 	if ((vm->champs[n].exec_code = read_4bytes(fd)) > CHAMP_MAX_SIZE)
 		champ_error(1, name);
-	if ((i = read(fd, &(vm->champs[n].comment), COMMENT_LENGTH)) < 0)
+	if ((i = read(fd, &(vm->champs[n].comment), COMMENT_LENGTH)) <= 0)
 		champ_error(2, name);
 	if (!check_null(fd))
 		champ_error(2, name);
-	if ((i = read(fd, &(vm->champs[n].champ_bin), CHAMP_MAX_SIZE)) < 0)
+	if ((i = read(fd, &(vm->champs[n].champ_bin), CHAMP_MAX_SIZE)) <= 0)
 		champ_error(2, name);
 	if (i != vm->champs[n].exec_code)
 		champ_error(2, name);
