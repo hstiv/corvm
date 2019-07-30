@@ -28,8 +28,6 @@ void				draw_carriage(t_vm *vm)
 	tmp = vm->list_process;
 	while (tmp)
 	{
-		while (tmp->pos >= MEM_SIZE && tmp->next)
-			tmp = tmp->next;
 		get_x_y(&n, tmp, vm);
 		set_corrage_cor(&n1, &n2, &n, 1);
 		ft_bresenham(&n1, &n2, vm->mlx, CORR);
