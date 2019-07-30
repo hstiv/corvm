@@ -59,6 +59,8 @@ void			introduce_players(t_vm *vm)
 	int				i;
 
 	i = 0;
+	if (vm->champ_nb == 0)
+		threw(USAGE);
 	ft_printf("Introducing contestants...\n");
 	while (i < vm->champ_nb)
 	{
@@ -72,6 +74,10 @@ void			introduce_players(t_vm *vm)
 static void		vizu(t_vm *vm, t_op *op)
 {
 	vm->mlx->op = op;
+	if (vm->champ_nb == 0)
+		threw(USAGE);
+	vm->mlx->ptr = mlx_init();
+	vm->mlx->wind = mlx_new_window(vm->mlx->ptr, WIDTH, HEIGHT, WIND);
 	mlx_hook(vm->mlx->wind, 17, (1L << 17), expose_hook, vm->mlx);
 	mlx_hook(vm->mlx->wind, 2, 0, key_press, vm->mlx);
 	mlx_hook(vm->mlx->wind, 4, 0, mouse_press, vm->mlx);
