@@ -27,7 +27,8 @@
 # include "../libft/libft.h"
 
 # define BUFF_SIZE	32
-# define USAGE		"Usage: ./corewar [-dump] [-n] [-vi] champ.cor ...\n"
+# define USAGE		"Usage: ./corewar [-dump [nbr_cycles]] " USAGE1
+# define USAGE1		"[-n [number]] [-vi] champion.cor ...\n"
 # define HEIGHT		1395
 # define WIDTH		2560
 # define BEG		40
